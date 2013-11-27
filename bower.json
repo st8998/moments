@@ -1,0 +1,6 @@
+{
+  "name": "moments",
+  "dependencies": {
+    "jquery": "latest"
+  }
+}
