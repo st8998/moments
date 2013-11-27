@@ -1,4 +1,5 @@
 //= require jquery
+//= require jquery-pjax
 
 $(function() {
 
@@ -14,20 +15,22 @@ $(function() {
   var map = new google.maps.Map($('#main-map').get(0),
     mapOptions)
 
-//  var home = new google.maps.Marker({
-//    position: homeCoordinates,
-//    map: map,
-//    title: 'Home, sweet home.'
-//  })
-
   $.get('/moments.json', function(moments) {
     moments.forEach(function(moment) {
-      new google.maps.Marker({
+      var marker = new google.maps.Marker({
         position: new google.maps.LatLng(moment.lat, moment.lng),
         map: map,
         title: moment.title
       })
+
+      google.maps.event.addListener(marker, 'click', function() {
+        $.pjax({url: '/moments/'+moment.id, container: '#content'})
+      })
     })
+  })
+
+  $(document).on('click', '#content .close', function(e) {
+    $.pjax({url: '/moments', container: '#content'})
   })
 
 });
