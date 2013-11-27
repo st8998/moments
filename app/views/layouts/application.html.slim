@@ -1,0 +1,16 @@
+doctype html
+html
+head
+  title Moments
+  = stylesheet_link_tag 'application'
+  = yield(:css) if content_for?(:css)
+
+  = javascript_include_tag 'application'
+  = yield(:javascript) if content_for?(:javascript)
+
+  = yield(:head) if content_for?(:head)
+
+  = csrf_meta_tags
+
+body
+  = yield
