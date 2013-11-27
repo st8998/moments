@@ -29,6 +29,7 @@ GEM
     atomic (1.1.14)
     builder (3.1.4)
     daemons (1.1.9)
+    decent_exposure (2.3.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
@@ -108,6 +109,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  decent_exposure
   jbuilder (~> 1.2)
   quiet_assets
   rails (= 4.0.1)

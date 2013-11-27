@@ -2,6 +2,7 @@ doctype html
 html
 head
   title Moments
+  = stylesheet_link_tag 'application'
   = stylesheet_link_tag 'map'
   = yield(:css) if content_for?(:css)
 
