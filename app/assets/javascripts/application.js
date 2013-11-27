@@ -11,3 +11,4 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-pjax
