@@ -30,7 +30,9 @@ $(function() {
       return marker
     })
 
-    var markerCluster = new MarkerClusterer(map, markers)
+    var markerCluster = new MarkerClusterer(map, markers, {
+      averageCenter: true
+    })
   })
 
   $(document).on('click', '#content .close', function(e) {
