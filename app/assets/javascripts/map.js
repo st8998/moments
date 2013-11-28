@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery-pjax
+//= require markerclusterer
 
 $(function() {
 
@@ -16,17 +17,20 @@ $(function() {
     mapOptions)
 
   $.get('/moments.json', function(moments) {
-    moments.forEach(function(moment) {
+    var markers = moments.map(function(moment) {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(moment.lat, moment.lng),
-        map: map,
         title: moment.title
       })
 
       google.maps.event.addListener(marker, 'click', function() {
         $.pjax({url: '/moments/'+moment.id, container: '#content'})
       })
+
+      return marker
     })
+
+    var markerCluster = new MarkerClusterer(map, markers)
   })
 
   $(document).on('click', '#content .close', function(e) {
