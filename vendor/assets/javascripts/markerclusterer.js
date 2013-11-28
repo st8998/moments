@@ -733,7 +733,7 @@ MarkerClusterer.prototype.onAdd = function () {
   // Add the map event listeners
   this.listeners_ = [
     google.maps.event.addListener(this.getMap(), "zoom_changed", function () {
-      cMarkerClusterer.resetViewport_(false);
+      // cMarkerClusterer.resetViewport_(false);
       // Workaround for this Google bug: when map is at level 0 and "-" of
       // zoom slider is clicked, a "zoom_changed" event is fired even though
       // the map doesn't zoom out any further. In this situation, no "idle"
@@ -744,6 +744,7 @@ MarkerClusterer.prototype.onAdd = function () {
       }
     }),
     google.maps.event.addListener(this.getMap(), "idle", function () {
+      cMarkerClusterer.resetViewport_(false);
       cMarkerClusterer.redraw_();
     })
   ];
