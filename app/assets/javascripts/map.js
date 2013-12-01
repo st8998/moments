@@ -16,7 +16,11 @@ $(function() {
   var map = new google.maps.Map($('#main-map').get(0),
     mapOptions)
 
-  $.get('/moments.json', function(moments) {
+  $.get('/search/moments/moment/_search', function(moments) {
+    moments = moments.hits.hits.map(function(hit) {
+      return hit._source
+    })
+
     var markers = moments.map(function(moment) {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(moment.lat, moment.lng),

@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131127184607) do
+ActiveRecord::Schema.define(version: 20131201091456) do
 
   create_table "moments", force: true do |t|
-    t.string   "lat"
-    t.string   "lng"
+    t.float    "lat",         limit: 255
+    t.float    "lng",         limit: 255
     t.string   "title"
     t.text     "description"
     t.datetime "date"
