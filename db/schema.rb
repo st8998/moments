@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131201091456) do
+ActiveRecord::Schema.define(version: 20131201110952) do
 
   create_table "moments", force: true do |t|
     t.float    "lat",         limit: 255
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 20131201091456) do
     t.string   "title"
     t.text     "description"
     t.datetime "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "pictures", force: true do |t|
+    t.text     "description"
+    t.string   "file"
+    t.integer  "owner_id"
+    t.string   "owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

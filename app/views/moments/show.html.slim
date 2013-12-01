@@ -1,4 +1,8 @@
 h1= moment.title
 p= moment.description
+ul
+  - moment.pictures.each do |pic|
+    li
+      = image_tag(pic.file.small.url)
 
 button.close Close

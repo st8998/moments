@@ -15,6 +15,8 @@ gem 'slim'
 gem 'sucker_punch'
 gem 'rails-observers'
 gem 'elasticsearch'
+gem 'carrierwave'
+gem 'mini_magick'
 
 # controller
 gem 'decent_exposure'
