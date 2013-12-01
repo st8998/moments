@@ -11,6 +11,11 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'slim'
 
+# infrastructure
+gem 'sucker_punch'
+gem 'rails-observers'
+gem 'elasticsearch'
+
 # controller
 gem 'decent_exposure'
 

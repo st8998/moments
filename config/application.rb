@@ -21,5 +21,7 @@ module Moments
     # config.i18n.default_locale = :de
 
     config.quiet_assets = true
+
+    config.active_record.observers = :moment_search_observer
   end
 end
