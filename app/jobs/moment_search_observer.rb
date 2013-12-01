@@ -1,16 +1,28 @@
 class MomentSearchObserver < ActiveRecord::Observer
-  include SuckerPunch::Job
+  class Job
+    include SuckerPunch::Job
+
+    def update_index(client, moment)
+      client.index(index: 'moments', type: 'moment', id: moment.id, body: moment.attributes)
+    end
+  end
+
+  ASYNC = true
 
   observe :moment
 
   def after_save(moment)
-    update_index(moment)
+    job.update_index(client, moment)
   end
 
   private
 
-  def update_index(moment)
-    client.index(index: 'moments', type: 'moment', id: moment.id, body: moment.attributes)
+  def job
+    if ASYNC
+      Job.new.async
+    else
+      Job.new
+    end
   end
 
   def client
