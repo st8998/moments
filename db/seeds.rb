@@ -12,6 +12,16 @@ Moment.find_or_create_by(title: 'Момент зарождения проект�
   model.pictures.build(file: File.open(Rails.root.join('db/data/201311272301-DSC03788.jpg')))
 end
 
+Moment.find_or_create_by(title: 'Дурю на работе') do |model|
+  model.description = 'Купил пучеглаз и дурю на работе...'
+  model.date = Time.parse('2013-10-24 20:55:03 +0400')
+
+  model.lat = 53.20346531907318
+  model.lng = 50.14474779367447
+
+  model.pictures.build(file: File.open(Rails.root.join('db/data/20131024-DSC00500.jpg')))
+end
+
 # several places for coordinates tests
 Moment.find_or_create_by(title: 'Фабрика кухня') do |model|
   model.lat = 53.21559325595109

@@ -3,6 +3,7 @@
   "dependencies": {
     "jquery": "latest",
     "jquery-pjax": "latest",
-    "sugar": "latest"
+    "sugar": "latest",
+    "todc-bootstrap": "latest"
   }
 }
