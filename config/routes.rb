@@ -3,7 +3,7 @@ Moments::Application.routes.draw do
 
   resources :moments
 
-  #match '/search/*request',
-  #    via: [:get, :post],
-  #    to: redirect {|params, _| "http://localhost:9200/#{params[:request]}" }
+  get :login, to: 'sessions#new'
+  post :login, to: 'sessions#create'
+  get :logout, to: 'sessions#destroy'
 end

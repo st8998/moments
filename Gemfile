@@ -12,6 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'slim'
 
 # infrastructure
+gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'sucker_punch'
 gem 'rails-observers'
 gem 'elasticsearch'

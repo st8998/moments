@@ -4,6 +4,6 @@
     "jquery": "latest",
     "jquery-pjax": "latest",
     "sugar": "latest",
-    "todc-bootstrap": "latest"
+    "bootstrap": "latest"
   }
 }
