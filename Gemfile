@@ -22,8 +22,9 @@ gem 'mini_magick'
 # controller
 gem 'decent_exposure'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+# api
+gem 'rabl'
+gem 'oj'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

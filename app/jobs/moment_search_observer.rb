@@ -3,7 +3,11 @@ class MomentSearchObserver < ActiveRecord::Observer
     include SuckerPunch::Job
 
     def update_index(client, moment)
-      client.index(index: 'moments', type: 'moment', id: moment.id, body: moment.attributes)
+      client.index(
+          index: 'moments',
+          type: 'moment',
+          id: moment.id,
+          body: Rabl.render(moment, 'api/moment', view_path: 'app/views', format: :json))
     end
   end
 

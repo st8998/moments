@@ -1,7 +1,7 @@
 class MomentsController < ApplicationController
   layout :layout
 
-  respond_to :html, :json
+  respond_to :html
 
   expose :moments
   expose :moment

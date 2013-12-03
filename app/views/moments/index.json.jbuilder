@@ -1,1 +1,0 @@
-json.array! moments, :id, :lat, :lng, :date, :title, :description
