@@ -1,8 +1,6 @@
 {
   "name": "moments",
   "dependencies": {
-    "jquery": "latest",
-    "jquery-pjax": "latest",
     "sugar": "latest",
     "bootstrap": "latest"
   }

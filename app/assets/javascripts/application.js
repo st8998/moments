@@ -12,4 +12,4 @@
 //
 //= require sugar
 //= require jquery
-//= require jquery-pjax
+//= require jquery_ujs

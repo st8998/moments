@@ -1,5 +1,3 @@
-//= require jquery
-//= require jquery-pjax
 //= require markerclusterer
 
 $(function() {
@@ -31,10 +29,6 @@ $(function() {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(moment.lat, moment.lng),
         title: moment.title
-      })
-
-      google.maps.event.addListener(marker, 'click', function() {
-        $.pjax({url: '/moments/'+moment.id, container: '#content'})
       })
 
       return marker
@@ -72,10 +66,6 @@ $(function() {
   $(document).on('keyup', '.search-bar', function(e) {
     if (e.which == 13)
       performSearch()
-  })
-
-  $(document).on('click', '#content .btn-close', function(e) {
-    $.pjax({url: '/moments', container: '#content'})
   })
 
 });
