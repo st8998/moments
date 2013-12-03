@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create
     user_attrs = params.require(:user).permit(:id, :password)
 
-    user = User.find(user_attrs[:id])
+    user = User.find_by(id: user_attrs[:id])
 
     if user && user.password_hash == BCrypt::Engine.hash_secret(user_attrs[:password], user.password_salt)
       cookies.permanent.signed[:id] = user.id
