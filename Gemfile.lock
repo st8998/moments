@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/cloudcastle/toolbox.git
+  revision: 2ecc7483b7abadaaf5c510df2cdf02b452dc37b9
+  specs:
+    js_routes (0.1.17)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -148,6 +154,7 @@ DEPENDENCIES
   decent_exposure
   elasticsearch
   jquery-rails
+  js_routes!
   mini_magick
   oj
   quiet_assets

@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 $(function() {
-  $.get('/users.json').success(function(users) {
+  $.get(Routes.users_path({format: 'json'})).success(function(users) {
     var LoginForm = React.createClass({
       getInitialState: function() {
         return {activeUserId: null}
@@ -18,7 +18,7 @@ $(function() {
         })
 
         return (
-          <form className="form-signin" url="/login" method="POST">
+          <form className="form-signin" url={Routes.login_path()} method="POST">
             <h2 className="form-signin-header">Please sign in</h2>
             <ul className="users list-group" onChange={this.handleRadioChange}>{userItems}</ul>
             <div className="form-group">

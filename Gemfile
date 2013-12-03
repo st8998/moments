@@ -13,6 +13,11 @@ gem 'slim'
 gem 'react-rails'
 gem 'jquery-rails'
 
+# CloudCastle toolbox
+git 'git://github.com/cloudcastle/toolbox.git' do
+  gem 'js_routes'
+end
+
 # infrastructure
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'sucker_punch'
