@@ -6,12 +6,16 @@ class User < ActiveRecord::Base
     include CarrierWave::MiniMagick
 
     storage :file
-    store_dir 'public/avatars'
+    store_dir 'avatars'
 
     process resize_to_fill: [256, 256]
 
     version :small do
       process resize_to_fill: [64, 64]
+    end
+
+    def default_url
+      '/assets/' + [version_name, "default_avatar.jpg"].compact.join('_')
     end
   end
 

@@ -3,7 +3,7 @@ class Picture < ActiveRecord::Base
     include CarrierWave::MiniMagick
 
     storage :file
-    store_dir 'public/pictures'
+    store_dir 'pictures'
 
     process resize_to_fit: [2048, 2048]
 

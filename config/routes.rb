@@ -1,6 +1,7 @@
 Moments::Application.routes.draw do
   root 'moments#index'
 
+  resources :users, only: [:index]
   resources :moments
 
   get :login, to: 'sessions#new'

@@ -4,18 +4,18 @@
   = javascript_include_tag 'sessions'
 
 .container
-  = form_for User.new, url: login_path, html: {class: 'form-signin'} do |f|
-    h2.form-signin-header Please sign in
-
-    ul.users.list-group
-      - User.admin.each do |user|
-        li.list-group-item
-          = f.radio_button :id, user.id, style: 'display: none'
-          = f.label "id_#{user.id}" do
-            = image_tag user.avatar.small.url
-            h3= user.name
-
-
-    .form-group
-      = f.password_field :password, class: 'form-control', placeholder: 'Password'
-    button.btn.btn-lg.btn-primary.btn-block Sign in
+  /= form_for User.new, url: login_path, html: {class: 'form-signin'} do |f|
+  /  h2.form-signin-header Please sign in
+  /
+  /  ul.users.list-group
+  /    - User.admin.each do |user|
+  /      li.list-group-item
+  /        = f.radio_button :id, user.id, style: 'display: none'
+  /        = f.label "id_#{user.id}" do
+  /          = image_tag user.avatar.small.url
+  /          h3= user.name
+  /
+  /
+  /  .form-group
+  /    = f.password_field :password, class: 'form-control', placeholder: 'Password'
+  /  button.btn.btn-lg.btn-primary.btn-block Sign in

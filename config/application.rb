@@ -23,5 +23,7 @@ module Moments
     config.quiet_assets = true
 
     config.active_record.observers = :moment_search_observer
+
+    config.react.variant = :development
   end
 end
