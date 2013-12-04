@@ -1,3 +1,7 @@
+# TODO clear this dirty hack
+require 'rails/observers/active_model/active_model'
+require 'rails/observers/activerecord/observer'
+
 Moments::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
