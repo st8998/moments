@@ -24,6 +24,8 @@ module Moments
 
     config.active_record.observers = :moment_search_observer
 
+    # TODO use different react builds for dev/prod environments
     config.react.variant = :development
+    config.react.addons = true
   end
 end

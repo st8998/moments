@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
-
 $(function() {
+  var cx = React.addons.classSet
+
   $.get(Routes.users_path({format: 'json'})).success(function(users) {
     var LoginForm = React.createClass({
       getInitialState: function() {
@@ -32,12 +33,9 @@ $(function() {
     var User = React.createClass({
       render: function() {
         var user = this.props.user
-        var className = 'list-group-item'
-        if (this.props.active)
-          className += ' selected'
 
         return (
-          <li className={className}>
+          <li className={cx({'list-group-item': true, 'selected': this.props.active})}>
             <input type="radio" id={'user-'+user.id} name="user[id]" style={{display: 'none'}} value={user.id}/>
             <label htmlFor={'user-'+user.id}>
               <img src={user.avatar} />
