@@ -7,7 +7,11 @@ module ParamsEncoder
   def encode_id!
     @options.fetch(:encode, []).each do |param|
       if @options[param]
-        @options[param] = Base64.urlsafe_encode64(@options[param].to_s)
+        if @options[param].is_a?(Fixnum)
+          @options[param] = @options[param].to_s(36)
+        else
+          raise ArgumentError, 'This feature is working only with Fixnum arguments'
+        end
       end
     end
   end
