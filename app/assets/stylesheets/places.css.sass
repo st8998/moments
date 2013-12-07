@@ -1,0 +1,82 @@
+html
+  height: 100%
+
+body
+  height: 100%
+  margin: 0
+  padding: 0
+
+#content
+  position: absolute
+  left: 20px
+  top: 20px
+  width: 800px
+
+  .location-container
+    padding: 0
+    height: 500px
+
+.location-component
+  height: 100%
+  position: relative
+
+  .form-control
+    color: #222
+
+  .map
+    height: 100%
+    width: 100%
+
+  .side-panel
+    position: absolute
+    left: 10px
+    top: 10px
+    width: 380px
+    .panel
+      margin-bottom: 3px
+      border: none
+
+  .address
+    position: relative
+    left: 1px
+    margin-right: 41px
+  .address
+    .form-control.name
+      font-size: 2em
+    .panel-heading
+      padding: 12px 12px 6px 12px
+    .panel-body
+      padding: 6px 12px
+    .form-group
+      margin-bottom: 2px
+    .control-label
+      font-weight: normal
+      color: #777
+    .form-control
+      border: none
+      -webkit-box-shadow: none
+      box-shadow: none
+      padding: 0
+      border-bottom: 1px dotted #ccc
+
+
+  .suggestions
+    position: relative
+    top: -3px
+    left: 1px
+    margin: 0 41px 0 0
+    padding: 0
+    border-top-left-radius: 0
+    border-top-right-radius: 0
+
+    li
+      list-style: none
+      padding: 5px 5px 5px 12px
+      margin: 0
+
+      &:hover
+        background-color: #f5f5f5
+
+      border-bottom: 1px solid #ddd
+      &:last-child
+        border-bottom: none
