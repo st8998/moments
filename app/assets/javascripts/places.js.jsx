@@ -72,6 +72,8 @@
         components.push(<AddressComponent value={address.locality} field='locality' label='Город' />)
       if (address.country)
         components.push(<AddressComponent value={address.country} field='country' label='Страна' />)
+      if (address.lat || address.lng)
+        components.push(<AddressComponent value={address.lat + '|' + address.lng} field='larlng' label='Координаты' />)
 
       return (
         <form className='panel address form-horizontal'>
@@ -105,17 +107,31 @@
     },
 
     componentDidMount: function() {
+      var location = this
       var map = new google.maps.Map(this.refs.map.getDOMNode(), this.props.mapOptions)
       var marker = new google.maps.Marker({
         map: map,
-        title: this.state.address.name
+        title: this.state.address.name,
+        draggable: true
       })
       map.setCenter(this.props.mapCenter)
 
-      this.setState({map: map, marker: marker})
+      this.markerHandle =
+        google.maps.event.addListener(marker, 'dragend', function(e) {
+          var address = location.state.address
+          address.lat = e.latLng.lat()
+          address.lng = e.latLng.lng()
+          location.setState({address: address})
+        })
+      location.setState({map: map, marker: marker})
+    },
+
+    componentWillUnmount: function() {
+      google.maps.event.removeListener(this.markerHandle)
     },
 
     componentDidUpdate: function() {
+      this.state.marker.setTitle(this.state.address.name)
       this.state.marker.setPosition(new google.maps.LatLng(this.state.address.lat, this.state.address.lng))
     },
 
@@ -131,7 +147,6 @@
         )
     }
   })
-
 
   var smileClub = {
     lat: 53.21651837219011,
