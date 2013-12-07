@@ -73,8 +73,8 @@
         components.push(<AddressComponent value={address.locality} field='locality' label='Город' />)
       if (address.country)
         components.push(<AddressComponent value={address.country} field='country' label='Страна' />)
-      if (address.lat || address.lng)
-        components.push(<AddressComponent value={address.lat + '|' + address.lng} field='larlng' label='Координаты' />)
+//      if (address.lat || address.lng)
+//        components.push(<AddressComponent value={address.lat + '|' + address.lng} field='larlng' label='Координаты' />)
 
       return (
         <form className='panel address form-horizontal'>
@@ -112,8 +112,15 @@
       }
     },
 
+    handleAddressPosition: function(e) {
+      var address = this.state.address
+      address.lat = e.latLng.lat()
+      address.lng = e.latLng.lng()
+      this.setState({address: address, mapMode: 'move'})
+    },
+
     componentDidMount: function() {
-      var location = this
+      var locationComponent = this
       var map = new google.maps.Map(this.refs.map.getDOMNode(), this.props.mapOptions)
       var marker = new google.maps.Marker({
         map: map,
@@ -122,23 +129,28 @@
       })
       map.setCenter(this.props.mapCenter)
 
-      this.markerHandle =
-        google.maps.event.addListener(marker, 'dragend', function(e) {
-          var address = location.state.address
-          address.lat = e.latLng.lat()
-          address.lng = e.latLng.lng()
-          location.setState({address: address})
-        })
-      location.setState({map: map, marker: marker})
+      this.addMarkerHandle = google.maps.event.addListener(map, 'click', function(e) {
+        if (locationComponent.state.mapMode == 'marker')
+          locationComponent.handleAddressPosition(e)
+      })
+
+      this.markerHandle = google.maps.event.addListener(marker, 'dragend', this.handleAddressPosition)
+
+      locationComponent.setState({map: map, marker: marker})
     },
 
     componentWillUnmount: function() {
       google.maps.event.removeListener(this.markerHandle)
+      google.maps.event.removeListener(this.addMarkerHandle)
     },
 
     componentDidUpdate: function() {
+      // adjust marker
       this.state.marker.setTitle(this.state.address.name)
       this.state.marker.setPosition(new google.maps.LatLng(this.state.address.lat, this.state.address.lng))
+
+      // adjust map pointer
+      this.state.map.setOptions({draggableCursor: this.state.mapMode == 'move' ? null : 'crosshair'})
     },
 
     changeMapMode: function(newMode) {
