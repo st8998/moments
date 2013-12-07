@@ -1,3 +1,4 @@
+//= require components/button_group
 /** @jsx React.DOM */
 (function() {
 
@@ -90,7 +91,7 @@
 
   var Location = React.createClass({
     getInitialState: function() {
-      return {address: this.props.address || {}}
+      return {address: this.props.address || {}, mapMode: this.props.mapMode}
     },
 
     getDefaultProps: function() {
@@ -102,7 +103,12 @@
           panControl: false,
           zoomControl: false,
           streetViewControl: false
-        }
+        },
+        mapMode: 'move',
+        mapControls: [
+          {glyphicon: 'move', value: 'move'},
+          {glyphicon: 'map-marker', value: 'marker'}
+        ]
       }
     },
 
@@ -135,6 +141,10 @@
       this.state.marker.setPosition(new google.maps.LatLng(this.state.address.lat, this.state.address.lng))
     },
 
+    changeMapMode: function(newMode) {
+      this.setState({mapMode: newMode})
+    },
+
     render: function() {
       return (
         <div className='location-component'>
@@ -143,6 +153,10 @@
             <AddressLookup />
             <Address address={this.state.address} />
           </div>
+          <ButtonGroup
+            onChange={this.changeMapMode}
+            value={this.state.mapMode}
+            buttons={this.props.mapControls}/>
         </div>
         )
     }

@@ -15,3 +15,5 @@
 //= require jquery_ujs
 //= require react
 //= require routes
+
+window.components = {}
