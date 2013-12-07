@@ -249,6 +249,7 @@
 
           this.state.map.setCenter(results[0].geometry.location)
           this.state.map.setZoom(geometryTypeToZoomLevel(results[0].types[0]))
+          this.state.map.panBy(-150, 0)
         }
       }.bind(this))
     },
@@ -266,6 +267,7 @@
         draggable: true
       })
       map.setCenter(this.props.mapCenter)
+      map.panBy(-150, 0)
 
       this.addMarkerHandle = google.maps.event.addListener(map, 'click', function(e) {
         if (locationComponent.state.mapMode == 'marker')
