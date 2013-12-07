@@ -4,7 +4,7 @@
 
   var geocoder = new google.maps.Geocoder()
 
-  function geocodeToAddress(geocode, mutableAddress) {
+  function geocodeToAddress(geocode, oldAddress) {
     var address = {}
 
     geocode.address_components.forEach(function(comp) {
@@ -25,10 +25,32 @@
       }
     })
 
-    address.lat = mutableAddress.lat
-    address.lng = mutableAddress.lng
+    if (oldAddress) {
+      address.lat = oldAddress.lat
+      address.lng = oldAddress.lng
+    } else {
+      address.lat = geocode.geometry.location.lat()
+      address.lng = geocode.geometry.location.lng()
+    }
 
     return address
+  }
+
+  function geometryTypeToZoomLevel(type) {
+    switch (type) {
+      case 'country':
+        return 5
+      case 'administrative_area_level_1':
+        return 8
+      case 'locality':
+        return 11
+      case 'route':
+        return 15
+      case 'street_number':
+        return 18
+      default:
+        return 15
+    }
   }
 
   function addressFieldToLabel(fieldName) {
@@ -65,16 +87,30 @@
   })
 
   var AddressLookup = React.createClass({
+    getDefaultProps: function() {
+      return {onLookupAddress: emptyFunction}
+    },
+
     getInitialState: function() {
       return {suggests: []}
+    },
+
+    lookupAddress: function(e) {
+      e.preventDefault()
+
+      var lookupInput = this.refs.lookupField.getDOMNode()
+
+      if (lookupInput.value) {
+        this.props.onLookupAddress(lookupInput.value)
+      }
     },
 
     render: function() {
       return (
         <div className='autocomplete'>
-          <form className='panel search-bar'>
+          <form className='panel search-bar' onSubmit={this.lookupAddress}>
             <div className='input-group'>
-              <input className='form-control' type='text' />
+              <input className='form-control' type='text' ref='lookupField' />
               <div className='input-group-btn'>
                 <button className='btn btn-primary'>
                   <span className='glyphicon glyphicon-search' />
@@ -206,6 +242,17 @@
       }.bind(this))
     },
 
+    lookupAddress: function(addressString) {
+      geocoder.geocode({'address': addressString, bounds: this.state.map.getBounds()}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          this.setState({address: geocodeToAddress(results[0])})
+
+          this.state.map.setCenter(results[0].geometry.location)
+          this.state.map.setZoom(geometryTypeToZoomLevel(results[0].types[0]))
+        }
+      }.bind(this))
+    },
+
     onAddressFieldsChange: function(newAddress) {
       this.setState({address: newAddress})
     },
@@ -253,7 +300,7 @@
         <div className='location-component'>
           <div className='map' ref='map'></div>
           <div className='side-panel'>
-            <AddressLookup />
+            <AddressLookup onLookupAddress={this.lookupAddress} />
             <Address address={this.state.address} onChange={this.onAddressFieldsChange} />
           </div>
           <ButtonGroup
