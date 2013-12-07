@@ -2,6 +2,34 @@
 /** @jsx React.DOM */
 (function() {
 
+  var geocoder = new google.maps.Geocoder()
+
+  function geocodeToAddress(geocode, mutableAddress) {
+    var address = mutableAddress || {}
+
+    geocode.address_components.forEach(function(comp) {
+      var type = comp.types[0]
+
+      switch (type) {
+        case 'country':
+        case 'administrative_area_level_1':
+        case 'locality':
+        case 'street_number':
+        case 'postal_code':
+          address[type] = comp.long_name
+          break
+        // case 'administrative_area_level_2': switched off for now
+        case 'route':
+          address[type] = comp.short_name
+          break
+      }
+    })
+
+    console.log(address)
+
+    return address
+  }
+
   var SuggestsList = React.createClass({
     getDefaultProps: function() {
       return {suggests: []}
@@ -71,6 +99,8 @@
         components.push(<AddressComponent value={address.route} field='route' label='Улица' />)
       if (address.locality)
         components.push(<AddressComponent value={address.locality} field='locality' label='Город' />)
+      if (address.administrative_area_level_1)
+        components.push(<AddressComponent value={address.administrative_area_level_1} field='administrative_area_level_1' label='Область' />)
       if (address.country)
         components.push(<AddressComponent value={address.country} field='country' label='Страна' />)
 //      if (address.lat || address.lng)
@@ -117,6 +147,11 @@
       address.lat = e.latLng.lat()
       address.lng = e.latLng.lng()
       this.setState({address: address, mapMode: 'move'})
+
+      geocoder.geocode({'latLng': e.latLng}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK)
+          this.setState({address: geocodeToAddress(results[0], this.state.address)})
+      }.bind(this))
     },
 
     componentDidMount: function() {
