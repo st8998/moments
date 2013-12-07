@@ -17,3 +17,4 @@
 //= require routes
 
 window.components = {}
+window.emptyFunction = function() {}

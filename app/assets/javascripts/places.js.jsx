@@ -5,7 +5,7 @@
   var geocoder = new google.maps.Geocoder()
 
   function geocodeToAddress(geocode, mutableAddress) {
-    var address = mutableAddress || {}
+    var address = {}
 
     geocode.address_components.forEach(function(comp) {
       var type = comp.types[0]
@@ -25,9 +25,25 @@
       }
     })
 
-    console.log(address)
+    address.lat = mutableAddress.lat
+    address.lng = mutableAddress.lng
 
     return address
+  }
+
+  function addressFieldToLabel(fieldName) {
+    switch (fieldName) {
+      case 'street_number':
+        return 'Дом'
+      case 'route':
+        return 'Улица'
+      case 'locality':
+        return 'Город'
+      case 'administrative_area_level_1':
+        return 'Область'
+      case 'country':
+        return 'Страна'
+    }
   }
 
   var SuggestsList = React.createClass({
@@ -73,12 +89,47 @@
   })
 
   var AddressComponent = React.createClass({
+    getDefaultProps: function() {
+      return {onFieldChange: emptyFunction}
+    },
+
+    getInitialState: function() {
+      return {value: this.props.value}
+    },
+
+    handleClear: function() {
+      var input = this.refs.input.getDOMNode()
+      input.value = ''
+      this.props.onFieldChange(input.name, '')
+    },
+
+    handleBlur: function(e) {
+      var input = this.refs.input.getDOMNode()
+      if (input.value != this.props.value) {
+        this.props.onFieldChange(input.name, input.value)
+      }
+    },
+
+    handleChange: function(event) {
+      this.setState({value: event.target.value});
+    },
+
     render: function() {
       return (
         <div className='form-group'>
           <label htmlFor={this.props.field} className='col-sm-2 control-label'>{this.props.label}</label>
           <div className='col-sm-10'>
-            <input value={this.props.value} type='text' className='form-control' id={this.props.field} placeholder={this.props.placeholder} />
+            <input
+              ref='input'
+              id={this.props.field}
+              name={this.props.field}
+              value={this.state.value}
+              className='form-control'
+              type='text'
+              placeholder={this.props.placeholder}
+              onBlur={this.handleBlur}
+              onChange={this.handleChange} />
+            <span className='glyphicon glyphicon-trash button-clear' onClick={this.handleClear} />
           </div>
         </div>
         )
@@ -87,24 +138,25 @@
 
   var Address = React.createClass({
     getDefaultProps: function() {
-      return {address: {}}
+      return {address: {}, onChange: emptyFunction}
+    },
+
+    handleFieldChange: function(field, newValue) {
+      var newAddress = Object.clone(this.props.address)
+      newAddress[field] = newValue
+      this.props.onChange(newAddress)
     },
 
     render: function() {
       var address = this.props.address
+      var fields = ['street_number','route','locality','administrative_area_level_1','country']
+
       var components = []
-      if (address.street_number)
-        components.push(<AddressComponent value={address.street_number} field='street_number' label='Дом' />)
-      if (address.route)
-        components.push(<AddressComponent value={address.route} field='route' label='Улица' />)
-      if (address.locality)
-        components.push(<AddressComponent value={address.locality} field='locality' label='Город' />)
-      if (address.administrative_area_level_1)
-        components.push(<AddressComponent value={address.administrative_area_level_1} field='administrative_area_level_1' label='Область' />)
-      if (address.country)
-        components.push(<AddressComponent value={address.country} field='country' label='Страна' />)
-//      if (address.lat || address.lng)
-//        components.push(<AddressComponent value={address.lat + '|' + address.lng} field='larlng' label='Координаты' />)
+      fields.forEach(function(field) {
+        if (address[field]) {
+          components.push(<AddressComponent key={field+Math.random()} onFieldChange={this.handleFieldChange} value={address[field]} field={field} label={addressFieldToLabel(field)} />)
+        }
+      }.bind(this))
 
       return (
         <form className='panel address form-horizontal'>
@@ -154,6 +206,10 @@
       }.bind(this))
     },
 
+    onAddressFieldsChange: function(newAddress) {
+      this.setState({address: newAddress})
+    },
+
     componentDidMount: function() {
       var locationComponent = this
       var map = new google.maps.Map(this.refs.map.getDOMNode(), this.props.mapOptions)
@@ -198,7 +254,7 @@
           <div className='map' ref='map'></div>
           <div className='side-panel'>
             <AddressLookup />
-            <Address address={this.state.address} />
+            <Address address={this.state.address} onChange={this.onAddressFieldsChange} />
           </div>
           <ButtonGroup
             onChange={this.changeMapMode}

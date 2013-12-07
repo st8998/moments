@@ -6,7 +6,7 @@
   window.ButtonGroup = React.createClass({
     getDefaultProps: function() {
       return {
-        onChange: function() {},
+        onChange: emptyFunction,
         value: '',
         buttons: []
       }
