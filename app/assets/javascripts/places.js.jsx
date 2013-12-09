@@ -244,8 +244,13 @@
       this.setState({address: address, mapMode: 'move'})
 
       geocoder.geocode({'latLng': e.latLng}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK)
-          this.setState({address: geocodeToAddress(results[0], this.state.address), sidePanelMinimized: false})
+        if (status == google.maps.GeocoderStatus.OK) {
+          var address = geocodeToAddress(results[0], this.state.address)
+
+          this.setState({address: address, sidePanelMinimized: false})
+          this.state.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+          this.state.map.panBy(-150, 0)
+        }
       }.bind(this))
     },
 
@@ -266,7 +271,7 @@
     },
 
     componentDidMount: function() {
-      var locationComponent = this
+      var comp = this
       var map = new google.maps.Map(this.refs.map.getDOMNode(), this.props.mapOptions)
       var marker = new google.maps.Marker({
         map: map,
@@ -277,21 +282,26 @@
       map.panBy(-150, 0)
 
       this.addMarkerHandle = google.maps.event.addListener(map, 'click', function(e) {
-        if (locationComponent.state.mapMode == 'marker')
-          locationComponent.handleAddressPosition(e)
+        if (comp.state.mapMode == 'marker') {
+          comp.handleAddressPosition(e)
+        }
       })
 
       this.minimizePanelHandle = google.maps.event.addListener(map, 'dragstart', function(e) {
-        locationComponent.setMinimizeSidePanel(true)
+        comp.setState({sidePanelMinimized: true})
       })
 
-      this.markerHandle = google.maps.event.addListener(marker, 'dragend', this.handleAddressPosition)
+      this.markerDragHandle = google.maps.event.addListener(marker, 'dragend', this.handleAddressPosition)
+      this.markerClickHandle = google.maps.event.addListener(marker, 'click', function() {
+        comp.setState({sidePanelMinimized: false})
+      })
 
-      locationComponent.setState({map: map, marker: marker})
+      comp.setState({map: map, marker: marker})
     },
 
     componentWillUnmount: function() {
-      google.maps.event.removeListener(this.markerHandle)
+      google.maps.event.removeListener(this.markerDragHandle)
+      google.maps.event.removeListener(this.markerClickHandle)
       google.maps.event.removeListener(this.addMarkerHandle)
       google.maps.event.removeListener(this.minimizePanelHandle)
     },
@@ -309,12 +319,8 @@
       this.setState({mapMode: newMode})
     },
 
-    setMinimizeSidePanel: function(isMinimized) {
-      this.setState({sidePanelMinimized: isMinimized})
-    },
-
-    centerOnMarker: function() {
-      console.log('CENTER')
+    handelAddressFocus: function() {
+      this.setState({sidePanelMinimized: false})
       this.state.map.setCenter(this.state.marker.getPosition())
       this.state.map.panBy(-150, 0)
     },
@@ -323,11 +329,11 @@
       return (
         <div className='location-component'>
           <div className='map' ref='map'></div>
-          <div className='side-panel' onFocus={this.setMinimizeSidePanel.bind(this, false)}>
+          <div className='side-panel'>
             <AddressLookup onLookupAddress={this.lookupAddress} />
             <Address address={this.state.address} minimized={this.state.sidePanelMinimized}
               onChange={this.onAddressFieldsChange}
-              onFocus={this.centerOnMarker} />
+              onFocus={this.handelAddressFocus} />
           </div>
           <ButtonGroup
             onChange={this.changeMapMode}

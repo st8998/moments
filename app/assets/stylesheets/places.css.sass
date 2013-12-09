@@ -6,6 +6,13 @@ body
   margin: 0
   padding: 0
 
+@keyframes control-panel-address-slide
+  from
+    top: 37px
+  to
+    top: 25px
+
+
 #content
   position: absolute
   left: 20px
@@ -57,9 +64,14 @@ body
     left: 1px
     width: 339px
     z-index: 101
+
+    transition-property: top, color
+    transition-duration: 0.2s
     &.minimized
-      top: 25px
       z-index: 99
+      top: 25px
+      input
+        color: #999
       .panel-body
         display: none
 
