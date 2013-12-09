@@ -3,6 +3,7 @@
 (function() {
 
   var geocoder = new google.maps.Geocoder()
+  var cx = React.addons.classSet
 
   function geocodeToAddress(geocode, oldAddress) {
     var address = {}
@@ -107,7 +108,7 @@
 
     render: function() {
       return (
-        <div className='autocomplete'>
+        <div className='autocomplete address-lookup'>
           <form className='panel search-bar' onSubmit={this.lookupAddress}>
             <div className='input-group'>
               <input className='form-control' type='text' ref='lookupField' />
@@ -174,7 +175,7 @@
 
   var Address = React.createClass({
     getDefaultProps: function() {
-      return {address: {}, onChange: emptyFunction}
+      return {address: {}, onChange: emptyFunction, minimized: false}
     },
 
     handleFieldChange: function(field, newValue) {
@@ -190,12 +191,18 @@
       var components = []
       fields.forEach(function(field) {
         if (address[field]) {
-          components.push(<AddressComponent key={field+Math.random()} onFieldChange={this.handleFieldChange} value={address[field]} field={field} label={addressFieldToLabel(field)} />)
+          components.push(
+            <AddressComponent
+              key={'address-'+field+'-'+address[field]}
+              value={address[field]} label={addressFieldToLabel(field)}
+              field={field} onFieldChange={this.handleFieldChange} />
+          )
         }
       }.bind(this))
 
       return (
-        <form className='panel address form-horizontal'>
+        <form className={cx({'panel address form-horizontal': true, 'minimized': this.props.minimized})}
+          onFocus={this.props.onFocus}>
           <div className='panel-heading'>
             <input className='form-control name' defaultValue={address.name} type='text' placeholder='Название' name='name' />
           </div>
@@ -209,7 +216,7 @@
 
   var Location = React.createClass({
     getInitialState: function() {
-      return {address: this.props.address || {}, mapMode: this.props.mapMode}
+      return {address: this.props.address || {}, mapMode: this.props.mapMode, sidePanelMinimized: true}
     },
 
     getDefaultProps: function() {
@@ -238,14 +245,14 @@
 
       geocoder.geocode({'latLng': e.latLng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK)
-          this.setState({address: geocodeToAddress(results[0], this.state.address)})
+          this.setState({address: geocodeToAddress(results[0], this.state.address), sidePanelMinimized: false})
       }.bind(this))
     },
 
     lookupAddress: function(addressString) {
       geocoder.geocode({'address': addressString, bounds: this.state.map.getBounds()}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-          this.setState({address: geocodeToAddress(results[0])})
+          this.setState({address: geocodeToAddress(results[0]), sidePanelMinimized: false})
 
           this.state.map.setCenter(results[0].geometry.location)
           this.state.map.setZoom(geometryTypeToZoomLevel(results[0].types[0]))
@@ -274,6 +281,10 @@
           locationComponent.handleAddressPosition(e)
       })
 
+      this.minimizePanelHandle = google.maps.event.addListener(map, 'dragstart', function(e) {
+        locationComponent.setMinimizeSidePanel(true)
+      })
+
       this.markerHandle = google.maps.event.addListener(marker, 'dragend', this.handleAddressPosition)
 
       locationComponent.setState({map: map, marker: marker})
@@ -282,6 +293,7 @@
     componentWillUnmount: function() {
       google.maps.event.removeListener(this.markerHandle)
       google.maps.event.removeListener(this.addMarkerHandle)
+      google.maps.event.removeListener(this.minimizePanelHandle)
     },
 
     componentDidUpdate: function() {
@@ -297,13 +309,25 @@
       this.setState({mapMode: newMode})
     },
 
+    setMinimizeSidePanel: function(isMinimized) {
+      this.setState({sidePanelMinimized: isMinimized})
+    },
+
+    centerOnMarker: function() {
+      console.log('CENTER')
+      this.state.map.setCenter(this.state.marker.getPosition())
+      this.state.map.panBy(-150, 0)
+    },
+
     render: function() {
       return (
         <div className='location-component'>
           <div className='map' ref='map'></div>
-          <div className='side-panel'>
+          <div className='side-panel' onFocus={this.setMinimizeSidePanel.bind(this, false)}>
             <AddressLookup onLookupAddress={this.lookupAddress} />
-            <Address address={this.state.address} onChange={this.onAddressFieldsChange} />
+            <Address address={this.state.address} minimized={this.state.sidePanelMinimized}
+              onChange={this.onAddressFieldsChange}
+              onFocus={this.centerOnMarker} />
           </div>
           <ButtonGroup
             onChange={this.changeMapMode}
