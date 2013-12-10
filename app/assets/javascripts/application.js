@@ -19,6 +19,8 @@
 window.components = {}
 window.emptyFunction = function() {}
 
+window.map = {}
+window.map.key = 'AIzaSyA6t72tJ8MY1E6HkWTe0GqrpXnegDYCEf4'
 window.map.typeToZoom = {
   country: 5,
   administrative_area_level_1: 8,

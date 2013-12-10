@@ -7,7 +7,7 @@
   var stopPropagation = function(e) {e.stopPropagation()}
 
   function geocodeToAddress(geocode, oldAddress) {
-    var address = {name: oldAddress.name}
+    var address = {}
 
     geocode.address_components.forEach(function(comp) {
       var type = comp.types[0]
@@ -30,6 +30,7 @@
     if (oldAddress) {
       address.lat = oldAddress.lat
       address.lng = oldAddress.lng
+      address.name = oldAddress.name
     } else {
       address.lat = geocode.geometry.location.lat()
       address.lng = geocode.geometry.location.lng()
