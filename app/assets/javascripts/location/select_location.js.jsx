@@ -348,7 +348,7 @@
 
     render: function() {
       return (
-        <div className='location-component'>
+        <div className='select-location-component'>
           <div className='map' ref='map'></div>
           <div className='side-panel'>
             <AddressLookup onLookupAddress={this.lookupAddress} />
