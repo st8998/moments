@@ -4,6 +4,7 @@
 
   var geocoder = new google.maps.Geocoder()
   var cx = React.addons.classSet
+  var stopPropagation = function(e) {e.stopPropagation()}
 
   function geocodeToAddress(geocode, oldAddress) {
     var address = {}
@@ -184,6 +185,13 @@
       this.props.onChange(newAddress)
     },
 
+    handleNameChange: function(e) {
+      var nameInput = e.target
+
+      if (nameInput.value != this.props.address.name)
+        this.handleFieldChange('name', nameInput.value)
+    },
+
     render: function() {
       var address = this.props.address
       var fields = ['street_number','route','locality','administrative_area_level_1','country']
@@ -204,11 +212,13 @@
         <form className={cx({'panel address form-horizontal': true, 'minimized': this.props.minimized})}
           onFocus={this.props.onFocus}>
           <div className='panel-heading'>
-            <input className='form-control name' defaultValue={address.name} type='text' placeholder='Название' name='name' />
+            <input onBlur={this.handleNameChange} className='form-control name' defaultValue={address.name} type='text' placeholder='название' name='name' />
           </div>
           <div className='panel-body'>
             {components}
           </div>
+
+          {this.props.children}
         </form>
         )
     }
@@ -221,6 +231,8 @@
 
     getDefaultProps: function() {
       return {
+        onAddressApply: emptyFunction,
+        onAddressCancel: emptyFunction,
         mapCenter: new google.maps.LatLng(53.21651837219011, 50.15031337738037),
         mapOptions: {
           zoom: 12,
@@ -319,10 +331,17 @@
       this.setState({mapMode: newMode})
     },
 
-    handelAddressFocus: function() {
+    handleAddressFocus: function() {
       this.setState({sidePanelMinimized: false})
       this.state.map.setCenter(this.state.marker.getPosition())
       this.state.map.panBy(-150, 0)
+    },
+
+    handleAddressApply: function() {
+      this.props.onAddressApply(this.state.address)
+    },
+    handleAddressCancel: function() {
+      this.props.onAddressCancel(this.state.address)
     },
 
     render: function() {
@@ -331,9 +350,15 @@
           <div className='map' ref='map'></div>
           <div className='side-panel'>
             <AddressLookup onLookupAddress={this.lookupAddress} />
+
             <Address address={this.state.address} minimized={this.state.sidePanelMinimized}
               onChange={this.onAddressFieldsChange}
-              onFocus={this.handelAddressFocus} />
+              onFocus={this.handleAddressFocus}>
+              <div className='apply-address-buttons' onFocus={stopPropagation}>
+                <button onClick={this.handleAddressApply} type='button' className='btn btn-primary btn-sm'>Use this address</button>
+                <button onClick={this.handleAddressCancel} type='button' className='btn btn-default btn-sm'>Cancel</button>
+              </div>
+            </Address>
           </div>
           <ButtonGroup
             onChange={this.changeMapMode}
@@ -347,11 +372,14 @@
   var smileClub = {
     lat: 53.21651837219011,
     lng: 50.15031337738037,
-    name: 'Киноклуб "улыбка"',
     route: 'Ново-Садовая',
     street_number: '151'
   }
 
-  React.renderComponent(<Location address={smileClub}/>, document.querySelector('#content .panel-body'))
+  function printAddress(address) {
+    console.log(address)
+  }
+
+  React.renderComponent(<Location address={smileClub} onAddressApply={printAddress} />, document.querySelector('#content .panel-body'))
 
 }());
