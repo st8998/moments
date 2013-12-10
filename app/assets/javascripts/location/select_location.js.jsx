@@ -158,15 +158,15 @@
           <label htmlFor={this.props.field} className='col-sm-2 control-label'>{this.props.label}</label>
           <div className='col-sm-10'>
             <input
-              ref='input'
-              id={this.props.field}
-              name={this.props.field}
-              value={this.state.value}
-              className='form-control'
-              type='text'
-              placeholder={this.props.placeholder}
-              onBlur={this.handleBlur}
-              onChange={this.handleChange} />
+            ref='input'
+            id={this.props.field}
+            name={this.props.field}
+            value={this.state.value}
+            className='form-control'
+            type='text'
+            placeholder={this.props.placeholder}
+            onBlur={this.handleBlur}
+            onChange={this.handleChange} />
             <span className='glyphicon glyphicon-trash button-clear' onClick={this.handleClear} />
           </div>
         </div>
@@ -201,16 +201,16 @@
         if (address[field]) {
           components.push(
             <AddressComponent
-              key={'address-'+field+'-'+address[field]}
-              value={address[field]} label={addressFieldToLabel(field)}
-              field={field} onFieldChange={this.handleFieldChange} />
+            key={'address-'+field+'-'+address[field]}
+            value={address[field]} label={addressFieldToLabel(field)}
+            field={field} onFieldChange={this.handleFieldChange} />
           )
         }
       }.bind(this))
 
       return (
         <form className={cx({'panel address form-horizontal': true, 'minimized': this.props.minimized})}
-          onFocus={this.props.onFocus}>
+        onFocus={this.props.onFocus}>
           <div className='panel-heading'>
             <input onBlur={this.handleNameChange} className='form-control name' defaultValue={address.name} type='text' placeholder='название' name='name' />
           </div>
@@ -224,7 +224,7 @@
     }
   })
 
-  var Location = React.createClass({
+  window.SelectLocation = React.createClass({
     getInitialState: function() {
       return {address: this.props.address || {}, mapMode: this.props.mapMode, sidePanelMinimized: true}
     },
@@ -299,13 +299,15 @@
         }
       })
 
-      this.minimizePanelHandle = google.maps.event.addListener(map, 'dragstart', function(e) {
+      this.minimizePanelHandle = google.maps.event.addListener(map, 'dragstart', function() {
         comp.setState({sidePanelMinimized: true})
       })
 
       this.markerDragHandle = google.maps.event.addListener(marker, 'dragend', this.handleAddressPosition)
-      this.markerClickHandle = google.maps.event.addListener(marker, 'click', function() {
+      this.markerClickHandle = google.maps.event.addListener(marker, 'click', function(e) {
         comp.setState({sidePanelMinimized: false})
+        comp.state.map.setCenter(e.latLng)
+        comp.state.map.panBy(-150, 0)
       })
 
       comp.setState({map: map, marker: marker})
@@ -352,8 +354,8 @@
             <AddressLookup onLookupAddress={this.lookupAddress} />
 
             <Address address={this.state.address} minimized={this.state.sidePanelMinimized}
-              onChange={this.onAddressFieldsChange}
-              onFocus={this.handleAddressFocus}>
+            onChange={this.onAddressFieldsChange}
+            onFocus={this.handleAddressFocus}>
               <div className='apply-address-buttons' onFocus={stopPropagation}>
                 <button onClick={this.handleAddressApply} type='button' className='btn btn-primary btn-sm'>Use this address</button>
                 <button onClick={this.handleAddressCancel} type='button' className='btn btn-default btn-sm'>Cancel</button>
@@ -361,25 +363,12 @@
             </Address>
           </div>
           <ButtonGroup
-            onChange={this.changeMapMode}
-            value={this.state.mapMode}
-            buttons={this.props.mapControls}/>
+          onChange={this.changeMapMode}
+          value={this.state.mapMode}
+          buttons={this.props.mapControls}/>
         </div>
         )
     }
   })
-
-  var smileClub = {
-    lat: 53.21651837219011,
-    lng: 50.15031337738037,
-    route: 'Ново-Садовая',
-    street_number: '151'
-  }
-
-  function printAddress(address) {
-    console.log(address)
-  }
-
-  React.renderComponent(<Location address={smileClub} onAddressApply={printAddress} />, document.querySelector('#content .panel-body'))
 
 }());
