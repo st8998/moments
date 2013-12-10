@@ -7,7 +7,7 @@
   var stopPropagation = function(e) {e.stopPropagation()}
 
   function geocodeToAddress(geocode, oldAddress) {
-    var address = {}
+    var address = {name: oldAddress.name}
 
     geocode.address_components.forEach(function(comp) {
       var type = comp.types[0]
@@ -188,9 +188,9 @@
         if (address[field]) {
           components.push(
             <AddressComponent
-            key={'address-'+field+'-'+address[field]}
-            value={address[field]} label={addressFieldToLabel(field)}
-            field={field} onFieldChange={this.handleFieldChange} />
+              key={'address-'+field+'-'+address[field]}
+              value={address[field]} label={addressFieldToLabel(field)}
+              field={field} onFieldChange={this.handleFieldChange} />
           )
         }
       }.bind(this))
@@ -242,15 +242,13 @@
       address.lng = e.latLng.lng()
       this.setState({address: address, mapMode: 'move'})
 
+      this.state.map.setCenter(e.latLng)
+      this.state.map.panBy(-150, 0)
+
       geocoder.geocode({'latLng': e.latLng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           var address = geocodeToAddress(results[0], this.state.address)
-
           this.setState({address: address, sidePanelMinimized: false})
-          if (address.lat && address.lng) {
-            this.state.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
-            this.state.map.panBy(-150, 0)
-          }
         }
       }.bind(this))
     },
@@ -279,7 +277,13 @@
         title: this.state.address.name,
         draggable: true
       })
-      map.setCenter(this.props.mapCenter)
+
+      var address = this.state.address
+      if (address.lat && address.lng) {
+        map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+      } else {
+        map.setCenter(this.props.mapCenter)
+      }
       map.panBy(-150, 0)
 
       this.addMarkerHandle = google.maps.event.addListener(map, 'click', function(e) {
@@ -310,9 +314,13 @@
     },
 
     componentDidUpdate: function() {
+      var address = this.state.address
+
       // adjust marker
-      this.state.marker.setTitle(this.state.address.name)
-      this.state.marker.setPosition(new google.maps.LatLng(this.state.address.lat, this.state.address.lng))
+      this.state.marker.setTitle(address.name)
+      if (address.lat && address.lng) {
+        this.state.marker.setPosition(new google.maps.LatLng(address.lat, address.lng))
+      }
 
       // adjust map pointer
       this.state.map.setOptions({draggableCursor: this.state.mapMode == 'move' ? null : 'crosshair'})

@@ -5,7 +5,8 @@ var smileClub = {
   lat: 53.21651837219011,
   lng: 50.15031337738037,
   route: 'Ново-Садовая',
-  street_number: '151'
+  street_number: '151',
+  name: 'Интерсное местечко'
 }
 
 function printAddress(address) {
@@ -59,4 +60,4 @@ var Story = React.createClass({
   }
 })
 
-React.renderComponent(<Story />, document.querySelector('#content'))
+React.renderComponent(<Story address={smileClub} />, document.querySelector('#content'))
