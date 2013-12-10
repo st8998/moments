@@ -39,20 +39,7 @@
   }
 
   function geometryTypeToZoomLevel(type) {
-    switch (type) {
-      case 'country':
-        return 5
-      case 'administrative_area_level_1':
-        return 8
-      case 'locality':
-        return 11
-      case 'route':
-        return 15
-      case 'street_number':
-        return 18
-      default:
-        return 15
-    }
+    return window.map.typeToZoom[type]
   }
 
   function addressFieldToLabel(fieldName) {
@@ -260,8 +247,10 @@
           var address = geocodeToAddress(results[0], this.state.address)
 
           this.setState({address: address, sidePanelMinimized: false})
-          this.state.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
-          this.state.map.panBy(-150, 0)
+          if (address.lat && address.lng) {
+            this.state.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+            this.state.map.panBy(-150, 0)
+          }
         }
       }.bind(this))
     },
@@ -335,8 +324,12 @@
 
     handleAddressFocus: function() {
       this.setState({sidePanelMinimized: false})
-      this.state.map.setCenter(this.state.marker.getPosition())
-      this.state.map.panBy(-150, 0)
+
+      var address = this.state.address
+      if (address.lat && address.lng) {
+        this.state.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+        this.state.map.panBy(-150, 0)
+      }
     },
 
     handleAddressApply: function() {
