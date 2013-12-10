@@ -18,3 +18,11 @@
 
 window.components = {}
 window.emptyFunction = function() {}
+
+window.map.typeToZoom = {
+  country: 5,
+  administrative_area_level_1: 8,
+  locality: 11,
+  route: 15,
+  street_number: 18
+}

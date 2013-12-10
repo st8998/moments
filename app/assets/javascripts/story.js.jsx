@@ -34,8 +34,8 @@ var Story = React.createClass({
   },
 
   render: function() {
-
     var locationComponent
+
     if (this.state.editLocation) {
       locationComponent =
         <SelectLocation address={this.state.address}
