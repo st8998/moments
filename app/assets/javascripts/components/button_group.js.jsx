@@ -1,12 +1,11 @@
 /** @jsx React.DOM */
-
-(function() {
+define('components/button_group', [], function() {
   var cx = React.addons.classSet
 
-  window.ButtonGroup = React.createClass({
+  return React.createClass({
     getDefaultProps: function() {
       return {
-        onChange: emptyFunction,
+        onChange: Function.empty,
         value: '',
         buttons: []
       }
@@ -33,4 +32,4 @@
         )
     }
   })
-}())
+});

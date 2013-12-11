@@ -7,6 +7,7 @@ head
 
   = javascript_include_tag 'http://maps.googleapis.com/maps/api/js?key=AIzaSyA6t72tJ8MY1E6HkWTe0GqrpXnegDYCEf4&sensor=false&language=ru&libraries=places'
   = javascript_include_tag 'application'
+
   = yield(:javascript) if content_for?(:javascript)
 
   = yield(:head) if content_for?(:head)

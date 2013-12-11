@@ -1,30 +1,31 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file.
-//
-// Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-//= require sugar
-//= require jquery
-//= require jquery_ujs
+// unmanageable libs
 //= require react
+//= require sugar
+
+// requirejs manageable libs
+//= require almond
+//= require jquery
 //= require routes
 
-window.components = {}
-window.emptyFunction = function() {}
+//= require_self
 
-window.map = {}
-window.map.key = 'AIzaSyA6t72tJ8MY1E6HkWTe0GqrpXnegDYCEf4'
-window.map.typeToZoom = {
-  country: 5,
-  administrative_area_level_1: 8,
-  locality: 11,
-  route: 15,
-  street_number: 18
-}
+if (typeof Function.empty === 'undefined')
+  Function.empty = function() {}
+
+if (typeof Function.stopPropagation === 'undefined')
+  Function.stopPropagation = function(e) {e.stopPropagation()}
+
+define('settings', [], function() {
+  return {
+    map: {
+      key: 'AIzaSyA6t72tJ8MY1E6HkWTe0GqrpXnegDYCEf4',
+      typeToZoom: {
+        country: 5,
+        administrative_area_level_1: 8,
+        locality: 11,
+        route: 15,
+        street_number: 18
+      }
+    }
+  }
+})

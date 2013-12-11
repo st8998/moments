@@ -1,70 +1,75 @@
-//= require location/select_location
-//= require location/show_location
+//= require_tree ./components
+//= require_tree ./location
+
 /** @jsx React.DOM */
-var smileClub = {
-  lat: 53.21651837219011,
-  lng: 50.15031337738037,
-  route: 'Ново-Садовая',
-  street_number: '151',
-  name: 'Интерсное местечко',
-  locality: 'Самара',
-  administrative_area_level_1: 'Самарская область',
-  country: 'Россия'
-}
 
-function printAddress(address) {
-  console.log(address)
-}
+require(['location/select_location', 'location/show_location', 'jquery'], function(SelectLocation, ShowLocation, Routes1) {
+  var smileClub = {
+    lat: 53.21651837219011,
+    lng: 50.15031337738037,
+    route: 'Ново-Садовая',
+    street_number: '151',
+    name: 'Интерсное местечко',
+    locality: 'Самара',
+    administrative_area_level_1: 'Самарская область',
+    country: 'Россия'
+  }
 
-var Story = React.createClass({
-  getInitialState: function() {
-    return {address: this.props.address}
-  },
+  function printAddress(address) {
+    console.log(address)
+  }
 
-  getDefaultProps: function() {
-    return {editLocation: false}
-  },
+  var Story = React.createClass({
+    getInitialState: function() {
+      return {address: this.props.address}
+    },
 
-  onEditLocation: function() {
-    this.setState({editLocation: true})
-  },
+    getDefaultProps: function() {
+      return {editLocation: false}
+    },
 
-  onAddressApply: function(address) {
-    this.setState({editLocation: false, address: address})
-  },
+    onEditLocation: function() {
+      this.setState({editLocation: true})
+    },
 
-  onAddressCancel: function(address) {
-    this.setState({editLocation: false})
-  },
+    onAddressApply: function(address) {
+      this.setState({editLocation: false, address: address})
+    },
 
-  render: function() {
-    var locationComponent
+    onAddressCancel: function(address) {
+      this.setState({editLocation: false})
+    },
 
-    if (this.state.editLocation) {
-      locationComponent =
-        <SelectLocation address={this.state.address}
+    render: function() {
+      var locationComponent
+
+      if (this.state.editLocation) {
+        locationComponent =
+          <SelectLocation address={this.state.address}
           onAddressApply={this.onAddressApply}
           onAddressCancel={this.onAddressCancel} />
-    } else {
-      locationComponent =
-        <ShowLocation
+      } else {
+        locationComponent =
+          <ShowLocation
           onEditLocation={this.onEditLocation}
           onAddressApply={this.onAddressApply}
           address={this.state.address} />
-    }
+      }
 
-    return (
-      <div className='story'>
-        <h1>STORY IS EDITING HERE</h1>
-        <h3>RIGHT NOW</h3>
-        <div className='panel panel-default location-container'>
-          <div className='panel-body'>
+      return (
+        <div className='story'>
+          <h1>STORY IS EDITING HERE</h1>
+          <h3>RIGHT NOW</h3>
+          <div className='panel panel-default location-container'>
+            <div className='panel-body'>
             {locationComponent}
+            </div>
           </div>
         </div>
-      </div>
-      )
-  }
+        )
+    }
+  })
+
+  React.renderComponent(<Story address={smileClub} />, document.querySelector('#content'))
 })
 
-React.renderComponent(<Story address={smileClub} />, document.querySelector('#content'))

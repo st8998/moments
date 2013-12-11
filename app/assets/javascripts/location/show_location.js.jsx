@@ -1,17 +1,16 @@
 /** @jsx React.DOM */
-(function() {
-
+define('location/show_location', ['settings', 'jquery'], function(settings, $) {
   function addressToZoomLevel(address) {
     var smallestComponent =
       ['street_number','route','locality','administrative_area_level_1','country'].
         find(function(component) {return !!address[component]})
 
-    return window.map.typeToZoom[smallestComponent]
+    return settings.map.typeToZoom[smallestComponent]
   }
 
   function addressToImageUrl(address) {
     var props = {
-      key: window.map.key,
+      key: settings.map.key,
       size: '350x150',
       scale: 1,
       zoom: addressToZoomLevel(address)-2,
@@ -23,9 +22,9 @@
     return 'http://maps.googleapis.com/maps/api/staticmap?' + $.param(props)
   }
 
-  window.ShowLocation = React.createClass({
+  var ShowLocation = React.createClass({
     getDefaultProps: function() {
-      return {onAddressApply: emptyFunction}
+      return {onAddressApply: Function.empty}
     },
 
     onNameChange: function(e) {
@@ -71,8 +70,8 @@
             <div className='address'>
               <h3 className='name'>
                 <input className='address-name' type='text' placeholder='название'
-                  value={address.name}
-                  onChange={this.onNameChange} />
+                value={address.name}
+                onChange={this.onNameChange} />
               </h3>
               {mainLine}
               {secondaryLine}
@@ -91,4 +90,5 @@
     }
   })
 
-}());
+  return ShowLocation
+})

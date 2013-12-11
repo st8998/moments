@@ -2,6 +2,7 @@
   "name": "moments",
   "dependencies": {
     "sugar": "latest",
-    "bootstrap": "latest"
+    "bootstrap": "latest",
+    "almond": "https://raw.github.com/jrburke/almond/master/almond.js"
   }
 }

@@ -1,10 +1,8 @@
-//= require components/button_group
 /** @jsx React.DOM */
-(function() {
+define('location/select_location', ['settings', 'components/button_group'], function(settings, ButtonGroup) {
 
   var geocoder = new google.maps.Geocoder()
   var cx = React.addons.classSet
-  var stopPropagation = function(e) {e.stopPropagation()}
 
   function geocodeToAddress(geocode, oldAddress) {
     var address = {}
@@ -78,7 +76,7 @@
 
   var AddressLookup = React.createClass({
     getDefaultProps: function() {
-      return {onLookupAddress: emptyFunction}
+      return {onLookupAddress: Function.empty}
     },
 
     getInitialState: function() {
@@ -116,7 +114,7 @@
 
   var AddressComponent = React.createClass({
     getDefaultProps: function() {
-      return {onFieldChange: emptyFunction}
+      return {onFieldChange: Function.empty}
     },
 
     getInitialState: function() {
@@ -164,7 +162,7 @@
 
   var Address = React.createClass({
     getDefaultProps: function() {
-      return {address: {}, onChange: emptyFunction, minimized: false}
+      return {address: {}, onChange: Function.empty, minimized: false}
     },
 
     handleFieldChange: function(field, newValue) {
@@ -189,9 +187,9 @@
         if (address[field]) {
           components.push(
             <AddressComponent
-              key={'address-'+field+'-'+address[field]}
-              value={address[field]} label={addressFieldToLabel(field)}
-              field={field} onFieldChange={this.handleFieldChange} />
+            key={'address-'+field+'-'+address[field]}
+            value={address[field]} label={addressFieldToLabel(field)}
+            field={field} onFieldChange={this.handleFieldChange} />
           )
         }
       }.bind(this))
@@ -212,15 +210,15 @@
     }
   })
 
-  window.SelectLocation = React.createClass({
+  var SelectLocation = React.createClass({
     getInitialState: function() {
       return {address: Object.clone(this.props.address) || {}, mapMode: this.props.mapMode, sidePanelMinimized: true}
     },
 
     getDefaultProps: function() {
       return {
-        onAddressApply: emptyFunction,
-        onAddressCancel: emptyFunction,
+        onAddressApply: Function.empty,
+        onAddressCancel: Function.empty,
         mapCenter: new google.maps.LatLng(53.21651837219011, 50.15031337738037),
         mapOptions: {
           zoom: 12,
@@ -360,7 +358,7 @@
             <Address address={this.state.address} minimized={this.state.sidePanelMinimized}
             onChange={this.onAddressFieldsChange}
             onFocus={this.handleAddressFocus}>
-              <div className='apply-address-buttons' onFocus={stopPropagation}>
+              <div className='apply-address-buttons' onFocus={Function.stopPropagation}>
                 <button onClick={this.handleAddressApply} disabled={!canApplyAddress} type='button' className='btn btn-primary btn-sm'>Use this address</button>
                 <button onClick={this.handleAddressCancel} type='button' className='btn btn-default btn-sm'>Cancel</button>
               </div>
@@ -375,4 +373,5 @@
     }
   })
 
-}());
+  return SelectLocation
+})
