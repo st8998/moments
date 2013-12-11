@@ -6,7 +6,10 @@ var smileClub = {
   lng: 50.15031337738037,
   route: 'Ново-Садовая',
   street_number: '151',
-  name: 'Интерсное местечко'
+  name: 'Интерсное местечко',
+  locality: 'Самара',
+  administrative_area_level_1: 'Самарская область',
+  country: 'Россия'
 }
 
 function printAddress(address) {
@@ -43,14 +46,18 @@ var Story = React.createClass({
           onAddressApply={this.onAddressApply}
           onAddressCancel={this.onAddressCancel} />
     } else {
-      locationComponent = <ShowLocation onEditLocation={this.onEditLocation} address={this.state.address} />
+      locationComponent =
+        <ShowLocation
+          onEditLocation={this.onEditLocation}
+          onAddressApply={this.onAddressApply}
+          address={this.state.address} />
     }
 
     return (
       <div className='story'>
         <h1>STORY IS EDITING HERE</h1>
         <h3>RIGHT NOW</h3>
-        <div className='panel panel-default'>
+        <div className='panel panel-default location-container'>
           <div className='panel-body'>
             {locationComponent}
           </div>

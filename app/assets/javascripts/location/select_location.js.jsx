@@ -349,6 +349,8 @@
     },
 
     render: function() {
+      var canApplyAddress = this.state.address.lat && this.state.address.lng
+
       return (
         <div className='select-location-component'>
           <div className='map' ref='map'></div>
@@ -359,7 +361,7 @@
             onChange={this.onAddressFieldsChange}
             onFocus={this.handleAddressFocus}>
               <div className='apply-address-buttons' onFocus={stopPropagation}>
-                <button onClick={this.handleAddressApply} type='button' className='btn btn-primary btn-sm'>Use this address</button>
+                <button onClick={this.handleAddressApply} disabled={!canApplyAddress} type='button' className='btn btn-primary btn-sm'>Use this address</button>
                 <button onClick={this.handleAddressCancel} type='button' className='btn btn-default btn-sm'>Cancel</button>
               </div>
             </Address>
