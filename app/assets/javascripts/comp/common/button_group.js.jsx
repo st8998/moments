@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-define('components/button_group', [], function() {
+define('comp/common/button_group', [], function() {
   var cx = React.addons.classSet
 
   return React.createClass({

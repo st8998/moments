@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-define('location/show_location', ['settings', 'jquery'], function(settings, $) {
+define('comp/location/show_location', ['settings', 'jquery'], function(settings, $) {
   function addressToZoomLevel(address) {
     var smallestComponent =
       ['street_number','route','locality','administrative_area_level_1','country'].

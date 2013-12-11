@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-define('location/select_location', ['settings', 'components/button_group'], function(settings, ButtonGroup) {
+define('comp/location/select_location', ['settings', 'comp/common/button_group'], function(settings, ButtonGroup) {
 
   var geocoder = new google.maps.Geocoder()
   var cx = React.addons.classSet

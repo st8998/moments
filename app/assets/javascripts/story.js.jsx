@@ -1,9 +1,8 @@
-//= require_tree ./components
-//= require_tree ./location
+//= require_tree ./comp
 
 /** @jsx React.DOM */
 
-require(['location/select_location', 'location/show_location', 'jquery'], function(SelectLocation, ShowLocation, Routes1) {
+require(['comp/location/select_location', 'comp/location/show_location', 'jquery'], function(SelectLocation, ShowLocation, Routes1) {
   var smileClub = {
     lat: 53.21651837219011,
     lng: 50.15031337738037,
