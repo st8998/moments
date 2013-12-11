@@ -214,7 +214,7 @@
 
   window.SelectLocation = React.createClass({
     getInitialState: function() {
-      return {address: this.props.address || {}, mapMode: this.props.mapMode, sidePanelMinimized: true}
+      return {address: Object.clone(this.props.address) || {}, mapMode: this.props.mapMode, sidePanelMinimized: true}
     },
 
     getDefaultProps: function() {
@@ -345,7 +345,7 @@
       this.props.onAddressApply(this.state.address)
     },
     handleAddressCancel: function() {
-      this.props.onAddressCancel(this.state.address)
+      this.props.onAddressCancel(this.props.address)
     },
 
     render: function() {
