@@ -18,7 +18,7 @@ define('comp/location/show_location',
       render: function() {
         var addressComp
 
-        if (this.props.address) {
+        if (this.props.address && this.props.address.getLatLng()) {
           var address = this.props.address
 
           addressComp =
