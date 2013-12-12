@@ -1,6 +1,6 @@
 // unmanageable libs
 //= require react
-//= require sugar
+//= require underscore
 
 // requirejs manageable libs
 //= require almond

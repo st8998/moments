@@ -47,7 +47,7 @@ define('models/address', ['settings'], function(settings) {
       markers: 'color:red|'+this.lat+','+this.lng
     }
 
-    var queryString = Object.toQueryString(Object.merge(defaultProps, props))
+    var queryString = $.param(_.extend(defaultProps, props))
     return 'http://maps.googleapis.com/maps/api/staticmap?' + queryString
   }
 
@@ -110,8 +110,7 @@ define('models/address', ['settings'], function(settings) {
 
   Address.prototype.zoomLevel = function() {
     var smallestComponent =
-      ['street_number','route','locality','administrative_area_level_1','country'].
-        find(function(component) {return !!this[component]})
+      _.find(['street_number','route','locality','administrative_area_level_1','country'], function(c) {return !!this[c]}, this)
 
     return Address.zoomLevels[smallestComponent]
   }
