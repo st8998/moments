@@ -2,7 +2,17 @@ define('models/address', ['settings'], function(settings) {
   'use strict'
 
   /**
-   * @param {object} [attrs] Initial address components
+   * @class Address
+   * @property {Number} lat - latitude
+   * @property {Number} lng - longitude
+   * @property {String} name - name of this place
+   * @property {String} country - country
+   * @property {String} administrative_area_level_1 - region
+   * @property {String} locality - city/village
+   * @property {String} street_number - house number
+   * @property {String} route - name of route
+   * @property {String} postal_code - postal code
+   * @param {object} [attrs] - Initial address components
    * @constructor
    */
   function Address(attrs) {
@@ -20,6 +30,12 @@ define('models/address', ['settings'], function(settings) {
     street_number: 18
   }
 
+  /**
+   * Generates url to static google map image representing this address
+   * @param {object} [props]
+   * @see {@link https://developers.google.com/maps/documentation/staticmaps/#URL_Parameters}
+   * @returns {string} image url
+   */
   Address.prototype.imageUrl = function(props) {
     var defaultProps = {
       key: settings.map.key,
@@ -35,8 +51,24 @@ define('models/address', ['settings'], function(settings) {
     return 'http://maps.googleapis.com/maps/api/staticmap?' + queryString
   }
 
-  Address.prototype.latLng = function() {
-    return new google.maps.LatLng(this.lat, this.lng)
+  /**
+   * Returns google maps LatLng object representing this address
+   * @returns {google.maps.LatLng|undefined} Google map LatLng or nothing if address doesn't have lat/lng
+   */
+  Address.prototype.getLatLng = function() {
+    if (this.lat && this.lng)
+      return new google.maps.LatLng(this.lat, this.lng)
+  }
+
+  /**
+   * Assigns lat/lng properties from Google point
+   * @param latLng {google.maps.LatLng}
+   * @returns {Address} this object for chaining
+   */
+  Address.prototype.setLatLng = function(latLng) {
+    this.lat = latLng.lat()
+    this.lng = latLng.lng()
+    return this
   }
 
   Address.fromGeocode = function(geocode) {
@@ -84,14 +116,21 @@ define('models/address', ['settings'], function(settings) {
     return Address.zoomLevels[smallestComponent]
   }
 
-  // Copy only known fields
+  /**
+   * Constructs new Address from this instance using only Address.fields attributes
+   * @returns {Address} New Address
+   */
   Address.prototype.copy = function() {
     var copy = new Address()
-    for (var field in Address.fields)
-      copy[field] = this[field]
+    Address.fields.forEach(function(field) {copy[field] = this[field]}.bind(this))
+
     return copy
   }
 
+  /**
+   * Constructs array of primary address components
+   * @returns {Array}
+   */
   Address.prototype.primaryLine = function() {
     var line = []
     if (this.route) {
@@ -104,6 +143,10 @@ define('models/address', ['settings'], function(settings) {
     return line
   }
 
+  /**
+   * Constructs array of secondary address components
+   * @returns {Array}
+   */
   Address.prototype.secondaryLine = function() {
     var line = []
     if (this.administrative_area_level_1)

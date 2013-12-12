@@ -1,94 +1,53 @@
 /** @jsx React.DOM */
-define('comp/location/show_location', ['settings', 'jquery'], function(settings, $) {
-  function addressToZoomLevel(address) {
-    var smallestComponent =
-      ['street_number','route','locality','administrative_area_level_1','country'].
-        find(function(component) {return !!address[component]})
+define('comp/location/show_location',
+  ['settings', 'jquery', 'models/address'],
+  function(settings, $, Address) {
 
-    return settings.map.typeToZoom[smallestComponent]
-  }
+    return React.createClass({
+      getDefaultProps: function() {
+        return {onAddressApply: Function.empty}
+      },
 
-  function addressToImageUrl(address) {
-    var props = {
-      key: settings.map.key,
-      size: '350x150',
-      scale: 1,
-      zoom: addressToZoomLevel(address)-2,
-      center: ''+address.lat+','+address.lng,
-      sensor: false,
-      markers: 'color:red|'+address.lat+','+address.lng
-    }
-
-    return 'http://maps.googleapis.com/maps/api/staticmap?' + $.param(props)
-  }
-
-  var ShowLocation = React.createClass({
-    getDefaultProps: function() {
-      return {onAddressApply: Function.empty}
-    },
-
-    onNameChange: function(e) {
-      var address = this.props.address
-      address.name = e.target.value
-
-      this.props.onAddressApply(address)
-    },
-
-    render: function() {
-      var addressComp
-
-      if (this.props.address) {
+      onNameChange: function(e) {
         var address = this.props.address
+        address.name = e.target.value
 
-        var mainLine = ''
-        if (address.route) {
-          mainLine += address.route
-          if (address.street_number)
-            mainLine += (', '+address.street_number)
-          if (address.locality)
-            mainLine += (', '+address.locality)
-        } else {
-          mainLine += address.locality
-        }
-        if (mainLine)
-          mainLine = <p className='primary-line'>{mainLine}</p>
+        this.props.onAddressApply(address)
+      },
 
-        var secondaryLine = ''
-        if (address.administrative_area_level_1) {
-          secondaryLine += address.administrative_area_level_1
-          if (address.country)
-            secondaryLine += (', '+address.country)
-        } else {
-          secondaryLine += address.country
-        }
-        if (secondaryLine)
-          secondaryLine = <p className='secondary-line'>{secondaryLine}</p>
+      render: function() {
+        var addressComp
 
-        addressComp =
-          <div className='map-with-address'>
-            <img className='map' src={addressToImageUrl(this.props.address)} />
-            <div className='address'>
-              <h3 className='name'>
-                <input className='address-name' type='text' placeholder='название'
-                value={address.name}
-                onChange={this.onNameChange} />
-              </h3>
-              {mainLine}
-              {secondaryLine}
-              <p><a href='javascript:void(0)' onClick={this.props.onEditLocation}>изменить &rarr;</a></p>
+        if (this.props.address) {
+          var address = this.props.address
+
+          addressComp =
+            <div className='map-with-address'>
+              <img className='map' src={address.imageUrl()} />
+              <div className='address'>
+                <h3 className='name'>
+                  <input className='address-name' type='text' placeholder='название'
+                  value={address.name}
+                  onChange={this.onNameChange} />
+                </h3>
+                <p className='primary-line'>{address.primaryLine().join(', ')}</p>
+                <p className='secondary-line'>{address.secondaryLine().join(', ')}</p>
+                <p>
+                  <a href='javascript:void(0)' onClick={this.props.onEditLocation}>изменить &rarr;</a>
+                </p>
+              </div>
             </div>
-          </div>
-      } else {
-        addressComp = <h3 className='no-address'>Место не указано (нажмите чтобы <a href='javascript:void(0)' onClick={this.props.onEditLocation}>задать</a>)</h3>
-      }
+        } else {
+          addressComp = <h3 className='no-address'>Место не указано (нажмите чтобы
+            <a href='javascript:void(0)' onClick={this.props.onEditLocation}>задать</a>
+          )</h3>
+        }
 
-      return (
-        <div className='show-location-component'>
+        return (
+          <div className='show-location-component'>
           {addressComp}
-        </div>
-        )
-    }
+          </div>
+          )
+      }
+    })
   })
-
-  return ShowLocation
-})

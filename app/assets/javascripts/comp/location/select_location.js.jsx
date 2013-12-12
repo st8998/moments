@@ -1,45 +1,10 @@
 /** @jsx React.DOM */
-define('comp/location/select_location', ['settings', 'comp/common/button_group'], function(settings, ButtonGroup) {
+define('comp/location/select_location',
+  ['settings', 'comp/common/button_group', 'models/address'],
+  function(settings, ButtonGroup, Address) {
 
   var geocoder = new google.maps.Geocoder()
   var cx = React.addons.classSet
-
-  function geocodeToAddress(geocode, oldAddress) {
-    var address = {}
-
-    geocode.address_components.forEach(function(comp) {
-      var type = comp.types[0]
-
-      switch (type) {
-        case 'country':
-        case 'administrative_area_level_1':
-        case 'locality':
-        case 'street_number':
-        case 'postal_code':
-          address[type] = comp.long_name
-          break
-        // case 'administrative_area_level_2': switched off for now
-        case 'route':
-          address[type] = comp.short_name
-          break
-      }
-    })
-
-    if (oldAddress) {
-      address.lat = oldAddress.lat
-      address.lng = oldAddress.lng
-      address.name = oldAddress.name
-    } else {
-      address.lat = geocode.geometry.location.lat()
-      address.lng = geocode.geometry.location.lng()
-    }
-
-    return address
-  }
-
-  function geometryTypeToZoomLevel(type) {
-    return window.map.typeToZoom[type]
-  }
 
   function addressFieldToLabel(fieldName) {
     switch (fieldName) {
@@ -160,13 +125,13 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
     }
   })
 
-  var Address = React.createClass({
+  var AddressComp = React.createClass({
     getDefaultProps: function() {
-      return {address: {}, onChange: Function.empty, minimized: false}
+      return {address: new Address(), onChange: Function.empty, minimized: false}
     },
 
     handleFieldChange: function(field, newValue) {
-      var newAddress = Object.clone(this.props.address)
+      var newAddress = this.props.address.copy()
       newAddress[field] = newValue
       this.props.onChange(newAddress)
     },
@@ -212,11 +177,13 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
 
   var SelectLocation = React.createClass({
     getInitialState: function() {
-      return {address: Object.clone(this.props.address) || {}, mapMode: this.props.mapMode, sidePanelMinimized: true}
+      console.log(this.props.address, this.props.address.copy())
+      return {address: this.props.address.copy(), mapMode: this.props.mapMode, sidePanelMinimized: true}
     },
 
     getDefaultProps: function() {
       return {
+        address: new Address(),
         onAddressApply: Function.empty,
         onAddressCancel: Function.empty,
         mapCenter: new google.maps.LatLng(53.21651837219011, 50.15031337738037),
@@ -237,8 +204,8 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
 
     handleAddressPosition: function(e) {
       var address = this.state.address
-      address.lat = e.latLng.lat()
-      address.lng = e.latLng.lng()
+
+      address.setLatLng(e.latLng)
       this.setState({address: address, mapMode: 'move'})
 
       this.state.map.setCenter(e.latLng)
@@ -246,7 +213,7 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
 
       geocoder.geocode({'latLng': e.latLng}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-          var address = geocodeToAddress(results[0], this.state.address)
+          var address = this.state.address.mergeGeocode(results[0])
           this.setState({address: address, sidePanelMinimized: false})
         }
       }.bind(this))
@@ -255,10 +222,12 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
     lookupAddress: function(addressString) {
       geocoder.geocode({'address': addressString, bounds: this.state.map.getBounds()}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-          this.setState({address: geocodeToAddress(results[0]), sidePanelMinimized: false})
+          var address = Address.fromGeocode(results[0])
 
-          this.state.map.setCenter(results[0].geometry.location)
-          this.state.map.setZoom(geometryTypeToZoomLevel(results[0].types[0]))
+          this.setState({address: address, sidePanelMinimized: false})
+
+          this.state.map.setCenter(address.getLatLng())
+          this.state.map.setZoom(address.zoomLevel())
           this.state.map.panBy(-150, 0)
         }
       }.bind(this))
@@ -279,7 +248,7 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
 
       var address = this.state.address
       if (address.lat && address.lng) {
-        map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+        map.setCenter(address.getLatLng())
       } else {
         map.setCenter(this.props.mapCenter)
       }
@@ -318,7 +287,7 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
       // adjust marker
       this.state.marker.setTitle(address.name)
       if (address.lat && address.lng) {
-        this.state.marker.setPosition(new google.maps.LatLng(address.lat, address.lng))
+        this.state.marker.setPosition(address.getLatLng())
       }
 
       // adjust map pointer
@@ -334,7 +303,7 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
 
       var address = this.state.address
       if (address.lat && address.lng) {
-        this.state.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+        this.state.map.setCenter(address.getLatLng())
         this.state.map.panBy(-150, 0)
       }
     },
@@ -355,14 +324,14 @@ define('comp/location/select_location', ['settings', 'comp/common/button_group']
           <div className='side-panel'>
             <AddressLookup onLookupAddress={this.lookupAddress} />
 
-            <Address address={this.state.address} minimized={this.state.sidePanelMinimized}
+            <AddressComp address={this.state.address} minimized={this.state.sidePanelMinimized}
             onChange={this.onAddressFieldsChange}
             onFocus={this.handleAddressFocus}>
               <div className='apply-address-buttons' onFocus={Function.stopPropagation}>
                 <button onClick={this.handleAddressApply} disabled={!canApplyAddress} type='button' className='btn btn-primary btn-sm'>Use this address</button>
                 <button onClick={this.handleAddressCancel} type='button' className='btn btn-default btn-sm'>Cancel</button>
               </div>
-            </Address>
+            </AddressComp>
           </div>
           <ButtonGroup
           onChange={this.changeMapMode}

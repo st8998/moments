@@ -1,11 +1,14 @@
 //= require_tree ./comp
 //= require_tree ./models
 
-
 /** @jsx React.DOM */
 
-require(['comp/location/select_location', 'comp/location/show_location'], function(SelectLocation, ShowLocation) {
-  var smileClub = {
+require(
+['comp/location/select_location',
+  'comp/location/show_location',
+  'models/address'],
+function(SelectLocation, ShowLocation, Address) {
+  var smileClub = new Address({
     lat: 53.21651837219011,
     lng: 50.15031337738037,
     route: 'Ново-Садовая',
@@ -14,11 +17,7 @@ require(['comp/location/select_location', 'comp/location/show_location'], functi
     locality: 'Самара',
     administrative_area_level_1: 'Самарская область',
     country: 'Россия'
-  }
-
-  function printAddress(address) {
-    console.log(address)
-  }
+  })
 
   var Story = React.createClass({
     getInitialState: function() {
@@ -26,7 +25,7 @@ require(['comp/location/select_location', 'comp/location/show_location'], functi
     },
 
     getDefaultProps: function() {
-      return {editLocation: false}
+      return {editLocation: false, address: new Address()}
     },
 
     onEditLocation: function() {
@@ -47,14 +46,14 @@ require(['comp/location/select_location', 'comp/location/show_location'], functi
       if (this.state.editLocation) {
         locationComponent =
           <SelectLocation address={this.state.address}
-          onAddressApply={this.onAddressApply}
-          onAddressCancel={this.onAddressCancel} />
+            onAddressApply={this.onAddressApply}
+            onAddressCancel={this.onAddressCancel} />
       } else {
         locationComponent =
           <ShowLocation
-          onEditLocation={this.onEditLocation}
-          onAddressApply={this.onAddressApply}
-          address={this.state.address} />
+            onEditLocation={this.onEditLocation}
+            onAddressApply={this.onAddressApply}
+            address={this.state.address} />
       }
 
       return (
@@ -63,7 +62,7 @@ require(['comp/location/select_location', 'comp/location/show_location'], functi
           <h3>RIGHT NOW</h3>
           <div className='panel panel-default location-container'>
             <div className='panel-body'>
-            {locationComponent}
+              {locationComponent}
             </div>
           </div>
         </div>
