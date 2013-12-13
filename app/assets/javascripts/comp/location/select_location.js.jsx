@@ -166,7 +166,7 @@ define('comp/location/select_location',
         var addressLine = []
         if (address.name) {
           show = <div className='address-minimized'>
-            <span className='address-name'>{address.name}</span>,&nbsp;
+            <span className='address-name'>{address.name}</span>,
             <span className='address-primary-line'>{address.primaryLine().join(', ')}</span>
           </div>
         } else {
