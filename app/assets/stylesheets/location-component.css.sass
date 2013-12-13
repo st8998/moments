@@ -79,13 +79,25 @@
     width: 339px
     z-index: 101
 
+    .address-minimized
+      white-space: nowrap
+      overflow: hidden
+      color: #333
+      padding: 3px 0
+    .address-primary-line
+      font-style: lighten
+      color: #999
+
     transition-property: top, color
     transition-duration: 0.2s
     &.minimized
       z-index: 99
-      top: 25px
-      input
-        color: #555
+      top: 30px
+
+      .form-control.name
+        color: #333
+      .panel-heading
+        padding: 5px 10px 0 10px
       .panel-body
         display: none
 

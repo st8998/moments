@@ -161,11 +161,21 @@ define('comp/location/select_location',
         }
       }.bind(this))
 
+      var show
+      if (this.props.minimized && address) {
+        show = <div className='address-minimized'>
+          <span className='address-name'>{address.name}</span>,&nbsp;
+          <span className='address-primary-line'>{address.primaryLine().join(', ')}</span>
+        </div>
+      } else {
+        show = <input onBlur={this.handleNameChange} className='form-control name' defaultValue={address.name} type='text' placeholder='название' name='name' />
+      }
+
       return (
         <form className={cx({'panel address form-horizontal': true, 'minimized': this.props.minimized})}
-        onFocus={this.props.onFocus}>
+          onClick={this.props.onFocus}>
           <div className='panel-heading'>
-            <input onBlur={this.handleNameChange} className='form-control name' defaultValue={address.name} type='text' placeholder='название' name='name' />
+            {show}
           </div>
           <div className='panel-body'>
             {components}

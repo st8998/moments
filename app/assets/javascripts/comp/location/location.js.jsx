@@ -11,7 +11,7 @@ define('comp/location/location',
   function(SelectLocation, ShowLocation, Address) {
     return React.createClass({
       getInitialState: function() {
-        return {address: this.props.address}
+        return {address: this.props.address, edit: this.props.edit}
       },
 
       getDefaultProps: function() {
