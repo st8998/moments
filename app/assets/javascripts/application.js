@@ -10,6 +10,15 @@ if (typeof Function.empty === 'undefined')
 if (typeof Function.stopPropagation === 'undefined')
   Function.stopPropagation = function(e) {e.stopPropagation()}
 
+window.sequence = (function() {
+  var current = 0
+
+  return function() {
+    current += 1
+    return current
+  }
+}())
+
 define('settings', [], function() {
   return {
     map: {

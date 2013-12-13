@@ -47,7 +47,13 @@ define('comp/location/location',
             address={this.state.address} />
         }
 
-        return locationComponent
+        return (
+          <div className='panel panel-default location-component'>
+            <div className='panel-body'>
+              {locationComponent}
+            </div>
+          </div>
+        )
       }
     })
   })

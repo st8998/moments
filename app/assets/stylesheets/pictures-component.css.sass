@@ -1,0 +1,43 @@
+.pictures-panel-component
+  .panel-body
+    padding: 0
+  .dropzone
+    position: relative
+    height: 500px
+    border: 3px dashed transparent
+
+    .background
+      position: absolute
+      width: 100%
+      height: 100%
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+      text-align: center
+      .hint
+        user-select: none
+        -webkit-user-select: none
+        transition-property: color
+        transition-duration: 0.2s
+        color: transparent
+        font-weight: lighter
+        position: relative
+        top: 100px
+      span.glyphicon
+        transition-property: top, color
+        transition-duration: 0.2s
+        position: relative
+        top: 100px
+        font-size: 1000%
+        color: #f6f6f6
+
+    &:hover, &.dz-drag-hover
+      border-color: #ccc
+
+      .hint
+        display: block
+        color: #aaa
+      span.glyphicon
+        top: 110px
+        color: #ccc
