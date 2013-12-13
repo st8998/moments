@@ -163,10 +163,15 @@ define('comp/location/select_location',
 
       var show
       if (this.props.minimized && address) {
-        show = <div className='address-minimized'>
-          <span className='address-name'>{address.name}</span>,&nbsp;
-          <span className='address-primary-line'>{address.primaryLine().join(', ')}</span>
-        </div>
+        var addressLine = []
+        if (address.name) {
+          show = <div className='address-minimized'>
+            <span className='address-name'>{address.name}</span>,&nbsp;
+            <span className='address-primary-line'>{address.primaryLine().join(', ')}</span>
+          </div>
+        } else {
+          show = <span className='address-primary-line'>{address.primaryLine().join(', ')}</span>
+        }
       } else {
         show = <input onBlur={this.handleNameChange} className='form-control name' defaultValue={address.name} type='text' placeholder='название' name='name' />
       }
