@@ -1,3 +1,5 @@
+//= require comp/common/button_group
+
 /** @jsx React.DOM */
 define('comp/location/select_location',
   ['settings', 'comp/common/button_group', 'models/address'],

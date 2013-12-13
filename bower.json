@@ -4,6 +4,6 @@
     "bootstrap": "latest",
     "almond": "https://raw.github.com/jrburke/almond/master/almond.js",
     "underscore": "http://underscorejs.org/underscore.js",
-    "dropzone": "https://raw.github.com/enyo/dropzone/master/downloads/dropzone.js"
+    "dropzone": "https://raw.github.com/enyo/dropzone/v3.7.4/downloads/dropzone.js"
   }
 }
