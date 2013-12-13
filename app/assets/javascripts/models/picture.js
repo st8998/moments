@@ -1,6 +1,7 @@
 define('models/picture', [], function() {
   function Picture(attrs) {
     _.extend(this, attrs)
+    this._id = window.sequence()
   }
 
   Picture.prototype.extractDropzoneAttrs = function(file) {

@@ -5,16 +5,29 @@
 define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
   var Thumbnails = React.createClass({
+    getDefaultProps: function() {
+      return {onRemove: Function.empty}
+    },
+
+    onRemoveClick: function(pic) {
+      this.props.onRemove(pic)
+    },
+
     render: function() {
       var thumbnails = this.props.pictures.map(function(pic) {
         return (
-          <img src={pic.data} style={pic.getThumbStyle()}/>
+          <li style={pic.getThumbStyle()} key={'picture-'+pic._id}>
+            <img src={pic.data} style={pic.getThumbStyle()}/>
+            <div className='controls'>
+              <span onClick={this.onRemoveClick.bind(this, pic)} className='glyphicon glyphicon-trash' />
+            </div>
+          </li>
         )
-      })
+      }.bind(this))
 
       return (
         <div className='thumbnails'>
-          <div className='thumbnails-line'>{thumbnails}</div>
+          <ul className='thumbnails-line'>{thumbnails}</ul>
         </div>
       )
     }
@@ -41,7 +54,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
       dropzone.on('thumbnail', function(file, data) {
         var pictures = this.state.pictures
-        var picture = new Picture({data: data}).extractDropzoneAttrs(file)
+        var picture = new Picture({data: data, dzFile: file}).extractDropzoneAttrs(file)
         pictures.push(picture)
 
         Picture.fitThumbsInRow(pictures)
@@ -50,6 +63,18 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       }.bind(this))
 
       this.setState({dropzone: dropzone})
+    },
+
+    onPicRemove: function(removedPic) {
+      var pictures = _.reject(this.state.pictures, function(pic) { return removedPic === pic })
+      Picture.fitThumbsInRow(pictures)
+
+      if (removedPic.dzFile)
+        this.state.dropzone.removeFile(removedPic.dzFile)
+
+      console.log(this.state.dropzone.getQueuedFiles())
+
+      this.setState({pictures: pictures})
     },
 
     componentWillUnmount: function() {
@@ -75,7 +100,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
           <div className='panel-body'>
             <div className='dropzone' id={this.props.dropzoneId} key={this.props.dropzoneId}>
               {background}
-              <Thumbnails pictures={this.state.pictures}/>
+              <Thumbnails onRemove={this.onPicRemove} pictures={this.state.pictures}/>
             </div>
           </div>
         </div>
