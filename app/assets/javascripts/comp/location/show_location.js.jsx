@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 define('comp/location/show_location',
-  ['settings', 'jquery', 'models/address'],
-  function(settings, $, Address) {
+  ['settings', 'models/address'],
+  function(settings, Address) {
 
     return React.createClass({
       getDefaultProps: function() {

@@ -177,7 +177,6 @@ define('comp/location/select_location',
 
   var SelectLocation = React.createClass({
     getInitialState: function() {
-      console.log(this.props.address, this.props.address.copy())
       return {address: this.props.address.copy(), mapMode: this.props.mapMode, sidePanelMinimized: true}
     },
 

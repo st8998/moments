@@ -1,10 +1,5 @@
-// unmanageable libs
-//= require react
-//= require underscore
-
 // requirejs manageable libs
 //= require almond
-//= require jquery
 //= require routes
 
 //= require_self
