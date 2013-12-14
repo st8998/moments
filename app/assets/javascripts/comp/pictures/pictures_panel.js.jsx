@@ -3,6 +3,7 @@
 /** @jsx React.DOM */
 
 define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
+  var cx = React.addons.classSet
 
   var Thumbnails = React.createClass({
     getDefaultProps: function() {
@@ -13,24 +14,29 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       this.props.onRemove(pic)
     },
 
-    componentDidMount: function() {
-      $('#'+this.props.lineId).sortable({
-        tolerance: 'intersect',
-        forcePlaceholderSize: true,
-        placeholder: 'sort-placeholder'
-      })
-      $('#'+this.props.lineId).disableSelection()
-    },
-
-    componentWillUnmount: function() {
-      $('#'+this.props.lineId).sortable('destroy')
-    },
-
     render: function() {
       var thumbnails = this.props.pictures.map(function(pic) {
+        var img, progress
+        if (pic.url) {
+          img = <img src={pic.url} style={pic.getThumbStyle()}/>
+        } else if (pic.data) {
+          img = <img src={pic.data} style={pic.getThumbStyle()}/>
+        } else {
+          img = (
+            <div className='no-image' style={pic.getThumbStyle()}>
+              <span className='helper' />
+              <img src='/assets/no_image_thumb.png' />
+            </div>
+          )
+        }
+
+        if (pic.progress)
+          progress = <div className='upload-progress' style={{height: 100-pic.progress+'%', top: pic.progress+'%'}} />
+
         return (
-          <li style={pic.getThumbStyle()} key={'picture-'+pic._id}>
-            <img src={pic.data} style={pic.getThumbStyle()}/>
+          <li style={pic.getThumbStyle()} key={pic.uiId}>
+            {img}
+            {progress}
             <div className='controls'>
               <span onClick={this.onRemoveClick.bind(this, pic)} className='glyphicon glyphicon-trash' />
             </div>
@@ -59,25 +65,52 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
     },
 
     getInitialState: function() {
+      if (this.props.pictures)
+        Picture.fitThumbsInRow(this.props.pictures)
+
       return {pictures: this.props.pictures}
     },
 
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.props.dropzoneId, {
-        url: '/',
-        autoProcessQueue: false,
+        url: Routes.fake_upload_path(),
+        autoProcessQueue: true,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
-        clickable: '#'+this.props.dropzoneId+' .upload-link',
+        clickable: '#'+this.props.dropzoneId,
         resize: Picture.resize
       })
 
-      dropzone.on('thumbnail', function(file, data) {
+      dropzone.on('addedfile', function(file) {
         var pictures = this.state.pictures
-        var picture = new Picture({data: data, dzFile: file}).extractDropzoneAttrs(file)
+        var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
         pictures.push(picture)
 
         Picture.fitThumbsInRow(pictures)
+
+        this.setState({pictures: pictures})
+      }.bind(this))
+
+      dropzone.on('thumbnail', function(file, data) {
+        var pictures = this.state.pictures
+        var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
+
+        picture.data = data
+        picture.progress = 0
+        picture.extractDropzoneAttrs(file)
+
+        Picture.fitThumbsInRow(pictures)
+
+        this.setState({pictures: pictures})
+      }.bind(this))
+
+      dropzone.on('uploadprogress', function(file, progress) {
+        console.log(progress)
+
+        var pictures = this.state.pictures
+        var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
+
+        picture.progress = progress
 
         this.setState({pictures: pictures})
       }.bind(this))
@@ -91,8 +124,6 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
       if (removedPic.dzFile)
         this.state.dropzone.removeFile(removedPic.dzFile)
-
-      console.log(this.state.dropzone.getQueuedFiles())
 
       this.setState({pictures: pictures})
     },

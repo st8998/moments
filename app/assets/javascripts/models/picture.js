@@ -1,7 +1,7 @@
 define('models/picture', [], function() {
   function Picture(attrs) {
     _.extend(this, attrs)
-    this._id = window.sequence()
+    this.uiId = 'pic-'+window.sequence()
   }
 
   Picture.prototype.extractDropzoneAttrs = function(file) {
@@ -15,7 +15,7 @@ define('models/picture', [], function() {
     return {height: this.thHeight || this.height, width: this.thWidth || this.width, left: this.thLeft}
   }
 
-  Picture.maxWidth = 800
+  Picture.maxWidth = 805
   Picture.maxThumbHeight = 531
   Picture.fitThumbsInRow = function(pics) {
     // adapt all images to same height of Picture.maxHeight
