@@ -12,17 +12,19 @@ define('models/picture', [], function() {
   }
 
   Picture.prototype.getThumbStyle = function() {
-    return {height: this.thHeight || this.height, width: this.thWidth || this.width}
+    return {height: this.thHeight || this.height, width: this.thWidth || this.width, left: this.thLeft}
   }
 
-  Picture.maxWidth = 798
+  Picture.maxWidth = 800
   Picture.maxThumbHeight = 531
   Picture.fitThumbsInRow = function(pics) {
     // adapt all images to same height of Picture.maxHeight
     _.each(pics, function(pic) { pic.resizeThumbToHeight(Picture.maxThumbHeight) })
 
     var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
-    var ratio = (Picture.maxWidth - pics.length*2 + 2) / totalWidth
+    var ratio = (Picture.maxWidth - pics.length*3 + 3) / totalWidth
+
+    var offset = 0
 
     // adjust height/width of each images according ratio
     _.each(pics, function(pic) {
@@ -32,6 +34,13 @@ define('models/picture', [], function() {
       // keep watching for maxThumb height
       if (pic.thHeight > Picture.maxThumbHeight)
         pic.resizeThumbToHeight(Picture.maxThumbHeight)
+
+      pic.thWidth = Math.floor(pic.thWidth)
+      pic.thHeight = Math.floor(pic.thHeight)
+
+      // calculate left offset
+      pic.thLeft = offset
+      offset += pic.thWidth + 3
     })
   }
 

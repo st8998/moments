@@ -6,11 +6,24 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
   var Thumbnails = React.createClass({
     getDefaultProps: function() {
-      return {onRemove: Function.empty}
+      return {onRemove: Function.empty, lineId: 'line'+window.sequence()}
     },
 
     onRemoveClick: function(pic) {
       this.props.onRemove(pic)
+    },
+
+    componentDidMount: function() {
+      $('#'+this.props.lineId).sortable({
+        tolerance: 'intersect',
+        forcePlaceholderSize: true,
+        placeholder: 'sort-placeholder'
+      })
+      $('#'+this.props.lineId).disableSelection()
+    },
+
+    componentWillUnmount: function() {
+      $('#'+this.props.lineId).sortable('destroy')
     },
 
     render: function() {
@@ -25,9 +38,16 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         )
       }.bind(this))
 
+      var lineHeight = this.props.pictures[0] ? this.props.pictures[0].thHeight : 0
+
       return (
         <div className='thumbnails'>
-          <ul className='thumbnails-line'>{thumbnails}</ul>
+          <ul
+            style={{height: lineHeight}}
+            className='thumbnails-line'
+            id={this.props.lineId}
+            key={this.props.lineId}>{thumbnails}
+          </ul>
         </div>
       )
     }
@@ -35,7 +55,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
   return React.createClass({
     getDefaultProps: function() {
-      return {dropzoneId: 'dropzone-'+sequence(), pictures: []}
+      return {dropzoneId: 'dropzone-'+window.sequence(), pictures: []}
     },
 
     getInitialState: function() {
@@ -48,7 +68,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         autoProcessQueue: false,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
-        clickable: '#'+this.props.dropzoneId+' .background',
+        clickable: '#'+this.props.dropzoneId+' .upload-link',
         resize: Picture.resize
       })
 
@@ -89,16 +109,18 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
           <div className='background'>
             <span className='glyphicon glyphicon-cloud-upload' />
             <h3 className='hint'>Тащите и бросайте сюда свои фотки</h3>
-            <h4 className='hint sub-hint'>(или кликните для загрузки)</h4>
+            <h4 className='hint sub-hint'>
+              (или <a className='upload-link'>кликните</a> для загрузки)
+            </h4>
           </div>
         )
       }
 
 
       return (
-        <div className='pictures-panel-component panel panel-default'>
+        <div className='pictures-panel-component panel panel-default' id={this.props.dropzoneId} key={this.props.dropzoneId}>
           <div className='panel-body'>
-            <div className='dropzone' id={this.props.dropzoneId} key={this.props.dropzoneId}>
+            <div className='dropzone'>
               {background}
               <Thumbnails onRemove={this.onPicRemove} pictures={this.state.pictures}/>
             </div>
