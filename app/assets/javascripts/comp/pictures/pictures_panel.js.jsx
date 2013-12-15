@@ -139,9 +139,8 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       var pictures = _.reject(this.state.pictures, function(pic) { return removedPic === pic })
       Picture.fitThumbsInRow(pictures)
 
-      // TODO add remove from server feature
       if (removedPic.id)
-        console.log('REMOVING FROM SERVER')
+        $.ajax({url: Routes.picture_path(removedPic.id), method: 'delete'})
 
       if (removedPic.dzFile)
         this.state.dropzone.removeFile(removedPic.dzFile)

@@ -13,6 +13,12 @@ class PicturesController < ApplicationController
     render 'api/picture'
   end
 
+  def destroy
+    if picture.destroy
+      render nothing: true
+    end
+  end
+
   private
   def picture_params
     params.require(:picture).permit(:image)
