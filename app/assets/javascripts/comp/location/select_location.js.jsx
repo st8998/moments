@@ -265,6 +265,7 @@ define('comp/location/select_location',
       var address = this.state.address
       if (address.lat && address.lng) {
         map.setCenter(address.getLatLng())
+        map.setZoom(address.zoomLevel())
       } else {
         map.setCenter(this.props.mapCenter)
       }

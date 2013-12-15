@@ -20,6 +20,8 @@ define('models/picture', [], function() {
   }
 
   Picture.prototype.getUrl = function() {
+    if (this.image_url_normal && (this.thHeight > 512 || this.thWidth > 512))
+      return this.image_url_normal
     if (this.image_url_small)
       return this.image_url_small
     if (this.image_data)

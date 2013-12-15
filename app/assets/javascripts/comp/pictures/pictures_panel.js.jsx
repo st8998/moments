@@ -21,27 +21,29 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
           img = <img src={pic.getUrl()} style={pic.getThumbStyle()}/>
         } else if (pic.data) {
           img = <img src={pic.data} style={pic.getThumbStyle()}/>
-        } else {
-          img = (
-            <div className='no-image' style={pic.getThumbStyle()}>
-              <span className='helper' />
-              <img src='/assets/no_image_thumb.png' />
-            </div>
-          )
         }
+//        else {
+//          img = (
+//            <div className='no-image' style={pic.getThumbStyle()}>
+//              <span className='helper' />
+//              <img src='/assets/no_image_thumb.png' />
+//            </div>
+//          )
+//        }
 
         if (pic.progress)
           progress = <div className='upload-progress' style={{height: 100-pic.progress+'%', top: pic.progress+'%'}} />
 
-        return (
-          <li style={pic.getThumbStyle()} key={pic.uiId}>
-            {img}
-            {progress}
-            <div className='controls'>
-              <span onClick={this.onRemoveClick.bind(this, pic)} className='glyphicon glyphicon-trash' />
-            </div>
-          </li>
-        )
+        if (img)
+          return (
+            <li style={pic.getThumbStyle()} key={pic.uiId}>
+              {img}
+              {progress}
+              <div className='controls'>
+                <span onClick={this.onRemoveClick.bind(this, pic)} className='glyphicon glyphicon-trash' />
+              </div>
+            </li>
+          )
       }.bind(this))
 
       var lineHeight = this.props.pictures[0] ? this.props.pictures[0].thHeight : 0
@@ -87,7 +89,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
         pictures.push(picture)
 
-        Picture.fitThumbsInRow(pictures)
+//        Picture.fitThumbsInRow(pictures)
 
         this.setState({pictures: pictures})
       }.bind(this))
@@ -96,41 +98,53 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         var pictures = this.state.pictures
         var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
 
-        picture.image_data = data
-        picture.progress = 0
-        picture.extractDropzoneAttrs(file)
+        // on fast upload speed thumbnail can be generated after upload finish
+        // do nothing in this case
+        if (picture) {
+          picture.image_data = data
+          picture.progress = 0
+          picture.extractDropzoneAttrs(file)
 
-        Picture.fitThumbsInRow(pictures)
+          Picture.fitThumbsInRow(pictures)
 
-        this.setState({pictures: pictures})
+          this.setState({pictures: pictures})
+        }
       }.bind(this))
 
       dropzone.on('uploadprogress', function(file, progress) {
         var pictures = this.state.pictures
         var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
 
-        picture.progress = progress
+        // uer can remove photo before upload will be finished
+        if (picture) {
+          picture.progress = progress
 
-        this.setState({pictures: pictures})
+          this.setState({pictures: pictures})
+        }
       }.bind(this))
 
       dropzone.on('success', function(file, picAttrs) {
+        console.log('success')
+
         var pictures = this.state.pictures
         var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
 
-        // remove any progress elements
-        delete picture.progress
+        // uer can remove photo before upload will be finished
+        if (picture) {
+          // remove any progress elements
+          delete picture.progress
 
-        // remove temporary thumbnail data
-        delete picture.image_data
+          // remove temporary thumbnail data
+          delete picture.image_data
 
-        // remove dropzone file info
-        delete picture.dzFile
+          // remove dropzone file info
+          delete picture.dzFile
 
-        picture.assignAttributes(picAttrs)
+          picture.assignAttributes(picAttrs)
 
-        this.setState({pictures: pictures})
-        this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
+          this.setState({pictures: pictures})
+          this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
+        }
       }.bind(this))
 
       this.setState({dropzone: dropzone})

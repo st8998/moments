@@ -27,7 +27,7 @@ define('models/address', ['settings'], function(settings) {
     administrative_area_level_1: 8,
     locality: 11,
     route: 15,
-    street_number: 18
+    street_number: 17
   }
 
   /**
@@ -41,7 +41,7 @@ define('models/address', ['settings'], function(settings) {
       key: settings.map.key,
       size: '350x150',
       scale: 1,
-      zoom: this.zoomLevel() - 2,
+      zoom: this.zoomLevel() - 1,
       center: ''+this.lat+','+this.lng,
       sensor: false,
       markers: 'color:red|'+this.lat+','+this.lng

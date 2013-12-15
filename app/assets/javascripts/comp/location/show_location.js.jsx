@@ -23,7 +23,7 @@ define('comp/location/show_location',
 
           addressComp =
             <div className='map-with-address'>
-              <img className='map' src={address.imageUrl()} />
+              <img className='map' src={address.imageUrl()} onClick={this.props.onEditLocation} />
               <div className='address'>
                 <h3 className='name'>
                   <input className='address-name' type='text' placeholder='название'
