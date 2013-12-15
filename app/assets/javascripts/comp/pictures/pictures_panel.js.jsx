@@ -89,8 +89,6 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
         pictures.push(picture)
 
-//        Picture.fitThumbsInRow(pictures)
-
         this.setState({pictures: pictures})
       }.bind(this))
 
@@ -102,7 +100,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         // do nothing in this case
         if (picture) {
           picture.image_data = data
-          picture.progress = 0
+          picture.progress = 0.01 // trick to force progress be truthy value
           picture.extractDropzoneAttrs(file)
 
           Picture.fitThumbsInRow(pictures)
@@ -141,6 +139,8 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
           delete picture.dzFile
 
           picture.assignAttributes(picAttrs)
+
+          Picture.fitThumbsInRow(pictures)
 
           this.setState({pictures: pictures})
           this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
