@@ -77,7 +77,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         autoProcessQueue: true,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
-        clickable: '#'+this.props.dropzoneId,
+        clickable: '#'+this.props.dropzoneId+' .background',
         resize: Picture.resize
       })
 
@@ -145,8 +145,9 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
             </h4>
           </div>
         )
+      } else {
+        background = <div className='background' />
       }
-
 
       return (
         <div className='pictures-panel-component panel panel-default' id={this.props.dropzoneId} key={this.props.dropzoneId}>
