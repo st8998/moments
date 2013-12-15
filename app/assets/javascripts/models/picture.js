@@ -1,4 +1,27 @@
 define('models/picture', [], function() {
+
+  /**
+   * @property {Number} id server side picture id
+   * @property {String} description
+   * @property {Number} width original image width
+   * @property {Number} height original image height
+   * @property {String} image_url_small 512x512 image url
+   * @property {String} image_url_normal 1024x1024 image url
+   * @property {String} image_url_big 2048x2048 image url
+   *
+   * @property {String} uiId uniq ui id
+   * @property {Number} thWeight thumbnail width
+   * @property {Number} thHeight thumbnail height
+   * @property {Number} thLeft thumbnail left offset
+   * @property {Number} thTop thumbnail top offset
+   * @property {String} image_data thumbnail base64 image string
+   * @property {Number} progress current upload progress
+   * @property {object} dzFile dropzone file model link
+   *
+   *
+   * @param {object} attrs picture attributes
+   * @constructor
+   */
   function Picture(attrs) {
     _.extend(this, attrs)
     this.uiId = 'pic-'+window.sequence()

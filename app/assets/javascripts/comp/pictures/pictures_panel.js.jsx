@@ -22,14 +22,6 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         } else if (pic.data) {
           img = <img src={pic.data} style={pic.getImageStyle()}/>
         }
-//        else {
-//          img = (
-//            <div className='no-image' style={pic.getThumbStyle()}>
-//              <span className='helper' />
-//              <img src='/assets/no_image_thumb.png' />
-//            </div>
-//          )
-//        }
 
         if (pic.progress)
           progress = <div className='upload-progress' style={{height: 100-pic.progress+'%', top: pic.progress+'%'}} />
@@ -122,8 +114,6 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       }.bind(this))
 
       dropzone.on('success', function(file, picAttrs) {
-        console.log('success')
-
         var pictures = this.state.pictures
         var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
 
