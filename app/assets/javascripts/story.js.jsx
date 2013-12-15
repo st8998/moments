@@ -18,6 +18,10 @@ function(Location, PicturesPanel, Address) {
     country: 'Россия'
   })
 
+  function log(data) {
+    console.log(data)
+  }
+
   var Story = React.createClass({
     getInitialState: function() {
       return {address: this.props.address}
@@ -32,8 +36,8 @@ function(Location, PicturesPanel, Address) {
         <div className='story'>
           <h1>STORY IS EDITING HERE</h1>
           <h3>RIGHT NOW</h3>
-          <PicturesPanel />
-          <Location address={this.state.address} />
+          <PicturesPanel onPicturesChange={log} />
+          <Location address={this.state.address} onAddressChange={log} />
         </div>
         )
     }

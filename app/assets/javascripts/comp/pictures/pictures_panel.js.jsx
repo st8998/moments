@@ -61,7 +61,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
   return React.createClass({
     getDefaultProps: function() {
-      return {dropzoneId: 'dropzone-'+window.sequence(), pictures: []}
+      return {dropzoneId: 'dropzone-'+window.sequence(), pictures: [], onPicturesChange: Function.empty}
     },
 
     getInitialState: function() {
@@ -130,6 +130,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         picture.assignAttributes(picAttrs)
 
         this.setState({pictures: pictures})
+        this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
       }.bind(this))
 
       this.setState({dropzone: dropzone})
@@ -146,6 +147,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         this.state.dropzone.removeFile(removedPic.dzFile)
 
       this.setState({pictures: pictures})
+      this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
     },
 
     componentWillUnmount: function() {
