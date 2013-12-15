@@ -29,14 +29,13 @@ GEM
     atomic (1.1.14)
     bcrypt-ruby (3.0.1)
     builder (3.1.4)
-    carrierwave (0.9.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     daemons (1.1.9)
     decent_exposure (2.3.0)
+    dragonfly (1.0.1)
+      multi_json (~> 1.0)
+      rack
     elasticsearch (0.4.1)
       elasticsearch-api (= 0.4.1)
       elasticsearch-transport (= 0.4.1)
@@ -145,8 +144,8 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
-  carrierwave
   decent_exposure
+  dragonfly
   elasticsearch
   jquery-rails
   js_routes

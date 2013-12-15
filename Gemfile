@@ -19,7 +19,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'sucker_punch'
 gem 'rails-observers'
 gem 'elasticsearch'
-gem 'carrierwave'
+gem 'dragonfly'
 gem 'mini_magick'
 
 # controller

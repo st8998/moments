@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131202102455) do
+ActiveRecord::Schema.define(version: 20131215074841) do
 
   create_table "moments", force: true do |t|
     t.float    "lat",         limit: 255
@@ -25,9 +25,29 @@ ActiveRecord::Schema.define(version: 20131202102455) do
 
   create_table "pictures", force: true do |t|
     t.text     "description"
-    t.string   "file"
+    t.string   "file_uid"
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "width"
+    t.integer  "height"
+    t.integer  "th_width"
+    t.integer  "th_height"
+    t.integer  "th_left"
+  end
+
+  create_table "places", force: true do |t|
+    t.string   "name"
+    t.float    "lat"
+    t.float    "lng"
+    t.string   "country"
+    t.string   "administrative_area_level_2"
+    t.string   "administrative_area_level_1"
+    t.string   "locality"
+    t.string   "route"
+    t.string   "street_number"
+    t.string   "postal_code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -37,7 +57,7 @@ ActiveRecord::Schema.define(version: 20131202102455) do
     t.string   "password_salt"
     t.string   "name"
     t.boolean  "admin",         default: false
-    t.string   "avatar"
+    t.string   "avatar_uid"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
