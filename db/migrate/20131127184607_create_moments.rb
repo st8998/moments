@@ -1,8 +1,8 @@
 class CreateMoments < ActiveRecord::Migration
   def change
     create_table :moments do |t|
-      t.string :lat
-      t.string :lng
+      t.float :lat
+      t.float :lng
       t.string :title
 
       t.text :description

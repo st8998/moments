@@ -13,9 +13,12 @@
 
 ActiveRecord::Schema.define(version: 20131215083917) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "moments", force: true do |t|
-    t.float    "lat",         limit: 255
-    t.float    "lng",         limit: 255
+    t.float    "lat"
+    t.float    "lng"
     t.string   "title"
     t.text     "description"
     t.datetime "date"
