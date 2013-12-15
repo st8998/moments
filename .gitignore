@@ -17,7 +17,6 @@
 
 .idea
 
-/public/pictures
-/public/avatars
+/public/system
 
 vendor/assets/components

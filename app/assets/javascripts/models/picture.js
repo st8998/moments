@@ -4,6 +4,10 @@ define('models/picture', [], function() {
     this.uiId = 'pic-'+window.sequence()
   }
 
+  Picture.prototype.assignAttributes = function(attrs) {
+    _.extend(this, attrs)
+  }
+
   Picture.prototype.extractDropzoneAttrs = function(file) {
     var resizeInfo = Picture.resize(file)
     this.width = resizeInfo.trgWidth
@@ -13,6 +17,13 @@ define('models/picture', [], function() {
 
   Picture.prototype.getThumbStyle = function() {
     return {height: this.thHeight || this.height, width: this.thWidth || this.width, left: this.thLeft}
+  }
+
+  Picture.prototype.getUrl = function() {
+    if (this.image_url_small)
+      return this.image_url_small
+    if (this.image_data)
+      return this.image_data
   }
 
   Picture.maxWidth = 805

@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  decent_configuration do
+    strategy DecentExposure::StrongParametersStrategy
+  end
+
   def redirect_back_or(default, opts = {})
     redirect_to(session.delete(:return_to) || default, opts)
   end

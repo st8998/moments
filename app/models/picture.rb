@@ -1,6 +1,6 @@
 class Picture < ActiveRecord::Base
   extend Dragonfly::Model
-  dragonfly_accessor :file
+  dragonfly_accessor :image
 
   # versions
   # big - thumb('2048x2048')

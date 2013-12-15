@@ -17,8 +17,8 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
     render: function() {
       var thumbnails = this.props.pictures.map(function(pic) {
         var img, progress
-        if (pic.url) {
-          img = <img src={pic.url} style={pic.getThumbStyle()}/>
+        if (pic.getUrl()) {
+          img = <img src={pic.getUrl()} style={pic.getThumbStyle()}/>
         } else if (pic.data) {
           img = <img src={pic.data} style={pic.getThumbStyle()}/>
         } else {
@@ -73,7 +73,8 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.props.dropzoneId, {
-        url: Routes.fake_upload_path(),
+        paramName: 'picture[image]',
+        url: Routes.pictures_path(),
         autoProcessQueue: true,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
@@ -95,7 +96,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
         var pictures = this.state.pictures
         var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
 
-        picture.data = data
+        picture.image_data = data
         picture.progress = 0
         picture.extractDropzoneAttrs(file)
 
@@ -105,12 +106,28 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       }.bind(this))
 
       dropzone.on('uploadprogress', function(file, progress) {
-        console.log(progress)
-
         var pictures = this.state.pictures
         var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
 
         picture.progress = progress
+
+        this.setState({pictures: pictures})
+      }.bind(this))
+
+      dropzone.on('success', function(file, picAttrs) {
+        var pictures = this.state.pictures
+        var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
+
+        // remove any progress elements
+        delete picture.progress
+
+        // remove temporary thumbnail data
+        delete picture.image_data
+
+        // remove dropzone file info
+        delete picture.dzFile
+
+        picture.assignAttributes(picAttrs)
 
         this.setState({pictures: pictures})
       }.bind(this))
@@ -121,6 +138,10 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
     onPicRemove: function(removedPic) {
       var pictures = _.reject(this.state.pictures, function(pic) { return removedPic === pic })
       Picture.fitThumbsInRow(pictures)
+
+      // TODO add remove from server feature
+      if (removedPic.id)
+        console.log('REMOVING FROM SERVER')
 
       if (removedPic.dzFile)
         this.state.dropzone.removeFile(removedPic.dzFile)
