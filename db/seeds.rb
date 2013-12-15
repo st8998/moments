@@ -13,11 +13,6 @@ User.find_or_create_by(name: 'Ольк') do |model|
   model.admin = true
 end
 
-# demo picture
-Picture.create(image: File.open(Rails.root.join('db/data/201311272259-DSC03771.jpg')))
-Picture.create(image: File.open(Rails.root.join('db/data/201311272301-DSC03788.jpg')))
-
-
 # this project developing moment
 #Moment.find_or_create_by(title: 'Момент зарождения проекта "Moments"') do |model|
 #  model.description = 'Сижу на ковре, подаренным Вовкой. Играет Влади & Каста Ясно!. Ольга рисует чайники и любит кнедлика. Медленно, но верно проект приобреат призрачные очертания.'

@@ -1,4 +1,8 @@
 namespace :db do
+  task :clear_uploads do
+    FileUtils.rm_r(Dragonfly.app.datastore.root_path)
+  end
+
   task :drop_search_index do
     client = Elasticsearch::Client.new(log: true)
 
@@ -9,5 +13,6 @@ namespace :db do
     end
   end
 
+  Rake::Task["db:drop"].enhance [:clear_uploads]
   Rake::Task["db:drop"].enhance [:drop_search_index]
 end
