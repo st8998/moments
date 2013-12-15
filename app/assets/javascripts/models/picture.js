@@ -15,8 +15,20 @@ define('models/picture', [], function() {
     return this
   }
 
-  Picture.prototype.getThumbStyle = function() {
-    return {height: this.thHeight || this.height, width: this.thWidth || this.width, left: this.thLeft}
+  Picture.prototype.getContainerStyle = function() {
+    return {
+      height: this.thHeight || this.height,
+      width: this.thWidth || this.width,
+      left: this.thLeft || 0
+    }
+  }
+
+  Picture.prototype.getImageStyle = function() {
+    return {
+      height: this.thTop ? (this.thHeight - this.thTop*2) : this.thHeight || this.height,
+      width: this.thWidth || this.width,
+      top: this.thTop || 0
+    }
   }
 
   Picture.prototype.getUrl = function() {
@@ -28,33 +40,57 @@ define('models/picture', [], function() {
       return this.image_data
   }
 
-  Picture.maxWidth = 805
-  Picture.maxThumbHeight = 531
+  Picture.maxWidth = 800
+  Picture.maxThumbHeight = 500
+  Picture.enhanceRatio = 0.6
   Picture.fitThumbsInRow = function(pics) {
     // adapt all images to same height of Picture.maxHeight
     _.each(pics, function(pic) { pic.resizeThumbToHeight(Picture.maxThumbHeight) })
 
     var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
-    var ratio = (Picture.maxWidth - pics.length*3 + 3) / totalWidth
+
+    // +2px is visual enhancements to cover gap after flooring
+    // 3px is a gap between two images
+    var ratio = (Picture.maxWidth + 2 - (pics.length - 1)*3) / totalWidth
 
     var offset = 0
 
     // adjust height/width of each images according ratio
+    // clean up any enhancements
     _.each(pics, function(pic) {
-      pic.thWidth = pic.thWidth * ratio
-      pic.thHeight = pic.thHeight * ratio
+      // remove any top offset optimization
+      pic.thTop = 0
+
+      pic.thWidth = Math.floor(pic.thWidth * ratio)
+      pic.thHeight = Math.floor(pic.thHeight * ratio)
 
       // keep watching for maxThumb height
       if (pic.thHeight > Picture.maxThumbHeight)
         pic.resizeThumbToHeight(Picture.maxThumbHeight)
+    })
 
-      pic.thWidth = Math.floor(pic.thWidth)
-      pic.thHeight = Math.floor(pic.thHeight)
+    // try to enhance row if it is narrower then row width
+    Picture.enhanceThumbsInRow(pics)
 
-      // calculate left offset
+    // calculate left offset
+    _.each(pics, function(pic) {
       pic.thLeft = offset
       offset += pic.thWidth + 3
     })
+  }
+
+  Picture.enhanceThumbsInRow = function(pics) {
+    var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
+    var ratio = totalWidth / (Picture.maxWidth + 2 - (pics.length - 1)*3)
+
+    // if total width more then Picture.enhanceRatio of row width
+    // crop all images center weighted
+    if (Picture.enhanceRatio < ratio && ratio < 0.99) {
+      _.each(pics, function(pic) {
+        pic.thWidth = Math.floor(pic.thWidth / ratio)
+        pic.thTop = -Math.floor((pic.thHeight / ratio - pic.thHeight) / 2)
+      })
+    }
   }
 
   Picture.prototype.resizeThumbToHeight = function(toHeight) {

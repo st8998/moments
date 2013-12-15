@@ -18,9 +18,9 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       var thumbnails = this.props.pictures.map(function(pic) {
         var img, progress
         if (pic.getUrl()) {
-          img = <img src={pic.getUrl()} style={pic.getThumbStyle()}/>
+          img = <img src={pic.getUrl()} style={pic.getImageStyle()}/>
         } else if (pic.data) {
-          img = <img src={pic.data} style={pic.getThumbStyle()}/>
+          img = <img src={pic.data} style={pic.getImageStyle()}/>
         }
 //        else {
 //          img = (
@@ -36,7 +36,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
         if (img)
           return (
-            <li style={pic.getThumbStyle()} key={pic.uiId}>
+            <li style={pic.getContainerStyle()} key={pic.uiId}>
               {img}
               {progress}
               <div className='controls'>
