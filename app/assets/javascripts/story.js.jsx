@@ -5,8 +5,8 @@
 /** @jsx React.DOM */
 
 require(
-['comp/location/location', 'comp/pictures/pictures_panel', 'models/address'],
-function(Location, PicturesPanel, Address) {
+['comp/location/location', 'comp/pictures/pictures_panel', 'models/address', 'models/picture'],
+function(Location, PicturesPanel, Address, Picture) {
   var smileClub = new Address({
     lat: 53.21651837219011,
     lng: 50.15031337738037,
@@ -24,11 +24,11 @@ function(Location, PicturesPanel, Address) {
 
   var Story = React.createClass({
     getInitialState: function() {
-      return {address: this.props.address}
+      return {address: this.props.address, pictures: this.props.pictures}
     },
 
     getDefaultProps: function() {
-      return {address: new Address()}
+      return {address: new Address(), pictures: []}
     },
 
     render: function() {
@@ -36,13 +36,17 @@ function(Location, PicturesPanel, Address) {
         <div className='story'>
           <h1>STORY IS EDITING HERE</h1>
           <h3>RIGHT NOW</h3>
-          <PicturesPanel onPicturesChange={log} />
+          <PicturesPanel onPicturesChange={log} pictures={this.state.pictures} />
           <Location address={this.state.address} onAddressChange={log} />
         </div>
         )
     }
   })
 
-  React.renderComponent(<Story address={smileClub} />, document.querySelector('#content'))
+  $.get(Routes.pictures_path({format: 'json'}), function(data) {
+    var pictures = _.map(data, function(attrs) { return new Picture(attrs) })
+    React.renderComponent(<Story address={smileClub} pictures={pictures} />, document.querySelector('#content'))
+  }.bind(this))
+
 })
 

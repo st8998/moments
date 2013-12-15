@@ -2,6 +2,7 @@ class PicturesController < ApplicationController
   respond_to :json
 
   expose :picture, attributes: :picture_params
+  expose :pictures
 
   def create
     if picture.save
@@ -20,6 +21,7 @@ class PicturesController < ApplicationController
   end
 
   private
+
   def picture_params
     params.require(:picture).permit(:image)
   end
