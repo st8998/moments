@@ -3,3 +3,4 @@
 //= require underscore
 //= require dropzone
 //= require jquery
+//= require marked
