@@ -9,5 +9,5 @@ Moments::Application.routes.draw do
   post :login, to: 'sessions#create'
   delete :logout, to: 'sessions#destroy'
 
-  mount API::App => '/api'
+  mount AppEndpoint, at: '/api'
 end
