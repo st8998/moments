@@ -1,8 +1,6 @@
 Moments::Application.routes.draw do
   root 'stories#new'
 
-  resources :users, only: [:index]
-
   resources :stories
 
   get :login, to: 'sessions#new'

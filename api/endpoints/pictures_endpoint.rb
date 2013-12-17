@@ -1,5 +1,5 @@
 class PicturesEndpoint < Grape::API
-  resource :pictures do
+  namespace 'pictures' do
     get do
       present Picture.all, with: PictureEntity
     end

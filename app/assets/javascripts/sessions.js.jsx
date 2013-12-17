@@ -2,7 +2,7 @@
 $(function() {
   var cx = React.addons.classSet
 
-  $.get(Routes.users_path({format: 'json'})).success(function(users) {
+  $.get('/api/v1/users').success(function(users) {
     var LoginForm = React.createClass({
       getInitialState: function() {
         return {activeUserId: null}
