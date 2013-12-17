@@ -1,1 +1,0 @@
-attributes :id, :title, :description, :date, :lat, :lng

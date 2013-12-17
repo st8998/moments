@@ -67,8 +67,8 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
 
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.props.dropzoneId, {
-        paramName: 'picture[image]',
-        url: Routes.pictures_path(),
+        paramName: 'image',
+        url: '/api/v1/pictures/upload',
         autoProcessQueue: true,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
@@ -145,7 +145,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       Picture.fitThumbsInRow(pictures)
 
       if (removedPic.id)
-        $.ajax({url: Routes.picture_path(removedPic.id), method: 'delete'})
+        $.ajax({url: '/api/v1/pictures/'+removedPic.id, method: 'delete'})
 
       if (removedPic.dzFile)
         this.state.dropzone.removeFile(removedPic.dzFile)

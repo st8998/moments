@@ -30,6 +30,8 @@ gem 'decent_exposure'
 # api
 gem 'rabl'
 gem 'oj'
+gem 'grape'
+gem 'grape-entity'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

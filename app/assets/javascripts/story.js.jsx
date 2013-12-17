@@ -43,7 +43,7 @@ function(Location, PicturesPanel, Address, Picture) {
     }
   })
 
-  $.get(Routes.pictures_path({format: 'json'}), function(data) {
+  $.get('/api/v1/pictures', function(data) {
     var pictures = _.map(data, function(attrs) { return new Picture(attrs) })
     React.renderComponent(<Story address={smileClub} pictures={pictures} />, document.querySelector('#content'))
   }.bind(this))
