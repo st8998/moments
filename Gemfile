@@ -28,7 +28,6 @@ gem 'mini_magick'
 gem 'decent_exposure'
 
 # api
-gem 'rabl'
 gem 'oj'
 gem 'grape'
 gem 'grape-entity'
