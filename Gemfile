@@ -32,6 +32,9 @@ gem 'oj'
 gem 'grape'
 gem 'grape-entity'
 
+# monitoring
+gem 'newrelic_rpm'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
