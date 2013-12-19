@@ -4,6 +4,7 @@
 
 define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
   var cx = React.addons.classSet
+  var accountKey = Cookies.get('akey')
 
   var Thumbnails = React.createClass({
     getDefaultProps: function() {
@@ -68,7 +69,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.props.dropzoneId, {
         paramName: 'image',
-        url: '/api/v1/pictures/upload',
+        url: '/api/v1/'+accountKey+'/pictures/upload',
         autoProcessQueue: true,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
@@ -145,7 +146,7 @@ define('comp/pictures/pictures_panel', ['models/picture'], function(Picture) {
       Picture.fitThumbsInRow(pictures)
 
       if (removedPic.id)
-        $.ajax({url: '/api/v1/pictures/'+removedPic.id, method: 'delete'})
+        $.ajax({url: '/api/v1/'+accountKey+'/pictures/'+removedPic.id, method: 'delete'})
 
       if (removedPic.dzFile)
         this.state.dropzone.removeFile(removedPic.dzFile)

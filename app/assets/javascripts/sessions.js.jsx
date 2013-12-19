@@ -2,7 +2,9 @@
 $(function() {
   var cx = React.addons.classSet
 
-  $.get('/api/v1/users').success(function(users) {
+  var accountKey = Cookies.get('akey')
+
+  $.get('/api/v1/'+accountKey+'/users').success(function(users) {
     var LoginForm = React.createClass({
       getInitialState: function() {
         return {activeUserId: null}

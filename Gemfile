@@ -25,7 +25,6 @@ gem 'dragonfly'
 gem 'mini_magick'
 
 # controller
-gem 'decent_exposure'
 
 # api
 gem 'oj'

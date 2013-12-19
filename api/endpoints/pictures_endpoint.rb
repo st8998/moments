@@ -1,7 +1,13 @@
 class PicturesEndpoint < Grape::API
-  namespace 'pictures' do
+  namespace '/:account_key/pictures' do
+    helpers do
+      def pictures
+        Account.find_by(key: params[:account_key]).pictures
+      end
+    end
+
     get do
-      present Picture.all, with: PictureEntity
+      present pictures, with: PictureEntity
     end
 
     params do
@@ -10,10 +16,10 @@ class PicturesEndpoint < Grape::API
 
     route_param :id do
       get do
-        present Picture.find(params[:id]), with: PictureEntity
+        present pictures.find(params[:id]), with: PictureEntity
       end
       delete do
-        Picture.find(params[:id]).destroy
+        pictures.find(params[:id]).destroy
         'ok'
       end
     end
@@ -22,7 +28,7 @@ class PicturesEndpoint < Grape::API
       requires :image
     end
     post 'upload' do
-      present Picture.create(image: params[:image]), with: PictureEntity
+      present pictures.create(image: params[:image]), with: PictureEntity
     end
   end
 end

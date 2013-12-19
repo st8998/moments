@@ -37,7 +37,6 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     daemons (1.1.9)
-    decent_exposure (2.3.0)
     descendants_tracker (0.0.3)
     dragonfly (1.0.1)
       multi_json (~> 1.0)
@@ -178,7 +177,6 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
-  decent_exposure
   dragonfly
   elasticsearch
   grape

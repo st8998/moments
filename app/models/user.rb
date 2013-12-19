@@ -19,6 +19,5 @@ class User < ActiveRecord::Base
     end
   end
 
-  scope :admin, -> { where(admin: true) }
-
+  belongs_to :account
 end

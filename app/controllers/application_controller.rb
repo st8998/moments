@@ -8,19 +8,17 @@ class ApplicationController < ActionController::Base
   hide_action :current_user
   helper_method :current_user
 
+  before_action do
+    if params[:account_key]
+      cookies[:akey] = params[:account_key]
+    end
+  end
+
   def current_user
     @current_user ||= User.find_by(id: cookies.signed[:id]) if cookies[:id]
   end
 
-  def fake_upload
-    render nothing: true
-  end
-
   private
-
-  decent_configuration do
-    strategy DecentExposure::StrongParametersStrategy
-  end
 
   def redirect_back_or(default, opts = {})
     redirect_to(session.delete(:return_to) || default, opts)

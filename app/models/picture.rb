@@ -10,4 +10,5 @@ class Picture < ActiveRecord::Base
   # square - thumb('200x200#')
 
   belongs_to :owner, polymorphic: true
+  belongs_to :account
 end

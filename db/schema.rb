@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131215083917) do
+ActiveRecord::Schema.define(version: 20131219083515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: true do |t|
+    t.string   "key"
+    t.boolean  "demo",       default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "moments", force: true do |t|
     t.float    "lat"
@@ -35,6 +42,7 @@ ActiveRecord::Schema.define(version: 20131215083917) do
     t.datetime "updated_at"
     t.integer  "image_width"
     t.integer  "image_height"
+    t.integer  "account_id"
   end
 
   create_table "places", force: true do |t|
@@ -50,6 +58,7 @@ ActiveRecord::Schema.define(version: 20131215083917) do
     t.string   "postal_code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_id"
   end
 
   create_table "users", force: true do |t|
@@ -60,6 +69,7 @@ ActiveRecord::Schema.define(version: 20131215083917) do
     t.string   "avatar_uid"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "account_id"
   end
 
 end
