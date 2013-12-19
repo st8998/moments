@@ -7,6 +7,8 @@ class CreateAccounts < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :accounts, :key, unique: true
+
     add_column :users, :account_id, :integer
     add_column :pictures, :account_id, :integer
     add_column :places, :account_id, :integer

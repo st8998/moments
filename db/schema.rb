@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 20131219083515) do
     t.datetime "updated_at"
   end
 
+  add_index "accounts", ["key"], name: "index_accounts_on_key", unique: true, using: :btree
+
   create_table "moments", force: true do |t|
     t.float    "lat"
     t.float    "lng"
