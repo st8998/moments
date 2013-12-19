@@ -1,5 +1,5 @@
 Moments::Application.routes.draw do
-  root 'stories#new'
+  root to: redirect('/st8998/stories/new')
 
   scope path: '/:account_key' do
     resources :stories
