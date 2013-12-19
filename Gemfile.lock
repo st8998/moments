@@ -81,8 +81,6 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    mini_magick (3.7.0)
-      subexec (~> 0.2.1)
     minitest (4.7.5)
     multi_json (1.8.2)
     multi_xml (0.5.5)
@@ -146,7 +144,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    subexec (0.2.3)
     sucker_punch (1.0.2)
       celluloid (~> 0.15.1)
     temple (0.6.7)
@@ -183,7 +180,6 @@ DEPENDENCIES
   grape-entity
   jquery-rails
   js_routes
-  mini_magick
   newrelic-grape
   newrelic_rpm
   oj

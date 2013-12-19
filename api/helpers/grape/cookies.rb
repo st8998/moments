@@ -9,7 +9,7 @@ module Grape
         @_cookie_jar.write(header)
       end
 
-      delegate :[], :[]=, :signed, :encrypted, :permanent, to: :@_cookie_jar
+      delegate :[], :[]=, :signed, :permanent, to: :@_cookie_jar
     end
 
     def cookies

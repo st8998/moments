@@ -22,7 +22,6 @@ gem 'sucker_punch'
 gem 'rails-observers'
 gem 'elasticsearch'
 gem 'dragonfly'
-gem 'mini_magick'
 
 # controller
 
