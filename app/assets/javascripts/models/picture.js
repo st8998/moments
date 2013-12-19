@@ -1,3 +1,4 @@
+
 define('models/picture', [], function() {
 
   /**

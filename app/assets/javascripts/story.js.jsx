@@ -5,8 +5,8 @@
 /** @jsx React.DOM */
 
 require(
-['comp/location/location', 'comp/pictures/pictures_panel', 'models/address', 'models/picture'],
-function(Location, PicturesPanel, Address, Picture) {
+['comp/pictures/pictures_panel', 'models/address', 'models/picture'],
+function(PicturesPanel, Address, Picture) {
 
   var accountKey = Cookies.get('akey')
   var smileClub = new Address({
@@ -39,7 +39,6 @@ function(Location, PicturesPanel, Address, Picture) {
           <h1>STORY IS EDITING HERE</h1>
           <h3>RIGHT NOW</h3>
           <PicturesPanel onPicturesChange={log} pictures={this.state.pictures} />
-          <Location address={this.state.address} onAddressChange={log} />
         </div>
         )
     }
