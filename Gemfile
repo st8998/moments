@@ -2,8 +2,7 @@ ruby '2.0.0'
 
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.0.0'
+gem 'rails', '~> 4.1.0.beta1'
 
 # database
 gem 'pg'
@@ -14,7 +13,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'slim'
 gem 'react-rails'
 gem 'jquery-rails'
-gem 'js_routes'
 
 # infrastructure
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -40,6 +38,7 @@ group :doc do
 end
 
 group :development do
+  gem 'spring'
   gem 'thin'
   gem 'quiet_assets'
 end

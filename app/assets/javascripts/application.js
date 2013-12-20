@@ -1,6 +1,5 @@
 // requirejs manageable libs
 //= require almond
-//= require routes
 
 //= require_self
 
