@@ -64,20 +64,15 @@ define('models/picture', [], function() {
       return this.image_data
   }
 
-  Picture.maxWidth = 800
-  Picture.maxThumbHeight = 500
-  Picture.enhanceRatio = 0.6
-  Picture.fitThumbsInRow = function(pics) {
+  Picture.fitInRow = function(pics, maxWidth, maxHeight) {
     // adapt all images to same height of Picture.maxHeight
-    _.each(pics, function(pic) { pic.resizeThumbToHeight(Picture.maxThumbHeight) })
+    _.each(pics, function(pic) { pic.resizeThumbToHeight(maxHeight) })
 
     var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
 
     // +2px is visual enhancements to cover gap after flooring
     // 3px is a gap between two images
-    var ratio = (Picture.maxWidth + 2 - (pics.length - 1)*3) / totalWidth
-
-    var offset = 0
+    var ratio = (maxWidth + 2 - (pics.length - 1)*3) / totalWidth
 
     // adjust height/width of each images according ratio
     // clean up any enhancements
@@ -89,31 +84,35 @@ define('models/picture', [], function() {
       pic.thHeight = Math.floor(pic.thHeight * ratio)
 
       // keep watching for maxThumb height
-      if (pic.thHeight > Picture.maxThumbHeight)
-        pic.resizeThumbToHeight(Picture.maxThumbHeight)
+      if (pic.thHeight > maxHeight)
+        pic.resizeThumbToHeight(maxHeight)
     })
 
-    // try to enhance row if it is narrower then row width
-    Picture.enhanceThumbsInRow(pics)
+    Picture.updateLeftOffset(pics)
+  }
 
-    // calculate left offset
+  Picture.updateLeftOffset = function(pics) {
+    var offset = 0
+
     _.each(pics, function(pic) {
       pic.thLeft = offset
       offset += pic.thWidth + 3
     })
   }
 
-  Picture.enhanceThumbsInRow = function(pics) {
+  Picture.enhanceInRow = function(pics, maxWidth, enhanceRatio) {
     var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
-    var ratio = totalWidth / (Picture.maxWidth + 2 - (pics.length - 1)*3)
+    var ratio = totalWidth / (maxWidth + 2 - (pics.length - 1)*3)
 
     // if total width more then Picture.enhanceRatio of row width
     // crop all images center weighted
-    if (Picture.enhanceRatio < ratio && ratio < 0.99) {
+    if (enhanceRatio < ratio && ratio < 0.99) {
       _.each(pics, function(pic) {
         pic.thWidth = Math.floor(pic.thWidth / ratio)
         pic.thTop = -Math.floor((pic.thHeight / ratio - pic.thHeight) / 2)
       })
+
+      Picture.updateLeftOffset(pics)
     }
   }
 

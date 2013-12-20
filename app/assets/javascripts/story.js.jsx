@@ -1,12 +1,13 @@
 //= require comp/location/location
 //= require comp/pictures/pictures_panel
+//= require comp/pictures/pictures_line
 //= require models/address
 
 /** @jsx React.DOM */
 
 require(
-['comp/pictures/pictures_panel', 'models/address', 'models/picture'],
-function(PicturesPanel, Address, Picture) {
+['comp/pictures/pictures_panel', 'models/address', 'models/picture', 'comp/pictures/pictures_line'],
+function(PicturesPanel, Address, Picture, PicturesLine) {
 
   var accountKey = Cookies.get('akey')
   var smileClub = new Address({
@@ -38,7 +39,11 @@ function(PicturesPanel, Address, Picture) {
         <div className='story'>
           <h1>STORY IS EDITING HERE</h1>
           <h3>RIGHT NOW</h3>
-          <PicturesPanel onPicturesChange={log} pictures={this.state.pictures} />
+          <div className='pictures-panel-component panel panel-default' id={this.props.dropzoneId} key={this.props.dropzoneId}>
+            <div className='panel-body'>
+              <PicturesLine pictures={this.state.pictures} maxHeight={200} maxWidth={800} enhanceRatio={0.2} />
+            </div>
+          </div>
         </div>
         )
     }
@@ -46,7 +51,7 @@ function(PicturesPanel, Address, Picture) {
 
   $.get('/api/v1/'+accountKey+'/pictures', function(data) {
     var pictures = _.map(data, function(attrs) { return new Picture(attrs) })
-    React.renderComponent(<Story address={smileClub} pictures={pictures} />, document.querySelector('#content'))
+    React.renderComponent(<Story pictures={pictures} />, document.querySelector('#content'))
   }.bind(this))
 
 })
