@@ -1,34 +1,9 @@
 //= require models/picture
+//= require comp/pictures/picture
 
 /** @jsx React.DOM */
 
-define('comp/pictures/pictures_line', ['models/picture'], function(Picture) {
-
-  var ProgressMixin = {
-    renderProgress: function(progress) {
-      if (progress !== undefined)
-        return <div className='progress' style={{height: 100-progress+'%', top: progress+'%'}} />
-    }
-  }
-
-  var Thumb = React.createClass({
-    mixins: [ProgressMixin],
-
-    getDefaultProps: function() {
-      return {picture: new Picture()}
-    },
-
-    render: function() {
-      var pic = this.props.picture
-
-      return (
-        <li style={pic.getContainerStyle()} key={pic.uiId}>
-          <img src={pic.getUrl()} style={pic.getImageStyle()} />
-          {this.renderProgress(pic.progress)}
-        </li>
-        )
-    }
-  })
+define('comp/pictures/pictures_line', ['models/picture', 'comp/pictures/picture'], function(Picture, Thumb) {
 
   var PicturesLine = React.createClass({
     getDefaultProps: function() {

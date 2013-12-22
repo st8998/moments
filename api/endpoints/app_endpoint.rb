@@ -9,6 +9,7 @@ class AppEndpoint < Grape::API
   end
   helpers Grape::Cookies
 
+  mount AccountsEndpoint
   mount UsersEndpoint
   mount PicturesEndpoint
 end
