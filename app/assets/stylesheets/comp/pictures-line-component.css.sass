@@ -1,5 +1,6 @@
 .pictures-line-component
   overflow: hidden
+  position: relative
   ul
     margin: 0
     padding: 0
@@ -61,3 +62,14 @@
     &.sort-placeholder
       box-sizing: border-box
       background-color: rgba(0, 100, 255, 0.15)
+
+  .placeholder
+    background-color: transparent
+    margin: -13px 0 0 0
+    width: 100%
+    user-select: none
+    text-align: center
+    color: #aaa
+    font-weight: lighter
+    position: absolute
+    top: 50%
