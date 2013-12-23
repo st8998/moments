@@ -16,7 +16,10 @@ function(PicturesLine, PicturesUploader, Picture, Account) {
       var pictures = _.map(data, function(attrs) { return new Picture(attrs)})
 
       var onPicturesChange = function(pictures) {
-        React.renderComponent(<PicturesLine pictures={pictures} maxWidth={900} maxHeight={200} enhanceRatio={0.2} />, document.querySelector('#pictures-line'))
+        React.renderComponent(
+          <PicturesLine pictures={pictures} maxWidth={900} maxHeight={100} enhanceRatioWidth={0.8} />,
+          document.querySelector('#pictures-line')
+        )
       }
 
       React.renderComponent(
@@ -24,7 +27,9 @@ function(PicturesLine, PicturesUploader, Picture, Account) {
           onPicturesChange={onPicturesChange}
           accountKey={account.key}
           pictures={pictures}
-          maxWidth={900} maxHeight={600} enhanceRatio={0.2} />, document.querySelector('#pictures-uploader')
+          maxWidth={900} maxHeight={500}
+          enhanceRatioWidth={0.7} enhanceRatioHeight={0.8} />,
+        document.querySelector('#pictures-uploader')
       )
 
       onPicturesChange(pictures)

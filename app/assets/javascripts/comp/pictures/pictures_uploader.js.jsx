@@ -16,7 +16,7 @@ function(Picture, Thumb, Thumbnails) {
       var pic = this.props.picture, progress
 
       if (pic.progress)
-        progress = <div className='upload-progress' style={{height: 100-pic.progress+'%', top: pic.progress+'%'}} />
+        progress = <div className='progress' style={{height: 100-pic.progress+'%', top: pic.progress+'%'}} />
 
       return this.transferPropsTo(
         <Thumb>
@@ -153,7 +153,9 @@ function(Picture, Thumb, Thumbnails) {
         <div className='pictures-uploader-component dropzone' id={this.state.dropzoneId} key={this.state.dropzoneId}>
           <Thumbnails
             pictures={this.state.pictures} thumbComponent={thumbClass}
-            maxWidth={this.props.maxWidth} maxHeight={this.props.maxHeight} enhanceRatio={this.props.enhanceRatio} />
+            maxWidth={this.props.maxWidth} maxHeight={this.props.maxHeight}
+            enhanceRatioWidth={this.props.enhanceRatioWidth}
+            enhanceRatioHeight={this.props.enhanceRatioHeight} />
           <Placeholder pictures={this.state.pictures} />
         </div>
       )

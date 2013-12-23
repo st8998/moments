@@ -42,16 +42,16 @@ define('models/picture', [], function() {
   Picture.prototype.getContainerStyle = function() {
     return {
       height: this.thHeight || this.height,
-      width: this.thWidth || this.width,
-      left: this.thLeft || 0
+      width: this.thWidth || this.width
     }
   }
 
   Picture.prototype.getImageStyle = function() {
     return {
       height: this.thTop ? (this.thHeight - this.thTop*2) : this.thHeight || this.height,
-      width: this.thWidth || this.width,
-      top: this.thTop || 0
+      width: this.thLeft ? (this.thWidth - this.thLeft*2) : this.thWidth || this.width,
+      top: this.thTop || 0,
+      left: this.thLeft || 0
     }
   }
 
@@ -72,13 +72,14 @@ define('models/picture', [], function() {
 
     // +2px is visual enhancements to cover gap after flooring
     // 3px is a gap between two images
-    var ratio = (maxWidth + 2 - (pics.length - 1)*3) / totalWidth
+    var ratio = (maxWidth + 2 - (pics.length - 1)*2) / totalWidth
 
     // adjust height/width of each images according ratio
     // clean up any enhancements
     _.each(pics, function(pic) {
       // remove any top offset optimization
       pic.thTop = 0
+      pic.thLeft = 0
 
       pic.thWidth = Math.floor(pic.thWidth * ratio)
       pic.thHeight = Math.floor(pic.thHeight * ratio)
@@ -87,32 +88,35 @@ define('models/picture', [], function() {
       if (pic.thHeight > maxHeight)
         pic.resizeToHeight(maxHeight)
     })
-
-    Picture.updateLeftOffset(pics)
   }
 
-  Picture.updateLeftOffset = function(pics) {
-    var offset = 0
-
-    _.each(pics, function(pic) {
-      pic.thLeft = offset
-      offset += pic.thWidth + 3
-    })
-  }
-
-  Picture.enhanceInRow = function(pics, maxWidth, enhanceRatio) {
+  Picture.enhanceRowWidth = function(pics, maxWidth, enhanceRatioWidth) {
     var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
     var ratio = totalWidth / (maxWidth + 2 - (pics.length - 1)*3)
 
     // if total width more then Picture.enhanceRatio of row width
     // crop all images center weighted
-    if (enhanceRatio < ratio && ratio < 0.99) {
+    if (enhanceRatioWidth < ratio && ratio < 0.99) {
       _.each(pics, function(pic) {
         pic.thWidth = Math.floor(pic.thWidth / ratio)
         pic.thTop = -Math.floor((pic.thHeight / ratio - pic.thHeight) / 2)
       })
+    }
+  }
 
-      Picture.updateLeftOffset(pics)
+  Picture.enhanceRowHeight = function(pics, maxHeight, enhanceRatioHeight) {
+    if (pics.length && pics[0].thHeight < maxHeight) {
+      var height = pics[0].thHeight
+      var ratio = height / maxHeight
+
+      // take ratio that will make minimum impact
+      // max between current ratio an configured one
+      var enhanceRatio = enhanceRatioHeight > ratio ? enhanceRatioHeight : ratio
+
+      _.each(pics, function(pic) {
+        pic.thHeight = Math.floor(pic.thHeight / enhanceRatio)
+        pic.thLeft = -Math.floor((pic.thWidth / enhanceRatio - pic.thWidth) / 2)
+      })
     }
   }
 

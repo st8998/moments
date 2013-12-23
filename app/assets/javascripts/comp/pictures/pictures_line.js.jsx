@@ -11,7 +11,8 @@ define('comp/pictures/pictures_line', ['models/picture', 'comp/pictures/picture'
         pictures: [],
         maxWidth: 800,
         maxHeight: 500,
-        enhanceRatio: 0.6,
+        enhanceRatioWidth: 0.6,
+        enhanceRatioHeight: 0.9,
         thumbComponent: Thumb
       }
     },
@@ -20,7 +21,8 @@ define('comp/pictures/pictures_line', ['models/picture', 'comp/pictures/picture'
       var pics = this.props.pictures, placeholder
 
       Picture.fitInRow(pics, this.props.maxWidth, this.props.maxHeight+2)
-      Picture.enhanceInRow(pics, this.props.maxWidth, this.props.enhanceRatio)
+      Picture.enhanceRowWidth(pics, this.props.maxWidth, this.props.enhanceRatioWidth)
+      Picture.enhanceRowHeight(pics, this.props.maxHeight, this.props.enhanceRatioHeight)
 
       var pictures = _.map(pics, function(pic) { return this.props.thumbComponent({picture: pic})}.bind(this))
       var lineHeight = pics[0] ? pics[0].thHeight : this.props.maxHeight
