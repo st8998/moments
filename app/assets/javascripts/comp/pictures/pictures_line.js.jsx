@@ -15,8 +15,20 @@ define('comp/pictures/pictures_line', ['models/picture', 'comp/pictures/picture'
       }
     },
 
+    getInitialState: function() {
+      if (this.props.pictures.promise) {
+        this.props.pictures.success(function(data) {
+          this.setState({pictures: _.map(data, function(attrs) { return new Picture(attrs)} )})
+        }.bind(this))
+
+        return {pictures: []}
+      } else {
+        return {pictures: this.props.pictures}
+      }
+    },
+
     render: function() {
-      var pics = this.props.pictures
+      var pics = this.state.pictures
 
       Picture.fitInRow(pics, this.props.maxWidth, this.props.maxHeight+2)
       Picture.enhanceInRow(pics, this.props.maxWidth, this.props.enhanceRatio)
@@ -24,7 +36,7 @@ define('comp/pictures/pictures_line', ['models/picture', 'comp/pictures/picture'
       var pictures = pics.map(function(pic) {
         return <Thumb picture={pic} />
       })
-      var lineHeight = this.props.pictures[0] ? this.props.pictures[0].thHeight : 0
+      var lineHeight = pics[0] ? pics[0].thHeight : 0
 
       return (
         <div className='pictures-line-component'>

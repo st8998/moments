@@ -13,7 +13,7 @@ define('comp/pictures/picture', ['models/picture'], function(Picture) {
       return (
         <li style={pic.getContainerStyle()} key={pic.uiId}>
           <img src={pic.getUrl()} style={pic.getImageStyle()} />
-          {this.children}
+          {this.props.children}
         </li>
         )
     }

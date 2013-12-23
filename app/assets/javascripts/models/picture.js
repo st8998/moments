@@ -66,7 +66,7 @@ define('models/picture', [], function() {
 
   Picture.fitInRow = function(pics, maxWidth, maxHeight) {
     // adapt all images to same height of Picture.maxHeight
-    _.each(pics, function(pic) { pic.resizeThumbToHeight(maxHeight) })
+    _.each(pics, function(pic) { pic.resizeToHeight(maxHeight) })
 
     var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
 
@@ -85,7 +85,7 @@ define('models/picture', [], function() {
 
       // keep watching for maxThumb height
       if (pic.thHeight > maxHeight)
-        pic.resizeThumbToHeight(maxHeight)
+        pic.resizeToHeight(maxHeight)
     })
 
     Picture.updateLeftOffset(pics)
@@ -116,7 +116,7 @@ define('models/picture', [], function() {
     }
   }
 
-  Picture.prototype.resizeThumbToHeight = function(toHeight) {
+  Picture.prototype.resizeToHeight = function(toHeight) {
     var ratio = this.height / toHeight
 
     this.thWidth = this.width / ratio
