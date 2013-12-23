@@ -12,9 +12,9 @@ if (typeof Function.stopPropagation === 'undefined')
 window.sequence = (function() {
   var current = 0
 
-  return function() {
+  return function(prefix) {
     current += 1
-    return current
+    return ''+(prefix || '')+current
   }
 }())
 

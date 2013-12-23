@@ -1,8 +1,16 @@
 .blog
   h1 PICTURES COMPONENT
-  p Some description goes here
+
+  p more text here and an editable version of pictures line
+  .panel.panel-default
+    .panel-body#pictures-uploader
+      .pictures-line-component[style='height: 300px']
+
+  p Some description goes here and pictures line view component
   .panel.panel-default
     .panel-body#pictures-line
-      .pictures-line-component[style='height: 300px']
+      .pictures-line-component[style='height: 200px']
+
+
 
 = javascript_include_tag 'blog/about_pictures_component'
