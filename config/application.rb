@@ -22,7 +22,7 @@ module Moments
 
     config.quiet_assets = true
 
-    config.active_record.observers = :moment_search_observer
+    config.active_record.observers = [:moment_search_observer, :picture_demo_observer]
 
     config.react.variant = :production
     config.react.addons = true
