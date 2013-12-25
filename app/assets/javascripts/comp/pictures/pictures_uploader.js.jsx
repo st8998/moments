@@ -54,14 +54,14 @@ function(Picture, Thumb, Thumbnails) {
     },
 
     getInitialState: function() {
-      return {pictures: this.props.pictures, dropzoneId: window.sequence('dropzone')}
+      return {pictures: this.props.pictures, dropzoneId: window.sequence('dropzone'), progress: 0}
     },
 
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.state.dropzoneId, {
         paramName: 'image',
         url: '/api/v1/'+this.props.accountKey+'/pictures/upload',
-        autoProcessQueue: true,
+        autoProcessQueue: false,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
         clickable: '#'+this.state.dropzoneId+' .background',
@@ -69,26 +69,23 @@ function(Picture, Thumb, Thumbnails) {
       })
 
       dropzone.on('addedfile', function(file) {
-        var pictures = this.state.pictures
-        var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
-        pictures.push(picture)
-
-        this.setState({pictures: pictures})
+        this.setState({progress: this.state.progress + 1})
       }.bind(this))
 
       dropzone.on('thumbnail', function(file, data) {
         var pictures = this.state.pictures
-        var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
+        var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
+        pictures.push(picture)
 
         // on fast upload speed thumbnail can be generated after upload finish
         // do nothing in this case
-        if (picture) {
-          picture.image_data = data
-          picture.progress = 0.01 // trick to force progress be truthy value
-          picture.extractDropzoneAttrs(file)
+        picture.image_data = data
+        picture.progress = 0.01 // trick to force progress be truthy value
+        picture.extractDropzoneAttrs(file)
 
-          this.setState({pictures: pictures})
-        }
+        this.setState({pictures: pictures, progress: this.state.progress - 1})
+
+        this.state.dropzone.processFile(file)
       }.bind(this))
 
       dropzone.on('uploadprogress', function(file, progress) {
@@ -121,6 +118,8 @@ function(Picture, Thumb, Thumbnails) {
 
           this.setState({pictures: pictures})
           this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
+        } else {
+          $.ajax({url: '/api/v1/'+this.props.accountKey+'/pictures/'+picAttrs.id, method: 'delete'})
         }
       }.bind(this))
 
@@ -137,8 +136,9 @@ function(Picture, Thumb, Thumbnails) {
       if (removedPic.id)
         $.ajax({url: '/api/v1/'+this.props.accountKey+'/pictures/'+removedPic.id, method: 'delete'})
 
-      if (removedPic.dzFile)
+      if (removedPic.dzFile) {
         this.state.dropzone.removeFile(removedPic.dzFile)
+      }
 
       this.setState({pictures: pictures})
       this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
@@ -146,8 +146,12 @@ function(Picture, Thumb, Thumbnails) {
 
     render: function() {
       var
+        progress,
         comp = this,
         thumbClass = function(attrs) {return EditableThumb(_.extend(attrs, {onRemove: comp.onPictureRemove}))}
+
+      if (this.state.progress > 0)
+        progress = <div className='progress' style={{height: '100%', top: '0'}} />
 
       return (
         <div className='pictures-uploader-component dropzone' id={this.state.dropzoneId} key={this.state.dropzoneId}>
@@ -157,6 +161,7 @@ function(Picture, Thumb, Thumbnails) {
             enhanceRatioWidth={this.props.enhanceRatioWidth}
             enhanceRatioHeight={this.props.enhanceRatioHeight} />
           <Placeholder pictures={this.state.pictures} />
+          {progress}
         </div>
       )
     }

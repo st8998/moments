@@ -19,7 +19,7 @@ class PicturesEndpoint < Grape::API
         present pictures.find(params[:id]), with: PictureEntity
       end
       delete do
-        pictures.find(params[:id]).destroy
+        pictures.where(id: params[:id]).destroy_all
         'ok'
       end
     end

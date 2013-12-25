@@ -17,7 +17,7 @@ function(PicturesLine, PicturesUploader, Picture, Account) {
 
       var onPicturesChange = function(pictures) {
         React.renderComponent(
-          <PicturesLine pictures={pictures} maxWidth={900} maxHeight={100} enhanceRatioWidth={0.8} />,
+          <PicturesLine pictures={pictures} maxWidth={900} maxHeight={100} enhanceRatioWidth={0.9} />,
           document.querySelector('#pictures-line')
         )
       }
