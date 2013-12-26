@@ -2,7 +2,10 @@ class PicturesEndpoint < Grape::API
   namespace '/:account_key/pictures' do
     helpers do
       def pictures
-        Account.find_by(key: params[:account_key]).pictures
+        @pictures ||= Picture.accessible_by(current_ability)
+      end
+      def picture
+        @picture ||= pictures.find(params[:id])
       end
     end
 
@@ -16,10 +19,12 @@ class PicturesEndpoint < Grape::API
 
     route_param :id do
       get do
-        present pictures.find(params[:id]), with: PictureEntity
+        authorize! :show, picture
+        present picture, with: PictureEntity
       end
       delete do
-        pictures.where(id: params[:id]).destroy_all
+        authorize! :delete, picture
+        picture.destroy
         'ok'
       end
     end
@@ -28,6 +33,7 @@ class PicturesEndpoint < Grape::API
       requires :image
     end
     post 'upload' do
+      authorize! :upload, Picture
       present pictures.create(image: params[:image]), with: PictureEntity
     end
   end

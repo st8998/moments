@@ -22,6 +22,7 @@ gem 'elasticsearch'
 gem 'dragonfly'
 
 # controller
+gem 'cancan'
 
 # api
 gem 'oj'
