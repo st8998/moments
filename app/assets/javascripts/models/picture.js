@@ -42,7 +42,8 @@ define('models/picture', [], function() {
   Picture.prototype.getContainerStyle = function() {
     return {
       height: this.thHeight || this.height,
-      width: this.thWidth || this.width
+      width: this.thWidth || this.width,
+      left: this.cLeft || 0
     }
   }
 
@@ -72,7 +73,7 @@ define('models/picture', [], function() {
 
     // +2px is visual enhancements to cover gap after flooring
     // 3px is a gap between two images
-    var ratio = (maxWidth + 2 - (pics.length - 1)*2) / totalWidth
+    var ratio = (maxWidth + 2 - (pics.length - 1)*3) / totalWidth
 
     // adjust height/width of each images according ratio
     // clean up any enhancements
@@ -88,6 +89,8 @@ define('models/picture', [], function() {
       if (pic.thHeight > maxHeight)
         pic.resizeToHeight(maxHeight)
     })
+
+    Picture.updateLeftOffset(pics)
   }
 
   Picture.enhanceRowWidth = function(pics, maxWidth, enhanceRatioWidth) {
@@ -101,6 +104,8 @@ define('models/picture', [], function() {
         pic.thWidth = Math.floor(pic.thWidth / ratio)
         pic.thTop = -Math.floor((pic.thHeight / ratio - pic.thHeight) / 2)
       })
+
+      Picture.updateLeftOffset(pics)
     }
   }
 
@@ -117,7 +122,18 @@ define('models/picture', [], function() {
         pic.thHeight = Math.floor(pic.thHeight / enhanceRatio)
         pic.thLeft = -Math.floor((pic.thWidth / enhanceRatio - pic.thWidth) / 2)
       })
+
+      Picture.updateLeftOffset(pics)
     }
+  }
+
+  Picture.updateLeftOffset = function(pics) {
+    var offset = 0
+
+    _.each(pics, function(pic) {
+      pic.cLeft = offset
+      offset += pic.thWidth + 3
+    })
   }
 
   Picture.prototype.resizeToHeight = function(toHeight) {

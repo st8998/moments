@@ -11,7 +11,7 @@ define('comp/pictures/picture', ['models/picture'], function(Picture) {
       var pic = this.props.picture
 
       return (
-        <li style={pic.getContainerStyle()} key={pic.uiId}>
+        <li style={pic.getContainerStyle()}>
           <img src={pic.getUrl()} style={pic.getImageStyle()} />
           {this.props.children}
         </li>

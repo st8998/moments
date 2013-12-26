@@ -69,23 +69,31 @@ function(Picture, Thumb, Thumbnails) {
       })
 
       dropzone.on('addedfile', function(file) {
-        this.setState({progress: this.state.progress + 1})
-      }.bind(this))
+        file.height = 512
+        file.width = 1
 
-      dropzone.on('thumbnail', function(file, data) {
         var pictures = this.state.pictures
         var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
         pictures.push(picture)
 
-        // on fast upload speed thumbnail can be generated after upload finish
-        // do nothing in this case
-        picture.image_data = data
+        this.setState({pictures: pictures, progress: this.state.progress + 1})
+      }.bind(this))
+
+      dropzone.on('thumbnail', function(file, data) {
+        var pictures = this.state.pictures
+        var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
+
         picture.progress = 0.01 // trick to force progress be truthy value
         picture.extractDropzoneAttrs(file)
 
         this.setState({pictures: pictures, progress: this.state.progress - 1})
 
-        this.state.dropzone.processFile(file)
+        setTimeout(function() {
+          picture.image_data = data
+          this.setState({pictures: pictures})
+          this.state.dropzone.processFile(file)
+        }.bind(this), 300)
+
       }.bind(this))
 
       dropzone.on('uploadprogress', function(file, progress) {
