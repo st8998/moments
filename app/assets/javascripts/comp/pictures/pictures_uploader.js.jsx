@@ -1,3 +1,4 @@
+//= require comp/common/progress
 //= require comp/pictures/picture
 //= require comp/pictures/pictures_line
 //= require models/picture
@@ -6,21 +7,18 @@
 
 define('comp/pictures/pictures_uploader',
   ['models/picture',
+    'comp/common/progress',
     'comp/pictures/picture',
     'comp/pictures/pictures_line'],
-function(Picture, Thumb, Thumbnails) {
+function(Picture, Progress, Thumb, Thumbnails) {
 
   var EditableThumb = React.createClass({
     render: function() {
-
-      var pic = this.props.picture, progress
-
-      if (pic.progress)
-        progress = <div className='progress' style={{height: 100-pic.progress+'%', top: pic.progress+'%'}} />
+      var pic = this.props.picture
 
       return this.transferPropsTo(
         <Thumb>
-          {progress}
+          <Progress progress={pic.progress} />
           <div className='controls'>
             <span onClick={this.props.onRemove.bind(this, pic)} className='glyphicon glyphicon-trash' />
           </div>
@@ -78,7 +76,7 @@ function(Picture, Thumb, Thumbnails) {
         pictures.push(picture)
 
         picture.image_data = data
-        picture.progress = 0.01 // trick to force progress be truthy value
+        picture.progress = 0
         picture.extractDropzoneAttrs(file)
 
         this.setState({pictures: pictures, progress: this.state.progress - 1})
@@ -143,13 +141,8 @@ function(Picture, Thumb, Thumbnails) {
     },
 
     render: function() {
-      var
-        progress,
-        comp = this,
-        thumbClass = function(attrs) {return EditableThumb(_.extend(attrs, {onRemove: comp.onPictureRemove}))}
-
-      if (this.state.progress > 0)
-        progress = <div className='progress' style={{height: '100%', top: '0'}} />
+      var comp = this,
+          thumbClass = function(attrs) {return EditableThumb(_.extend(attrs, {onRemove: comp.onPictureRemove}))}
 
       return (
         <div className='pictures-uploader-component dropzone' id={this.state.dropzoneId} key={this.state.dropzoneId}>
@@ -159,7 +152,7 @@ function(Picture, Thumb, Thumbnails) {
             enhanceRatioWidth={this.props.enhanceRatioWidth}
             enhanceRatioHeight={this.props.enhanceRatioHeight} />
           <Placeholder pictures={this.state.pictures} />
-          {progress}
+          <Progress progress={this.state.progress > 0 ? 'unknown' : undefined} />
         </div>
       )
     }
