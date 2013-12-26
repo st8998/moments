@@ -69,31 +69,21 @@ function(Picture, Thumb, Thumbnails) {
       })
 
       dropzone.on('addedfile', function(file) {
-        file.height = 512
-        file.width = 1
-
-        var pictures = this.state.pictures
-        var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
-        pictures.push(picture)
-
-        this.setState({pictures: pictures, progress: this.state.progress + 1})
+        this.setState({progress: this.state.progress + 1})
       }.bind(this))
 
       dropzone.on('thumbnail', function(file, data) {
         var pictures = this.state.pictures
-        var picture = _.find(pictures, function(pic) { return pic.dzFile === file })
+        var picture = new Picture({dzFile: file}).extractDropzoneAttrs(file)
+        pictures.push(picture)
 
+        picture.image_data = data
         picture.progress = 0.01 // trick to force progress be truthy value
         picture.extractDropzoneAttrs(file)
 
         this.setState({pictures: pictures, progress: this.state.progress - 1})
 
-        setTimeout(function() {
-          picture.image_data = data
-          this.setState({pictures: pictures})
-          this.state.dropzone.processFile(file)
-        }.bind(this), 300)
-
+        this.state.dropzone.processFile(file)
       }.bind(this))
 
       dropzone.on('uploadprogress', function(file, progress) {
