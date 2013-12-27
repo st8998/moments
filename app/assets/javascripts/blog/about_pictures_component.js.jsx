@@ -1,3 +1,4 @@
+//=require models/api
 //=require comp/pictures/pictures_line
 //=require comp/pictures/pictures_uploader
 //=require models/picture
@@ -6,13 +7,14 @@
 /** @jsx React.DOM */
 
 require(
-  ['comp/pictures/pictures_line',
+  [ 'api',
+    'comp/pictures/pictures_line',
     'comp/pictures/pictures_uploader',
     'models/picture',
     'models/account'],
-function(PicturesLine, PicturesUploader, Picture, Account) {
-  Account.getDemoAccount(function(account) {
-    $.get('/api/v1/' + account.key + '/pictures').success(function(data) {
+function(api, PicturesLine, PicturesUploader, Picture, Account) {
+  api.getDemoAccount(function(api) {
+    $.get(api('/pictures')).success(function(data) {
       var pictures = _.map(data, function(attrs) { return new Picture(attrs)})
 
       var onPicturesChange = function(pictures) {
@@ -25,7 +27,7 @@ function(PicturesLine, PicturesUploader, Picture, Account) {
       React.renderComponent(
         <PicturesUploader
           onPicturesChange={onPicturesChange}
-          accountKey={account.key}
+          api={api}
           pictures={pictures}
           maxWidth={900} maxHeight={500}
           enhanceRatioWidth={0.7} enhanceRatioHeight={0.8} />,

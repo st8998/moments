@@ -58,7 +58,7 @@ function(Picture, Progress, Thumb, Thumbnails) {
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.state.dropzoneId, {
         paramName: 'image',
-        url: '/api/v1/'+this.props.accountKey+'/pictures/upload',
+        url: this.props.api('/pictures/upload'),
         autoProcessQueue: false,
         dictDefaultMessage:'',
         previewTemplate: '<span></span>',
@@ -115,7 +115,7 @@ function(Picture, Progress, Thumb, Thumbnails) {
           this.setState({pictures: pictures})
           this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
         } else {
-          $.ajax({url: '/api/v1/'+this.props.accountKey+'/pictures/'+picAttrs.id, method: 'delete'})
+          $.ajax({url: this.props.api('/pictures', picAttrs.id), method: 'delete'})
         }
       }.bind(this))
 
@@ -130,7 +130,7 @@ function(Picture, Progress, Thumb, Thumbnails) {
       var pictures = _.reject(this.state.pictures, function(pic) { return removedPic === pic })
 
       if (removedPic.id)
-        $.ajax({url: '/api/v1/'+this.props.accountKey+'/pictures/'+removedPic.id, method: 'delete'})
+        $.ajax({url: this.props.api('/pictures/', removedPic.id), method: 'delete'})
 
       if (removedPic.dzFile) {
         this.state.dropzone.removeFile(removedPic.dzFile)
