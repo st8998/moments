@@ -5,7 +5,7 @@ define('api', [], function() {
       return ('/api/v1/' + key + '/' + Array.prototype.join.call(arguments, '/')).replace(/\/\//g, '/')
     }
 
-    api.getDemoAccount = function(callback) {
+    api.getDemo = function(callback) {
       if (Cookies.get('dakey')) {
         callback(buildApi(Cookies.get('dakey')))
       } else {

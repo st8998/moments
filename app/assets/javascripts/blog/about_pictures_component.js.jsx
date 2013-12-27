@@ -13,7 +13,7 @@ require(
     'models/picture',
     'models/account'],
 function(api, PicturesLine, PicturesUploader, Picture, Account) {
-  api.getDemoAccount(function(api) {
+  api.getDemo(function(api) {
     $.get(api('/pictures')).success(function(data) {
       var pictures = _.map(data, function(attrs) { return new Picture(attrs)})
 
