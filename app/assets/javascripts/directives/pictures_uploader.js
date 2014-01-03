@@ -1,7 +1,7 @@
 angular.module('app').directive('mPicturesUploader', ['PicturesUploaderReact', function(PicturesUploaderReact) {
 
   return {
-    restrict: 'A',
+    restrict: 'E',
     scope: {
       pictures: '=',
       maxHeight: '=',

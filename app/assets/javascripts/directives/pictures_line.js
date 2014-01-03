@@ -1,7 +1,7 @@
 angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(PicturesLineReact) {
 
   return {
-    restrict: 'A',
+    restrict: 'E',
     scope: {
       pictures: '=',
       maxHeight: '=',
@@ -9,6 +9,7 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       enhanceRatioWidth: '=',
       enhanceRatioHeight: '='
     },
+    replace: true,
     link: function(scope, elem, attrs) {
       scope.$watch('pictures', function() {
         React.renderComponent(PicturesLineReact(scope), elem[0]);
