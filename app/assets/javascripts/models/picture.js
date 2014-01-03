@@ -1,4 +1,5 @@
-angular.module('app').factory('Picture', ['$resource', 'api', 'sequence', function($resource, api, seq) {
+angular.module('app').factory('Picture',
+  ['$resource', 'api', 'sequence', function($resource, api, seq) {
   /**
    * @property {Number} id server side picture id
    * @property {String} description

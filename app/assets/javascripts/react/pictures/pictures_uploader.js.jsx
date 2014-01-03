@@ -106,7 +106,6 @@ angular.module('app').factory('PicturesUploaderReact',
           this.setState({pictures: pictures})
           this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
         } else {
-          // TODO remove direct api calls
           $.ajax({url: api('/pictures', picAttrs.id), method: 'delete'})
         }
       }.bind(this))
@@ -121,9 +120,8 @@ angular.module('app').factory('PicturesUploaderReact',
     onPictureRemove: function(removedPic) {
       var pictures = _.reject(this.state.pictures, function(pic) { return removedPic === pic })
 
-      // TODO remove direct api calls
       if (removedPic.id)
-        $.ajax({url: api('/pictures/', removedPic.id), method: 'delete'})
+        removedPic.$delete()
 
       if (removedPic.dzFile) {
         this.state.dropzone.removeFile(removedPic.dzFile)
