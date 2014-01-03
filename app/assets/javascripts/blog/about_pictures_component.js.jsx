@@ -1,3 +1,5 @@
+//= require models/picture
+
 (function() {
   var app = angular.module('app')
 
@@ -5,7 +7,7 @@
     api.demoMode(true)
   }])
 
-  app.controller('BlogCtrl', ['$scope', 'api', function($scope, api) {
+  app.controller('BlogCtrl', ['$scope', 'Picture', function($scope, Picture) {
 
   }])
 

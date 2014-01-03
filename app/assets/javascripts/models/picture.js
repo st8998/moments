@@ -1,6 +1,4 @@
-
-define('models/picture', [], function() {
-
+angular.module('app').factory('Picture', ['$resource', 'api', 'sequence', function($resource, api, seq) {
   /**
    * @property {Number} id server side picture id
    * @property {String} description
@@ -10,7 +8,6 @@ define('models/picture', [], function() {
    * @property {String} image_url_normal 1024x1024 image url
    * @property {String} image_url_big 2048x2048 image url
    *
-   * @property {String} uiId uniq ui id
    * @property {Number} thWeight thumbnail width
    * @property {Number} thHeight thumbnail height
    * @property {Number} thLeft thumbnail left offset
@@ -18,14 +15,18 @@ define('models/picture', [], function() {
    * @property {String} image_data thumbnail base64 image string
    * @property {Number} progress current upload progress
    * @property {object} dzFile dropzone file model link
-   *
-   *
-   * @param {object} attrs picture attributes
-   * @constructor
    */
-  function Picture(attrs) {
-    _.extend(this, attrs)
-    this.uiId = 'pic-'+window.sequence()
+  var Picture = $resource(
+    api('/pictures/:id'), {
+      id: '@id'
+    })
+
+  Picture.prototype.uid = function() {
+    return this.uid || this._uid()
+  }
+  Picture.prototype._uid = function() {
+    this.uid = this.id ? 'pic-p-'+this.id : seq('pic-t-')
+    return this.uid
   }
 
   Picture.prototype.assignAttributes = function(attrs) {
@@ -49,8 +50,8 @@ define('models/picture', [], function() {
 
   Picture.prototype.getImageStyle = function() {
     return {
-      height: this.thTop ? (this.thHeight - this.thTop*2) : this.thHeight || this.height,
-      width: this.thLeft ? (this.thWidth - this.thLeft*2) : this.thWidth || this.width,
+      height: this.thTop ? (this.thHeight - this.thTop * 2) : this.thHeight || this.height,
+      width: this.thLeft ? (this.thWidth - this.thLeft * 2) : this.thWidth || this.width,
       top: this.thTop || 0,
       left: this.thLeft || 0
     }
@@ -67,13 +68,17 @@ define('models/picture', [], function() {
 
   Picture.fitInRow = function(pics, maxWidth, maxHeight) {
     // adapt all images to same height of Picture.maxHeight
-    _.each(pics, function(pic) { pic.resizeToHeight(maxHeight) })
+    _.each(pics, function(pic) {
+      pic.resizeToHeight(maxHeight)
+    })
 
-    var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
+    var totalWidth = _.reduce(pics, function(memo, pic) {
+      return memo + pic.thWidth
+    }, 0)
 
     // +2px is visual enhancements to cover gap after flooring
     // 3px is a gap between two images
-    var ratio = (maxWidth + 2 - (pics.length - 1)*3) / totalWidth
+    var ratio = (maxWidth + 2 - (pics.length - 1) * 3) / totalWidth
 
     // adjust height/width of each images according ratio
     // clean up any enhancements
@@ -94,8 +99,10 @@ define('models/picture', [], function() {
   }
 
   Picture.enhanceRowWidth = function(pics, maxWidth, enhanceRatioWidth) {
-    var totalWidth = _.reduce(pics, function(memo, pic) {return memo+pic.thWidth}, 0)
-    var ratio = totalWidth / (maxWidth + 2 - (pics.length - 1)*3)
+    var totalWidth = _.reduce(pics, function(memo, pic) {
+      return memo + pic.thWidth
+    }, 0)
+    var ratio = totalWidth / (maxWidth + 2 - (pics.length - 1) * 3)
 
     // if total width more then Picture.enhanceRatio of row width
     // crop all images center weighted
@@ -178,4 +185,4 @@ define('models/picture', [], function() {
   }
 
   return Picture
-});
+}])
