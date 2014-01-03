@@ -21,7 +21,7 @@ $(function() {
         })
 
         return (
-          <form className="form-signin" url={Routes.login_path()} method="POST">
+          <form className="form-signin" url="/login" method="POST">
             <h2 className="form-signin-header">Please sign in</h2>
             <ul className="users list-group" onChange={this.handleRadioChange}>{userItems}</ul>
             <div className="form-group">

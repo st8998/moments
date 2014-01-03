@@ -7,6 +7,8 @@
     "dropzone": "https://raw.github.com/enyo/dropzone/v3.7.4/downloads/dropzone.js",
     "marked": "https://raw.github.com/chjj/marked/master/lib/marked.js",
     "cookies-js": "https://raw.github.com/ScottHamper/Cookies/master/src/cookies.js",
-    "base64": "http://stringencoders.googlecode.com/svn-history/r210/trunk/javascript/base64.js"
+    "base64": "http://stringencoders.googlecode.com/svn-history/r210/trunk/javascript/base64.js",
+    "angular": "latest",
+    "angular-resource": "latest"
   }
 }

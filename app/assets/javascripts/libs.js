@@ -5,3 +5,6 @@
 //= require marked
 //= require cookies-js
 //= require base64
+
+//= require angular
+//= require angular-resource
