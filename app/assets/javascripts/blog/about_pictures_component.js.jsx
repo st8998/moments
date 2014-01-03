@@ -1,4 +1,5 @@
 //= require directives/pictures_uploader
+//= require directives/pictures_line
 //= require models/picture
 
 (function() {

@@ -3,7 +3,11 @@ angular.module('app').directive('mPicturesUploader', ['PicturesUploaderReact', f
   return {
     restrict: 'A',
     scope: {
-      pictures: '='
+      pictures: '=',
+      maxHeight: '=',
+      maxWidth: '=',
+      enhanceRatioWidth: '=',
+      enhanceRatioHeight: '='
     },
     link: function(scope, elem, attrs) {
       scope.onPicturesChange = function(pics) {
@@ -11,9 +15,6 @@ angular.module('app').directive('mPicturesUploader', ['PicturesUploaderReact', f
           scope.pictures = pics
         })
       }
-
-      scope.maxHeight = 500
-      scope.maxWidth = 900
 
       scope.$watch('pictures', function() {
         React.renderComponent(PicturesUploaderReact(scope), elem[0]);
