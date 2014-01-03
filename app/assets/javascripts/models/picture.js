@@ -22,11 +22,11 @@ angular.module('app').factory('Picture', ['$resource', 'api', 'sequence', functi
     })
 
   Picture.prototype.uid = function() {
-    return this.uid || this._uid()
+    return this._uid || this._getUid()
   }
-  Picture.prototype._uid = function() {
-    this.uid = this.id ? 'pic-p-'+this.id : seq('pic-t-')
-    return this.uid
+  Picture.prototype._getUid = function() {
+    this._uid = this.id ? 'pic-p-'+this.id : seq('pic-t-')
+    return this._uid
   }
 
   Picture.prototype.assignAttributes = function(attrs) {

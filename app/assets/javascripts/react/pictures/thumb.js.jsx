@@ -1,12 +1,7 @@
 /** @jsx React.DOM */
 
-define('comp/pictures/picture', ['models/picture'], function(Picture) {
-
-  return React.createClass({
-    getDefaultProps: function() {
-      return {picture: new Picture()}
-    },
-
+angular.module('app').constant('ThumbReact',
+  React.createClass({
     render: function() {
       var pic = this.props.picture
 
@@ -17,6 +12,4 @@ define('comp/pictures/picture', ['models/picture'], function(Picture) {
         </li>
         )
     }
-  })
-
-})
+  }))

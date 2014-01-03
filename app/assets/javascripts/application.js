@@ -8,6 +8,8 @@ if (typeof Function.empty === 'undefined')
 if (typeof Function.stopPropagation === 'undefined')
   Function.stopPropagation = function(e) {e.stopPropagation()}
 
+Dropzone.autoDiscover = false
+
 App = angular.module('app', ['ngResource'])
 
 App.constant('settings', {

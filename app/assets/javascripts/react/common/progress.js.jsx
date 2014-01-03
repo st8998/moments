@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
-define('comp/common/progress', [], function() {
-  return React.createClass({
+angular.module('app').constant('ProgressReact',
+  React.createClass({
     render: function() {
       var progress = this.props.progress
 
@@ -14,4 +14,4 @@ define('comp/common/progress', [], function() {
       }
     }
   })
-})
+)

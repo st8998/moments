@@ -1,3 +1,4 @@
+//= require directives/pictures_uploader
 //= require models/picture
 
 (function() {
@@ -8,7 +9,7 @@
   }])
 
   app.controller('BlogCtrl', ['$scope', 'Picture', function($scope, Picture) {
-
+    $scope.pictures = Picture.query()
   }])
 
 }());

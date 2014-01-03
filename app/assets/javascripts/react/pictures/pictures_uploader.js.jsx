@@ -1,16 +1,8 @@
-//= require comp/common/progress
-//= require comp/pictures/picture
-//= require comp/pictures/pictures_line
-//= require models/picture
-
 /** @jsx React.DOM */
 
-define('comp/pictures/pictures_uploader',
-  ['models/picture',
-    'comp/common/progress',
-    'comp/pictures/picture',
-    'comp/pictures/pictures_line'],
-function(Picture, Progress, Thumb, Thumbnails) {
+angular.module('app').factory('PicturesUploaderReact',
+  ['ThumbReact', 'PicturesLineReact', 'ProgressReact', 'Picture', 'sequence', 'api',
+  function(Thumb, Thumbnails, Progress, Picture, seq, api) {
 
   var EditableThumb = React.createClass({
     render: function() {
@@ -24,7 +16,6 @@ function(Picture, Progress, Thumb, Thumbnails) {
           </div>
         </Thumb>
       )
-
     }
   })
 
@@ -52,15 +43,15 @@ function(Picture, Progress, Thumb, Thumbnails) {
     },
 
     getInitialState: function() {
-      return {pictures: this.props.pictures, dropzoneId: window.sequence('dropzone'), progress: 0}
+      return {pictures: this.props.pictures, dropzoneId: seq('dropzone'), progress: 0}
     },
 
     componentDidMount: function() {
       var dropzone = new Dropzone('#'+this.state.dropzoneId, {
         paramName: 'image',
-        url: this.props.api('/pictures/upload'),
+        url: api('/pictures/upload'),
         autoProcessQueue: false,
-        dictDefaultMessage:'',
+        dictDefaultMessage: '',
         previewTemplate: '<span></span>',
         clickable: '#'+this.state.dropzoneId+' .background',
         resize: Picture.resize
@@ -115,7 +106,8 @@ function(Picture, Progress, Thumb, Thumbnails) {
           this.setState({pictures: pictures})
           this.props.onPicturesChange(_.filter(pictures, function(pic) { return pic.id }))
         } else {
-          $.ajax({url: this.props.api('/pictures', picAttrs.id), method: 'delete'})
+          // TODO remove direct api calls
+          $.ajax({url: api('/pictures', picAttrs.id), method: 'delete'})
         }
       }.bind(this))
 
@@ -129,8 +121,9 @@ function(Picture, Progress, Thumb, Thumbnails) {
     onPictureRemove: function(removedPic) {
       var pictures = _.reject(this.state.pictures, function(pic) { return removedPic === pic })
 
+      // TODO remove direct api calls
       if (removedPic.id)
-        $.ajax({url: this.props.api('/pictures/', removedPic.id), method: 'delete'})
+        $.ajax({url: api('/pictures/', removedPic.id), method: 'delete'})
 
       if (removedPic.dzFile) {
         this.state.dropzone.removeFile(removedPic.dzFile)
@@ -158,4 +151,4 @@ function(Picture, Progress, Thumb, Thumbnails) {
     }
 
   })
-})
+}])
