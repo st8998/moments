@@ -16,7 +16,7 @@ angular.module('app').directive('mPicturesUploader', ['PicturesUploaderReact', f
         })
       }
 
-      scope.$watch('pictures', function() {
+      scope.$watchCollection('pictures', function() {
         React.renderComponent(PicturesUploaderReact(scope), elem[0]);
       }, true)
     }

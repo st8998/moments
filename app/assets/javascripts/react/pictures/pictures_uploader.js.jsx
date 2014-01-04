@@ -39,21 +39,25 @@ angular.module('app').factory('PicturesUploaderReact',
 
   return React.createClass({
     getDefaultProps: function() {
-      return {pictures: [], onPicturesChange: Function.empty}
+      return {pictures: [], onPicturesChange: Function.empty, dropzoneId: seq('dropzone')}
     },
 
     getInitialState: function() {
-      return {pictures: this.props.pictures, dropzoneId: seq('dropzone'), progress: 0}
+      return {pictures: this.props.pictures, progress: 0}
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+      this.setState({pictures: nextProps.pictures});
     },
 
     componentDidMount: function() {
-      var dropzone = new Dropzone('#'+this.state.dropzoneId, {
+      var dropzone = new Dropzone('#'+this.props.dropzoneId, {
         paramName: 'image',
         url: api('/pictures/upload'),
         autoProcessQueue: false,
         dictDefaultMessage: '',
         previewTemplate: '<span></span>',
-        clickable: '#'+this.state.dropzoneId+' .background',
+        clickable: '#'+this.props.dropzoneId+' .background',
         resize: Picture.resize
       })
 
@@ -72,7 +76,7 @@ angular.module('app').factory('PicturesUploaderReact',
 
         this.setState({pictures: pictures, progress: this.state.progress - 1})
 
-        this.state.dropzone.processFile(file)
+        this.dropzone.processFile(file)
       }.bind(this))
 
       dropzone.on('uploadprogress', function(file, progress) {
@@ -110,11 +114,11 @@ angular.module('app').factory('PicturesUploaderReact',
         }
       }.bind(this))
 
-      this.setState({dropzone: dropzone})
+      this.dropzone = dropzone
     },
 
     componentWillUnmount: function() {
-      this.state.dropzone.destroy()
+      this.dropzone.destroy()
     },
 
     onPictureRemove: function(removedPic) {
@@ -124,7 +128,7 @@ angular.module('app').factory('PicturesUploaderReact',
         removedPic.$delete()
 
       if (removedPic.dzFile) {
-        this.state.dropzone.removeFile(removedPic.dzFile)
+        this.dropzone.removeFile(removedPic.dzFile)
       }
 
       this.setState({pictures: pictures})
@@ -136,7 +140,7 @@ angular.module('app').factory('PicturesUploaderReact',
           thumbClass = function(attrs) {return EditableThumb(_.extend(attrs, {onRemove: comp.onPictureRemove}))}
 
       return (
-        <div className='pictures-uploader-component dropzone' id={this.state.dropzoneId} key={this.state.dropzoneId}>
+        <div className='pictures-uploader-component dropzone' id={this.props.dropzoneId} key={this.props.dropzoneId}>
           <Thumbnails
             pictures={this.state.pictures} thumbComponent={thumbClass}
             maxWidth={this.props.maxWidth} maxHeight={this.props.maxHeight}
