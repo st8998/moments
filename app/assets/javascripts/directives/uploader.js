@@ -9,7 +9,6 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
     template: '<div class="upload-component" ng-transclude></div>',
     link: function(scope, elem, attrs) {
       // TODO add "drag on page" feature
-
       var setProgress = (function(hideAfter) {
         var progress = elem.find('.horizontal-progress')
         var hideProgressTimeout
@@ -23,6 +22,33 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
 
       var comp = elem.find('.upload-component')
       var fileInput = elem.find('.upload-hint').append('<input class="hidden-file-upload-button" type="file" multiple />')
+
+      ;(function() {
+        var target
+        $(document).on('dragenter', function(e) {
+          target = e.target
+          comp.addClass('file-page-hover')
+        })
+        $(document).on('dragleave', function(e) {
+          if (e.target === target)
+            comp.removeClass('file-page-hover')
+        })
+      }())
+
+      ;(function() {
+        var target
+        comp.on('dragenter', function(e) {
+          target = e.target
+          comp.addClass('file-hover')
+        })
+        comp.on('dragleave', function(e) {
+          if (e.target === target)
+            comp.removeClass('file-hover')
+        })
+        comp.on('drop', function() {
+          $('.file-hover, .file-page-hover').removeClass('file-hover file-page-hover')
+        })
+      }())
 
       comp.fileupload({
         url: scope.url,

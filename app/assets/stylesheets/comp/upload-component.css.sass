@@ -14,6 +14,13 @@
       display: block !important
 
   .upload-hint
+    margin: 0
+    padding-top: 10px
+    font-weight: lighter
+    color: #aaa
+    &:hover
+      color: #666
+
     position: relative
     overflow: hidden
     cursor: pointer
@@ -27,20 +34,37 @@
       right: 0
       top: 0
       cursor: pointer
+      &:focus
+        outline: 0
 
   .upload-hover-hint, .upload-drag-hint
+    margin: 0
+    border: 1px dashed transparent
     position: absolute
     z-index: 1000
     height: 100%
     width: 100%
-    text-align: center
     display: none
     background-color: white
     top: 0
     left: 0
     margin: 0
+    h3
+      width: 100%
+      font-weight: lighter
+      color: #666
+      text-align: center
+      position: absolute
+      top: 50%
+      margin-top: -14px
+
+  .upload-hover-hint
+    z-index: 1001
 
   &.file-page-hover .upload-drag-hint
+    border-color: #ccc
     display: block
   &.file-hover .upload-hover-hint
+    border-color: #ccc
+    background-color: #f4f4f4
     display: block

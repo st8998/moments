@@ -1,5 +1,4 @@
 angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(PicturesLineReact) {
-
   return {
     restrict: 'E',
     scope: {
