@@ -1,15 +1,30 @@
-.blog[ng-controller='BlogCtrl']
+.blog[ng-controller='BlogCtrl as blog']
   h1 PICTURES COMPONENT
+
+  p new uploader
+  .panel.panel-default
+    .panel-body
+      / TODO refactor to bind once somehow
+      m-uploader[url="{{blog.api('/pictures/upload')}}" on-upload='blog.addPicture(attrs)' ng-cloak]
+        h3.upload-hint
+          span.glyphicon.glyphicon-camera
+          | Добавить фотографии
+        h3.upload-drag-hint Тащите свои фотографии сюда
+        h3.upload-hover-hint Смело отпускайте - мы поймаем
+        .horizontal-progress
+        m-pictures-line[pictures='blog.pictures' max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
+
 
   p more text here and an editable version of pictures line
   .panel.panel-default
     .panel-body
-      m-pictures-uploader[pictures='pictures' max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
+      m-pictures-uploader[pictures='blog.pictures' max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
         .pictures-line-component[style='height: 500px']
+  /
+  /p Some description goes here and pictures line view component
+  /.panel.panel-default
+  /  .panel-body
+  /    m-pictures-line[pictures='pictures' max-width='900' max-height='200' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
+  /      .pictures-line-component[style='height: 200px']
 
-  p Some description goes here and pictures line view component
-  .panel.panel-default
-    .panel-body
-      m-pictures-line[pictures='pictures' max-width='900' max-height='200' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
-        .pictures-line-component[style='height: 200px']
 = javascript_include_tag 'blog/about_pictures_component'

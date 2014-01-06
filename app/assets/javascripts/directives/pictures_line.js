@@ -12,7 +12,7 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
     replace: true,
     link: function(scope, elem, attrs) {
       scope.$watchCollection('pictures', function() {
-        React.renderComponent(PicturesLineReact(scope), elem[0]);
+        React.renderComponent(PicturesLineReact(scope), elem[0])
       }, true)
     }
   }

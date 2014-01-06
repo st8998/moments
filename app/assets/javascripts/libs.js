@@ -8,3 +8,7 @@
 
 //= require angular
 //= require angular-resource
+//= require angular-bindonce
+
+//= require jquery.ui.widget
+//= require blueimp-file-upload

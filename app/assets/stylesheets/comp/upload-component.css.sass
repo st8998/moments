@@ -1,0 +1,46 @@
+.upload-component
+  position: relative
+  height: 100%
+
+  .horizontal-progress
+    transition-property: width
+    transition-duration: 1s
+    z-index: 1000
+    height: 10px
+    width: 0
+    background: url('/assets/background_stripes.gif')
+    &.hidden
+      visibility: hidden !important
+      display: block !important
+
+  .upload-hint
+    position: relative
+    overflow: hidden
+    cursor: pointer
+    text-align: center
+    .glyphicon
+      margin-right: 10px
+    .hidden-file-upload-button
+      text-align: left
+      position: absolute
+      font-size: 200px
+      right: 0
+      top: 0
+      cursor: pointer
+
+  .upload-hover-hint, .upload-drag-hint
+    position: absolute
+    z-index: 1000
+    height: 100%
+    width: 100%
+    text-align: center
+    display: none
+    background-color: white
+    top: 0
+    left: 0
+    margin: 0
+
+  &.file-page-hover .upload-drag-hint
+    display: block
+  &.file-hover .upload-hover-hint
+    display: block

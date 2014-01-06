@@ -9,6 +9,9 @@
     "cookies-js": "https://raw.github.com/ScottHamper/Cookies/master/src/cookies.js",
     "base64": "http://stringencoders.googlecode.com/svn-history/r210/trunk/javascript/base64.js",
     "angular": "latest",
-    "angular-resource": "latest"
+    "angular-resource": "latest",
+    "angular-bindonce": "latest",
+    "jquery.ui.widget": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/vendor/jquery.ui.widget.js",
+    "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js"
   }
 }
