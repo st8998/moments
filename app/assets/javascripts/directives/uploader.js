@@ -4,11 +4,10 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
     transclude: true,
     scope: {
       onUpload: '&',
-      url: '@'
+      url: '&'
     },
     template: '<div class="upload-component" ng-transclude></div>',
     link: function(scope, elem, attrs) {
-      // TODO add "drag on page" feature
       var setProgress = (function(hideAfter) {
         var progress = elem.find('.horizontal-progress')
         var hideProgressTimeout
@@ -51,7 +50,7 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
       }())
 
       comp.fileupload({
-        url: scope.url,
+        url: scope.url(),
         type: 'post',
         dropZone: comp,
         pasteZone: comp,

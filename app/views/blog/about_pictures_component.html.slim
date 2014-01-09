@@ -2,8 +2,7 @@
   h1 PICTURES COMPONENT
 
   p new uploader
-  / TODO refactor to bind once somehow
-  m-uploader[url="{{blog.api('/pictures/upload')}}" on-upload='blog.addPicture(attrs)' ng-cloak]
+  m-uploader[url="blog.api('/pictures/upload')" on-upload='blog.addPicture(attrs)' ng-cloak]
     h3.upload-hint
       span.glyphicon.glyphicon-camera
       | Добавить фотографии
