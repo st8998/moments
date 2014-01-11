@@ -1,3 +1,5 @@
+// TODO fix drag hover messages for non uploading content
+
 angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', function($, seq, $timeout) {
   return {
     restrict: 'E',

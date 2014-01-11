@@ -2,9 +2,9 @@
 //= require react
 //= require underscore
 //= require dropzone
-//= require marked
 //= require cookies-js
-//= require base64
+
+//= require iscroll/build/iscroll
 
 //= require angular
 //= require angular-resource

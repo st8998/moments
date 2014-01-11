@@ -12,6 +12,7 @@
     "angular-resource": "latest",
     "angular-bindonce": "latest",
     "jquery.ui.widget": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/vendor/jquery.ui.widget.js",
-    "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js"
+    "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js",
+    "iscroll": "latest"
   }
 }

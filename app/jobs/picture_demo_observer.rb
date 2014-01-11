@@ -12,6 +12,6 @@ class PictureDemoObserver < ActiveRecord::Observer
   observe :picture
 
   def after_save(picture)
-    Job.new.async.delete_demo_picture(picture) if picture.account.demo?
+    #Job.new.async.delete_demo_picture(picture) if picture.account.demo?
   end
 end

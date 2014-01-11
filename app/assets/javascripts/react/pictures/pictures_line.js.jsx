@@ -21,10 +21,9 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
     getDefaultProps: function() {
       return {
         pictures: [],
-        maxWidth: 800,
         maxHeight: 500,
-        enhanceRatioWidth: 0.6,
-        enhanceRatioHeight: 0.9
+        enhanceRatioWidth: 1,
+        enhanceRatioHeight: 1
       }
     },
 
@@ -49,13 +48,14 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
 
       var pictures = _.map(pics, function(pic) { return this.state.thumbComponent({picture: pic, key: pic.uid()})}.bind(this))
       var lineHeight = pics[0] ? pics[0].thHeight : this.props.maxHeight
+      var lineWidth = pics[0] ? _.reduce(pics, function(sum, p) {return sum + p.getImageStyle().width}, 0) : this.props.maxWidth
 
       if (!pictures.length)
         placeholder = <h3 className='placeholder'>Никто пока ничего не загружал</h3>
 
       return (
         <div className='pictures-line-component'>
-          <ul style={{height: lineHeight}}>{pictures}</ul>
+          <ul style={{height: lineHeight, width: lineWidth}}>{pictures}</ul>
           {placeholder}
         </div>
       )

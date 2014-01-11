@@ -1,6 +1,7 @@
 //= require_self
 //= require services/api
 //= require_tree ./react
+//= require_tree ./directives
 
 if (typeof Function.empty === 'undefined')
   Function.empty = function() {}
