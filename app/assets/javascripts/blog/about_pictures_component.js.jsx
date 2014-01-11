@@ -24,5 +24,12 @@
     this.pictures.push(new Picture(attrs))
   }
 
+  BlogCtrl.prototype.removePicture = function(pic) {
+    var pics = this.pictures
+    pic.$delete(function() {
+      pics.splice(pics.indexOf(pic), 1)
+    })
+  }
+
   app.controller('BlogCtrl', ['$scope', 'Picture', 'api', BlogCtrl])
 }());

@@ -11,13 +11,10 @@
     .upload-hover-hint
       h3 Смело отпускайте - мы поймаем
     .horizontal-progress
-    m-pictures-line[ng-show='blog.pictures.length' pictures='blog.pictures' max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
-
-  p more text here and an editable version of pictures line
-  .panel.panel-default
-    .panel-body
-      m-pictures-uploader[pictures='blog.pictures' max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
-        .pictures-line-component[style='height: 500px']
+    m-pictures-line[
+      ng-show='blog.pictures.length' pictures='blog.pictures'
+      on-remove='blog.removePicture(picture)'
+      max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
 
   p Some description goes here and pictures line view component
   .panel.panel-default
