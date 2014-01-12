@@ -48,7 +48,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
 
       var pictures = _.map(pics, function(pic) { return this.state.thumbComponent({picture: pic, key: pic.uid()})}.bind(this))
       var lineHeight = pics[0] ? pics[0].thHeight : this.props.maxHeight
-      var lineWidth = pics[0] ? _.reduce(pics, function(sum, p) {return sum + p.getImageStyle().width}, 0) : this.props.maxWidth
+      var lineWidth = pics[0] ? (pics.length-1)*3 + _.reduce(pics, function(sum, p) {return sum + p.getImageStyle().width}, 0) : this.props.maxWidth
 
       if (!pictures.length)
         placeholder = <h3 className='placeholder'>Никто пока ничего не загружал</h3>

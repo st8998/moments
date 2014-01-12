@@ -1,6 +1,8 @@
 angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(PicturesLineReact) {
   return {
     restrict: 'E',
+    replace: true,
+
     scope: {
       pictures: '=',
       maxHeight: '=',
@@ -9,8 +11,12 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       enhanceRatioHeight: '=',
       onRemoveCallback: '&onRemove'
     },
-    replace: true,
-    link: function(scope, elem, attrs) {
+
+    require: '?mScroll',
+
+    link: function(scope, elem, attrs, mScroll) {
+      mScroll = mScroll || {}
+
       if (attrs['onRemove']) {
         scope.onRemove = function(pic) {
           scope.$apply(function() {
@@ -19,10 +25,10 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
         }
       }
 
-      React.renderComponent(PicturesLineReact(scope), elem[0])
+      React.renderComponent(PicturesLineReact(scope), elem[0], mScroll.refresh)
 
       scope.$watchCollection('pictures', function() {
-        React.renderComponent(PicturesLineReact(scope), elem[0])
+        React.renderComponent(PicturesLineReact(scope), elem[0], mScroll.refresh)
       })
     }
   }

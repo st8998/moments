@@ -2,7 +2,10 @@ angular.module('app').directive('mScroll', function() {
   return {
     restrict: 'A',
     priority: 1000,
-    link: function(scope, elem, attrs) {
+
+    controller: Function.empty,
+
+    link: function(scope, elem, attrs, controller) {
       var container = attrs['mScroll'] ? elem.find(attrs['mScroll']) : elem
       var iScroll = new IScroll(container.get(0), {
         disableMouse: false,
@@ -10,14 +13,11 @@ angular.module('app').directive('mScroll', function() {
         scrollY: false,
         mouseWheel: true,
         bounce: false,
-        momentum: false
+        momentum: true,
+        deceleration: 0.005
       })
 
-      scope.$watch(function() {
-        setTimeout(function() {
-          iScroll.refresh()
-        }, 100)
-      })
+      controller.refresh = IScroll.prototype.refresh.bind(iScroll)
 
       elem.on('$destroy', function() {
         iScroll.destroy()
