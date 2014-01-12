@@ -12,7 +12,7 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       onRemoveCallback: '&onRemove'
     },
 
-    require: '?mScroll',
+    require: '?^mScroll',
 
     link: function(scope, elem, attrs, mScroll) {
       mScroll = mScroll || {}

@@ -1,5 +1,3 @@
-// TODO fix drag hover messages for non uploading content
-
 angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', function($, seq, $timeout) {
   return {
     restrict: 'E',
@@ -27,8 +25,11 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
       ;(function() {
         var target
         $(document).on('dragenter', function(e) {
-          target = e.target
-          comp.addClass('file-page-hover')
+          var dt = e.originalEvent.dataTransfer;
+          if(dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
+            target = e.target
+            comp.addClass('file-page-hover')
+          }
         })
         $(document).on('dragleave', function(e) {
           if (e.target === target)
@@ -39,8 +40,11 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
       ;(function() {
         var target
         comp.on('dragenter', function(e) {
-          target = e.target
-          comp.addClass('file-hover')
+          var dt = e.originalEvent.dataTransfer;
+          if(dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
+            target = e.target
+            comp.addClass('file-hover')
+          }
         })
         comp.on('dragleave', function(e) {
           if (e.target === target)
@@ -70,7 +74,7 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
         }
       })
 
-      scope.$on('$destroy', function() {
+      elem.on('$destroy', function() {
         comp.fileupload('destroy')
       })
     }
