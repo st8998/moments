@@ -45,7 +45,8 @@ angular.module('app').factory('Picture',
     return {
       height: (this.thHeight || this.height) - 2, // 2 is a gap between pics
       width: (this.thWidth || this.width) - 2, // 2 is a gap between pics
-      left: this.cLeft || 0
+      left: this.cLeft || 0,
+      top: this.cTop || 0
     }
   }
 
@@ -69,16 +70,29 @@ angular.module('app').factory('Picture',
       return this.image_data
   }
 
+  Picture.fitAndEnhanceRow = function(pics, opts) {
+    var dims = Picture.fitInRow(pics, opts.maxWidth, opts.maxHeight)
+
+    if (opts.enhanceRatioWidth != 1)
+      Picture.enhanceRowWidth(pics, opts.maxWidth, opts.enhanceRatioWidth)
+
+    if (opts.enhanceRatioHeight != 1)
+      Picture.enhanceRowHeight(pics, opts.maxHeight, opts.enhanceRatioHeight)
+
+    return {height: pics[0].getContainerStyle().height+2, width: dims.width}
+  }
+
   Picture.layoutPictures = function(pics, options) {
 
     // collect options
     options = options || {}
-    var maxHeight = options.maxHeight + 5,
-        maxWidth = options.maxWidth + 5, // 5 is a reserve for rounding
+    var maxHeight = options.maxHeight,
+        maxWidth = options.maxWidth, // 5 is a reserve for rounding
         enhanceRatioWidth = options.enhanceRatioWidth || 1,
         enhanceRatioHeight = options.enhanceRatioHeight || 1
 
-    var enhancedHeight = maxHeight / enhanceRatioHeight
+    var enhancedHeight = maxHeight / enhanceRatioHeight,
+      enhancedWidth = maxWidth / enhanceRatioWidth
 
     // cleanup previous calculations and optimisations
     _.each(pics, function(pic) {
@@ -89,28 +103,55 @@ angular.module('app').factory('Picture',
     })
 
     // try to fit all images in one row
-    Picture.fitInRow(pics, maxWidth, maxHeight+2)
+    var dims = Picture.fitInRow(pics, maxWidth, maxHeight),
+      oneLineHeight = dims.height,
+      oneLineWidth = dims.width
 
-    if (enhanceRatioWidth != 1)
-      Picture.enhanceRowWidth(pics, maxWidth, enhanceRatioWidth)
+    // make two lines
+    // one with 2/3 of total height and one with 1/3 height
+    if (oneLineHeight*5 < enhancedHeight) {
+      var firstLine = [], secondLine = []
 
-    if (enhanceRatioHeight != 1)
-      Picture.enhanceRowHeight(pics, maxHeight, enhanceRatioHeight)
+      var takenWidth = 0, notEnough = true, ratio = (enhancedHeight+maxHeight)/2*0.6/pics[0].thHeight
 
-    Picture.updateOffsets(pics)
+      _.each(pics, function(pic) {
+        if (notEnough && takenWidth + pic.thWidth*ratio < enhancedWidth) {
+          takenWidth += pic.thWidth*ratio
+          firstLine.push(pic)
+        } else {
+          notEnough = false
+          secondLine.push(pic)
+        }
+      })
 
-    var height, width
-    if (pics.length) {
-      height = pics[0] ? pics[0].getContainerStyle().height : maxHeight
+      var firstLineDims = Picture.fitAndEnhanceRow(firstLine, {
+        maxWidth: maxWidth,
+        maxHeight: maxHeight*0.6,
+        enhanceRatioWidth: options.enhanceRatioWidth,
+        enhanceRatioHeight: options.enhanceRatioHeight
+      })
+      Picture.updateOffsets(firstLine)
 
-      var lastThumb = pics[pics.length-1].getContainerStyle()
-      width = lastThumb ? lastThumb.left+lastThumb.width : maxWidth
+      var secondLineDims = Picture.fitAndEnhanceRow(secondLine, {
+        maxWidth: maxWidth,
+        maxHeight: maxHeight*0.4,
+        enhanceRatioWidth: options.enhanceRatioWidth,
+        enhanceRatioHeight: options.enhanceRatioHeight
+      })
+      Picture.updateOffsets(secondLine, {top: firstLineDims.height})
+
+      return {height: firstLineDims.height+secondLineDims.height, width: firstLineDims.width}
     } else {
-      height = maxHeight || 0
-      width = maxWidth || 0
-    }
+      if (enhanceRatioWidth != 1)
+        Picture.enhanceRowWidth(pics, maxWidth, enhanceRatioWidth)
 
-    return {height: height, width: width}
+      if (enhanceRatioHeight != 1)
+        Picture.enhanceRowHeight(pics, maxHeight, enhanceRatioHeight)
+
+      Picture.updateOffsets(pics)
+
+      return {height: pics[0].getContainerStyle().height+2, width: dims.width}
+    }
   }
 
   Picture.fitInRow = function(pics, maxWidth, maxHeight) {
@@ -127,7 +168,6 @@ angular.module('app').factory('Picture',
       var ratio = maxWidth / totalWidth
 
       // adjust height/width of each images according ratio
-      // clean up any enhancements
       _.each(pics, function(pic) {
         pic.thWidth = Math.floor(pic.thWidth * ratio)
         pic.thHeight = Math.floor(pic.thHeight * ratio)
@@ -137,9 +177,9 @@ angular.module('app').factory('Picture',
           pic.resizeToHeight(maxHeight)
       })
 
-      return _.reduce(pics, function(memo, pic) { return memo+pic.width }, 0)
+      return {height: pics[0] ? pics[0].thHeight : 0, width: _.reduce(pics, function(memo, pic) { return memo+pic.thWidth }, 0)}
     } else {
-      return totalWidth
+      return {height: pics[0] ? pics[0].thHeight : 0, width: totalWidth}
     }
   }
 

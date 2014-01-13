@@ -42,7 +42,9 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
     render: function() {
       var pics = this.props.pictures, placeholder
 
-      var dimensions = Picture.layoutPictures(pics, this.props)
+      var dimensions = {height: 0, width: 0}
+      if (pics.length)
+        dimensions = Picture.layoutPictures(pics, this.props)
 
       var pictures = _.map(pics, function(pic) { return this.state.thumbComponent({picture: pic, key: pic.uid()})}.bind(this))
 

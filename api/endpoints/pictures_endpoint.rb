@@ -2,7 +2,7 @@ class PicturesEndpoint < Grape::API
   namespace '/:account_key/pictures' do
     helpers do
       def pictures
-        @pictures ||= Picture.accessible_by(current_ability)
+        @pictures ||= Picture.accessible_by(current_ability).order(:id)
       end
       def picture
         @picture ||= pictures.find(params[:id])
