@@ -43,8 +43,8 @@ angular.module('app').factory('Picture',
 
   Picture.prototype.getContainerStyle = function() {
     return {
-      height: this.thHeight || this.height,
-      width: this.thWidth || this.width,
+      height: (this.thHeight || this.height) - 2, // 2 is a gap between pics
+      width: (this.thWidth || this.width) - 2, // 2 is a gap between pics
       left: this.cLeft || 0
     }
   }
@@ -70,26 +70,38 @@ angular.module('app').factory('Picture',
   }
 
   Picture.layoutPictures = function(pics, options) {
+
+    // collect options
     options = options || {}
+    var maxHeight = options.maxHeight + 5,
+        maxWidth = options.maxWidth + 5, // 5 is a reserve for rounding
+        enhanceRatioWidth = options.enhanceRatioWidth || 1,
+        enhanceRatioHeight = options.enhanceRatioHeight || 1
 
-    var maxHeight = options.maxHeight,
-        maxWidth = options.maxWidth,
-        enhanceRatioWidth = options.enhanceRatioWidth,
-        enhanceRatioHeight = options.enhanceRatioHeight
+    var enhancedHeight = maxHeight / enhanceRatioHeight
 
+    // cleanup previous calculations and optimisations
+    _.each(pics, function(pic) {
+      pic.thTop = 0
+      pic.thLeft = 0
+      pic.thHeight = 0
+      pic.thWidth = 0
+    })
+
+    // try to fit all images in one row
     Picture.fitInRow(pics, maxWidth, maxHeight+2)
 
-    if (enhanceRatioWidth)
+    if (enhanceRatioWidth != 1)
       Picture.enhanceRowWidth(pics, maxWidth, enhanceRatioWidth)
 
-    if (enhanceRatioHeight)
+    if (enhanceRatioHeight != 1)
       Picture.enhanceRowHeight(pics, maxHeight, enhanceRatioHeight)
 
     Picture.updateOffsets(pics)
 
     var height, width
     if (pics.length) {
-      height = pics[0] ? pics[0].thHeight : maxHeight
+      height = pics[0] ? pics[0].getContainerStyle().height : maxHeight
 
       var lastThumb = pics[pics.length-1].getContainerStyle()
       width = lastThumb ? lastThumb.left+lastThumb.width : maxWidth
@@ -112,17 +124,11 @@ angular.module('app').factory('Picture',
     }, 0)
 
     if (maxWidth) {
-      // +2px is visual enhancements to cover gap after flooring
-      // 3px is a gap between two images
-      var ratio = (maxWidth + 2 - (pics.length - 1) * 3) / totalWidth
+      var ratio = maxWidth / totalWidth
 
       // adjust height/width of each images according ratio
       // clean up any enhancements
       _.each(pics, function(pic) {
-        // remove any top offset optimization
-        pic.thTop = 0
-        pic.thLeft = 0
-
         pic.thWidth = Math.floor(pic.thWidth * ratio)
         pic.thHeight = Math.floor(pic.thHeight * ratio)
 
@@ -130,6 +136,10 @@ angular.module('app').factory('Picture',
         if (pic.thHeight > maxHeight)
           pic.resizeToHeight(maxHeight)
       })
+
+      return _.reduce(pics, function(memo, pic) { return memo+pic.width }, 0)
+    } else {
+      return totalWidth
     }
   }
 
@@ -137,7 +147,7 @@ angular.module('app').factory('Picture',
     var totalWidth = _.reduce(pics, function(memo, pic) {
       return memo + pic.thWidth
     }, 0)
-    var ratio = totalWidth / (maxWidth + 2 - (pics.length - 1) * 3)
+    var ratio = totalWidth / maxWidth
 
     // if total width more then Picture.enhanceRatio of row width
     // crop all images center weighted
@@ -173,7 +183,7 @@ angular.module('app').factory('Picture',
     _.each(pics, function(pic) {
       pic.cLeft = left
       pic.cTop = top
-      left += pic.thWidth + 3
+      left += pic.thWidth
     })
   }
 
