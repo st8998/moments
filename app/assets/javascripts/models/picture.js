@@ -69,6 +69,38 @@ angular.module('app').factory('Picture',
       return this.image_data
   }
 
+  Picture.layoutPictures = function(pics, options) {
+    options = options || {}
+
+    var maxHeight = options.maxHeight,
+        maxWidth = options.maxWidth,
+        enhanceRatioWidth = options.enhanceRatioWidth,
+        enhanceRatioHeight = options.enhanceRatioHeight
+
+    Picture.fitInRow(pics, maxWidth, maxHeight+2)
+
+    if (enhanceRatioWidth)
+      Picture.enhanceRowWidth(pics, maxWidth, enhanceRatioWidth)
+
+    if (enhanceRatioHeight)
+      Picture.enhanceRowHeight(pics, maxHeight, enhanceRatioHeight)
+
+    Picture.updateOffsets(pics)
+
+    var height, width
+    if (pics.length) {
+      height = pics[0] ? pics[0].thHeight : maxHeight
+
+      var lastThumb = pics[pics.length-1].getContainerStyle()
+      width = lastThumb ? lastThumb.left+lastThumb.width : maxWidth
+    } else {
+      height = maxHeight || 0
+      width = maxWidth || 0
+    }
+
+    return {height: height, width: width}
+  }
+
   Picture.fitInRow = function(pics, maxWidth, maxHeight) {
     // adapt all images to same height of Picture.maxHeight
     _.each(pics, function(pic) {

@@ -42,26 +42,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
     render: function() {
       var pics = this.props.pictures, placeholder
 
-      Picture.fitInRow(pics, this.props.maxWidth, this.props.maxHeight+2)
-
-      if (this.props.enhanceRatioWidth)
-        Picture.enhanceRowWidth(pics, this.props.maxWidth, this.props.enhanceRatioWidth)
-
-      if (this.props.enhanceRatioHeight)
-        Picture.enhanceRowHeight(pics, this.props.maxHeight, this.props.enhanceRatioHeight)
-
-      Picture.updateOffsets(pics)
-
-      var lineHeight, lineWidth
-      if (pics.length) {
-        lineHeight = pics[0] ? pics[0].thHeight : this.props.maxHeight
-
-        var lastThumb = pics[pics.length-1].getContainerStyle()
-        lineWidth = lastThumb ? lastThumb.left+lastThumb.width : this.props.maxWidth
-      } else {
-        lineHeight = this.props.maxHeight || 0
-        lineWidth = this.props.maxWidth || 0
-      }
+      var dimensions = Picture.layoutPictures(pics, this.props)
 
       var pictures = _.map(pics, function(pic) { return this.state.thumbComponent({picture: pic, key: pic.uid()})}.bind(this))
 
@@ -70,7 +51,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
 
       return (
         <div className='pictures-line-component'>
-          <ul style={{height: lineHeight, width: lineWidth}}>{pictures}</ul>
+          <ul style={{height: dimensions.height, width: dimensions.width}}>{pictures}</ul>
           {placeholder}
         </div>
       )
