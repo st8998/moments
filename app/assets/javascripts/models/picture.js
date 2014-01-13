@@ -59,6 +59,8 @@ angular.module('app').factory('Picture',
   }
 
   Picture.prototype.getUrl = function() {
+    if (this.image_url_big && (this.thHeight > 1024 || this.thWidth > 1024))
+      return this.image_url_big
     if (this.image_url_normal && (this.thHeight > 512 || this.thWidth > 512))
       return this.image_url_normal
     if (this.image_url_small)
@@ -77,26 +79,26 @@ angular.module('app').factory('Picture',
       return memo + pic.thWidth
     }, 0)
 
-    // +2px is visual enhancements to cover gap after flooring
-    // 3px is a gap between two images
-    var ratio = (maxWidth + 2 - (pics.length - 1) * 3) / totalWidth
+    if (maxWidth) {
+      // +2px is visual enhancements to cover gap after flooring
+      // 3px is a gap between two images
+      var ratio = (maxWidth + 2 - (pics.length - 1) * 3) / totalWidth
 
-    // adjust height/width of each images according ratio
-    // clean up any enhancements
-    _.each(pics, function(pic) {
-      // remove any top offset optimization
-      pic.thTop = 0
-      pic.thLeft = 0
+      // adjust height/width of each images according ratio
+      // clean up any enhancements
+      _.each(pics, function(pic) {
+        // remove any top offset optimization
+        pic.thTop = 0
+        pic.thLeft = 0
 
-      pic.thWidth = Math.floor(pic.thWidth * ratio)
-      pic.thHeight = Math.floor(pic.thHeight * ratio)
+        pic.thWidth = Math.floor(pic.thWidth * ratio)
+        pic.thHeight = Math.floor(pic.thHeight * ratio)
 
-      // keep watching for maxThumb height
-      if (pic.thHeight > maxHeight)
-        pic.resizeToHeight(maxHeight)
-    })
-
-    Picture.updateLeftOffset(pics)
+        // keep watching for maxThumb height
+        if (pic.thHeight > maxHeight)
+          pic.resizeToHeight(maxHeight)
+      })
+    }
   }
 
   Picture.enhanceRowWidth = function(pics, maxWidth, enhanceRatioWidth) {
@@ -112,8 +114,6 @@ angular.module('app').factory('Picture',
         pic.thWidth = Math.floor(pic.thWidth / ratio)
         pic.thTop = -Math.floor((pic.thHeight / ratio - pic.thHeight) / 2)
       })
-
-      Picture.updateLeftOffset(pics)
     }
   }
 
@@ -130,17 +130,18 @@ angular.module('app').factory('Picture',
         pic.thHeight = Math.floor(pic.thHeight / enhanceRatio)
         pic.thLeft = -Math.floor((pic.thWidth / enhanceRatio - pic.thWidth) / 2)
       })
-
-      Picture.updateLeftOffset(pics)
     }
   }
 
-  Picture.updateLeftOffset = function(pics) {
-    var offset = 0
+  Picture.updateOffsets = function(pics, offset) {
+    offset = offset || {}
+    var left = offset.left || 0
+    var top = offset.top || 0
 
     _.each(pics, function(pic) {
-      pic.cLeft = offset
-      offset += pic.thWidth + 3
+      pic.cLeft = left
+      pic.cTop = top
+      left += pic.thWidth + 3
     })
   }
 

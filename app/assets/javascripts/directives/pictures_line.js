@@ -12,10 +12,15 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       onRemoveCallback: '&onRemove'
     },
 
-    require: '?^mScroll',
+    require: ['?^mScroll', '?^mGallery'],
 
-    link: function(scope, elem, attrs, mScroll) {
-      mScroll = mScroll || {}
+    link: function(scope, elem, attrs, controllers) {
+      console.log(controllers)
+
+      var mScroll = controllers[0] || {}
+      var mGallery = controllers[1]
+      if (mGallery)
+        mGallery.test()
 
       if (attrs['onRemove']) {
         scope.onRemove = function(pic) {

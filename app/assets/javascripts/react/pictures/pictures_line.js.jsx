@@ -43,12 +43,27 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
       var pics = this.props.pictures, placeholder
 
       Picture.fitInRow(pics, this.props.maxWidth, this.props.maxHeight+2)
-      Picture.enhanceRowWidth(pics, this.props.maxWidth, this.props.enhanceRatioWidth)
-      Picture.enhanceRowHeight(pics, this.props.maxHeight, this.props.enhanceRatioHeight)
+
+      if (this.props.enhanceRatioWidth)
+        Picture.enhanceRowWidth(pics, this.props.maxWidth, this.props.enhanceRatioWidth)
+
+      if (this.props.enhanceRatioHeight)
+        Picture.enhanceRowHeight(pics, this.props.maxHeight, this.props.enhanceRatioHeight)
+
+      Picture.updateOffsets(pics)
+
+      var lineHeight, lineWidth
+      if (pics.length) {
+        lineHeight = pics[0] ? pics[0].thHeight : this.props.maxHeight
+
+        var lastThumb = pics[pics.length-1].getContainerStyle()
+        lineWidth = lastThumb ? lastThumb.left+lastThumb.width : this.props.maxWidth
+      } else {
+        lineHeight = this.props.maxHeight || 0
+        lineWidth = this.props.maxWidth || 0
+      }
 
       var pictures = _.map(pics, function(pic) { return this.state.thumbComponent({picture: pic, key: pic.uid()})}.bind(this))
-      var lineHeight = pics[0] ? pics[0].thHeight : this.props.maxHeight
-      var lineWidth = pics[0] ? (pics.length-1)*3 + _.reduce(pics, function(sum, p) {return sum + p.getImageStyle().width}, 0) : this.props.maxWidth
 
       if (!pictures.length)
         placeholder = <h3 className='placeholder'>Никто пока ничего не загружал</h3>

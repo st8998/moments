@@ -1,4 +1,4 @@
-.blog[ng-controller='BlogCtrl as blog']
+.blog[ng-controller='BlogCtrl as blog' m-gallery]
   h1 PICTURES COMPONENT
 
   p new uploader
@@ -17,6 +17,6 @@
       max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
 
   p Some description goes here and pictures line view component
-  m-pictures-line[pictures='blog.pictures' max-width='10000' max-height='300' m-scroll='.pictures-line-component']
+  m-pictures-line[pictures='blog.pictures' max-height='300' m-scroll='.pictures-line-component']
 
 = javascript_include_tag 'blog/about_pictures_component'
