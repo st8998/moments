@@ -1,6 +1,7 @@
 class PictureEntity < Grape::Entity
   expose :id
   expose :description
+  expose :pos
   expose :image_width, as: :width
   expose :image_height, as: :height
 

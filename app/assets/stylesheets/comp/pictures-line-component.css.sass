@@ -10,9 +10,17 @@
 
   li
     position: absolute
-    transition-property: height, width, left
+    transition-property: height, width, left, top
     transition-duration: 0.3s
     overflow: hidden
+
+    &.image-over
+      border: 1px solid red
+
+    &.ui-draggable-dragging
+      transition-property: none
+      z-index: 1000
+      opacity: .9
 
     float: left
     display: inline-block

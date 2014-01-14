@@ -11,8 +11,14 @@
     "angular": "latest",
     "angular-resource": "latest",
     "angular-bindonce": "latest",
-    "jquery.ui.widget": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/vendor/jquery.ui.widget.js",
     "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js",
-    "iscroll": "latest"
+    "iscroll": "latest",
+
+    "jquery.ui.core": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.core.js",
+    "jquery.ui.mouse": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.mouse.js",
+    "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.widget.js",
+    "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.draggable.js",
+    "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.droppable.js"
+
   }
 }

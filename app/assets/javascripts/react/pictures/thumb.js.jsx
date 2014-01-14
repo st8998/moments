@@ -10,6 +10,6 @@ angular.module('app').constant('ThumbReact',
           <img src={pic.getUrl()} style={pic.getImageStyle()} />
           {this.props.children}
         </li>
-        )
+      )
     }
   }))

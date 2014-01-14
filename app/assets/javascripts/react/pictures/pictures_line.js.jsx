@@ -1,16 +1,73 @@
 /** @jsx React.DOM */
 
-angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', function(Thumb, Picture) {
-  var removableThumbFactory = function(onRemove) {
+angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'sequence', function(Thumb, Picture, seq) {
+  var ReorderMixin = {
+    componentDidMount: function(node) {
+      var pic = this.props.picture
+
+      this.draggable = $(node).draggable({
+        containment: 'document',
+        scope: this.props.dragScope,
+        start: function() {
+          var props = pic.getContainerStyle()
+          props.width = props.width / 1.5
+          props.height = props.height / 1.5
+          $(this).css(props)
+        },
+        stop: function() {
+          $(this).css(pic.getContainerStyle())
+        }
+      })
+
+      this.draggable.data('pic', pic)
+
+      this.droppable = $(node).droppable({
+        hoverClass: 'image-over',
+        scope: this.props.dragScope,
+        accept: 'li.ui-draggable',
+        drop: function(e, ui) {
+          this.props.onReorder(this.props.picture, ui.draggable.data('pic'))
+        }.bind(this)
+      })
+    },
+    componentWillUnmount: function() {
+      this.draggable.draggable('destroy')
+      this.droppable.droppable('destroy')
+    }
+  }
+
+  var thumbFactory = function(props) {
+    var mixins = []
+
+    if (props.onReorder) {
+      mixins.push(ReorderMixin)
+    }
+
     return React.createClass({
+      mixins: mixins,
+      getDefaultProps: function() {
+        return {onReorder: props.onReorder}
+      },
+
       render: function() {
         var pic = this.props.picture
 
+        var controls = []
+        if (props.onRemove) {
+          controls.push(<span onClick={props.onRemove.bind(this, pic)} className='glyphicon glyphicon-trash' />)
+        }
+
+        if (controls.length) {
+          controls = (
+            <div className='controls'>
+              {controls}
+            </div>
+          )
+        }
+
         return this.transferPropsTo(
           <Thumb>
-            <div className='controls'>
-              <span onClick={onRemove.bind(this, pic)} className='glyphicon glyphicon-trash' />
-            </div>
+            {controls}
           </Thumb>
         )
       }
@@ -31,15 +88,15 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', fun
       var thumbComponent
       if (this.props.thumbComponent) {
         thumbComponent = this.props.thumbComponent
-      } else if (this.props.onRemove) {
-        thumbComponent = removableThumbFactory(this.props.onRemove)
       } else {
-        thumbComponent = Thumb
+        thumbComponent = thumbFactory(_.extend({dragScope: seq('draggable-scope-')}, this.props))
       }
       return {thumbComponent: thumbComponent}
     },
 
     render: function() {
+      console.log('RENDER LINE')
+
       var pics = this.props.pictures, placeholder
 
       var dimensions = {height: 0, width: 0}
