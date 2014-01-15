@@ -29,6 +29,8 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       if (attrs['onReorder']) {
         scope.onReorder = function(pic, target) {
           scope.$apply(function() {
+            console.log(pic, target)
+
             var pics = scope.pictures
             pics.splice(pics.indexOf(target), 1)
             pics.splice(pics.indexOf(pic), 0, target)

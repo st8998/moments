@@ -4,6 +4,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
   var ReorderMixin = {
     componentDidMount: function(node) {
       var pic = this.props.picture
+      var comp = this
 
       this.draggable = $(node).draggable({
         containment: 'document',
@@ -15,19 +16,20 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
           $(this).css(props)
         },
         stop: function() {
-          $(this).css(pic.getContainerStyle())
+          $(this).css($(this).data('pic').getContainerStyle())
         }
       })
 
-      this.draggable.data('pic', pic)
+      this.draggable.data('originalPic', this.props.originalPicture)
+      this.draggable.data('pic', this.props.picture)
 
       this.droppable = $(node).droppable({
         hoverClass: 'image-over',
         scope: this.props.dragScope,
         accept: 'li.ui-draggable',
         drop: function(e, ui) {
-          this.props.onReorder(this.props.picture, ui.draggable.data('pic'))
-        }.bind(this)
+          comp.props.onReorder(comp.props.originalPicture, ui.draggable.data('originalPic'))
+        }
       })
     },
     componentWillUnmount: function() {
@@ -54,7 +56,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
 
         var controls = []
         if (props.onRemove) {
-          controls.push(<span onClick={props.onRemove.bind(this, pic)} className='glyphicon glyphicon-trash' />)
+          controls.push(<span onClick={props.onRemove.bind(this, this.props.originalPicture)} className='glyphicon glyphicon-trash' />)
         }
 
         if (controls.length) {
@@ -95,15 +97,17 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
     },
 
     render: function() {
-      console.log('RENDER LINE')
-
-      var pics = this.props.pictures, placeholder
+      var oPics = this.props.pictures, placeholder
+      var pics = oPics
 
       var dimensions = {height: 0, width: 0}
       if (pics.length)
         dimensions = Picture.layoutPictures(pics, this.props)
 
-      var pictures = _.map(pics, function(pic) { return this.state.thumbComponent({picture: pic, key: pic.uid()})}.bind(this))
+      var pictures = []
+      for(var i = 0; i < pics.length; i++) {
+        pictures.push(this.state.thumbComponent({originalPicture: oPics[i], picture: pics[i], key: pics[i].uid()}))
+      }
 
       if (!pictures.length)
         placeholder = <h3 className='placeholder'>Никто пока ничего не загружал</h3>

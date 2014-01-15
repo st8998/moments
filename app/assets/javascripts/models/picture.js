@@ -22,6 +22,10 @@ angular.module('app').factory('Picture',
       id: '@id'
     })
 
+  Picture.prototype.copy = function() {
+    return angular.copy(this)
+  }
+
   Picture.prototype.uid = function() {
     return this._uid || this._getUid()
   }
