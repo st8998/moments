@@ -1,6 +1,8 @@
 .blog[ng-controller='BlogCtrl as blog' m-gallery]
   h1 PICTURES COMPONENT
 
+  button[ng-click='blog.shufflePictures()'] Shuffle
+
   p new uploader
   m-uploader[url="blog.api('/pictures/upload')" on-upload='blog.addPicture(attrs)' ng-cloak]
     h3.upload-hint
@@ -18,6 +20,6 @@
       max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
 
   p Some description goes here and pictures line view component
-  /m-pictures-line[pictures='blog.pictures' max-height='300' m-scroll='.pictures-line-component']
+  m-pictures-line[pictures='blog.pictures' max-height='300' m-scroll='.pictures-line-component']
 
 = javascript_include_tag 'blog/about_pictures_component'

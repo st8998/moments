@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 
 angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'sequence', function(Thumb, Picture, seq) {
+  var preventStop = false
+
   var ReorderMixin = {
     componentDidMount: function(node) {
       var pic = this.props.picture
@@ -13,21 +15,26 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
           var props = pic.getContainerStyle()
           props.width = props.width / 1.5
           props.height = props.height / 1.5
-          $(this).css(props)
+          $(this).css(props).
+            data('originalPic', comp.props.originalPicture).
+            data('pic', comp.props.picture)
         },
         stop: function() {
-          $(this).css($(this).data('pic').getContainerStyle())
+          if (preventStop) {
+            preventStop = false
+          } else {
+            $(this).css($(this).data('pic').getContainerStyle())
+          }
         }
       })
-
-      this.draggable.data('originalPic', this.props.originalPicture)
-      this.draggable.data('pic', this.props.picture)
 
       this.droppable = $(node).droppable({
         hoverClass: 'image-over',
         scope: this.props.dragScope,
         accept: 'li.ui-draggable',
         drop: function(e, ui) {
+          preventStop = true
+          ui.draggable.css(ui.draggable.data('pic').getContainerStyle())
           comp.props.onReorder(comp.props.originalPicture, ui.draggable.data('originalPic'))
         }
       })
@@ -93,16 +100,18 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
       } else {
         thumbComponent = thumbFactory(_.extend({dragScope: seq('draggable-scope-')}, this.props))
       }
+
       return {thumbComponent: thumbComponent}
     },
 
     render: function() {
       var oPics = this.props.pictures, placeholder
-      var pics = oPics
+      var pics = _.map(oPics, function(pic) {return pic.copyUI()})
 
       var dimensions = {height: 0, width: 0}
-      if (pics.length)
+      if (pics.length) {
         dimensions = Picture.layoutPictures(pics, this.props)
+      }
 
       var pictures = []
       for(var i = 0; i < pics.length; i++) {

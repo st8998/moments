@@ -17,6 +17,10 @@
     this.scope = $scope
   }
 
+  BlogCtrl.prototype.shufflePictures = function() {
+    this.pictures = _.shuffle(this.pictures)
+  }
+
   BlogCtrl.prototype.addPicture = function(attrs) {
     this.pictures.push(new Picture(attrs))
   }

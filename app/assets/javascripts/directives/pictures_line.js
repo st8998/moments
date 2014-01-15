@@ -27,13 +27,20 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
         }
       }
       if (attrs['onReorder']) {
-        scope.onReorder = function(pic, target) {
+        scope.onReorder = function(droppedOn, target) {
           scope.$apply(function() {
-            console.log(pic, target)
-
             var pics = scope.pictures
-            pics.splice(pics.indexOf(target), 1)
-            pics.splice(pics.indexOf(pic), 0, target)
+            scope.pictures = []
+            _.each(pics, function(pic) {
+              if (pic == droppedOn) {
+                scope.pictures.push(target)
+                scope.pictures.push(droppedOn)
+              } else if (pic == target) {
+
+              } else {
+                scope.pictures.push(pic)
+              }
+            })
           })
         }
       }
@@ -43,16 +50,6 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       scope.$watchCollection('pictures', function() {
         React.renderComponent(PicturesLineReact(scope), elem[0], mScroll.refresh)
       })
-
-      if (attrs['onReorder']) {
-        elem.on('')
-
-
-        // CLEANUP
-        elem.on('$destroy', function() {
-
-        })
-      }
     }
   }
 }])
