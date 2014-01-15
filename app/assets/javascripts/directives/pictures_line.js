@@ -30,17 +30,11 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
         scope.onReorder = function(droppedOn, target) {
           scope.$apply(function() {
             var pics = scope.pictures
-            scope.pictures = []
-            _.each(pics, function(pic) {
-              if (pic == droppedOn) {
-                scope.pictures.push(target)
-                scope.pictures.push(droppedOn)
-              } else if (pic == target) {
 
-              } else {
-                scope.pictures.push(pic)
-              }
-            })
+            pics.splice(pics.indexOf(target), 1)
+            pics.splice(pics.indexOf(droppedOn), 0, target)
+
+            scope.onReorderCallback({droppedOn: droppedOn, dragged: target})
           })
         }
       }

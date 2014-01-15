@@ -9,8 +9,9 @@
 
   var Picture
 
-  function BlogCtrl($scope, picModel, api) {
+  function BlogCtrl($http, $scope, picModel, api) {
     Picture = picModel
+    this.$http = $http
 
     this.api = api
     this.pictures = Picture.query()
@@ -19,6 +20,12 @@
 
   BlogCtrl.prototype.shufflePictures = function() {
     this.pictures = _.shuffle(this.pictures)
+  }
+
+  BlogCtrl.prototype.reorder = function() {
+    var ids = _.map(this.pictures, function(pic) { return pic.id })
+
+    this.$http.post(this.api('/pictures/reorder'), {pictures: ids})
   }
 
   BlogCtrl.prototype.addPicture = function(attrs) {
@@ -32,5 +39,5 @@
     })
   }
 
-  app.controller('BlogCtrl', ['$scope', 'Picture', 'api', BlogCtrl])
+  app.controller('BlogCtrl', ['$http', '$scope', 'Picture', 'api', BlogCtrl])
 }());

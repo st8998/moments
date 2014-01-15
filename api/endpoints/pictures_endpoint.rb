@@ -30,6 +30,17 @@ class PicturesEndpoint < Grape::API
     end
 
     params do
+      requires :pictures
+    end
+    post 'reorder' do
+      params[:pictures].each.with_index do |id, i|
+        pictures.where(id: id).update_all(pos: i)
+      end
+
+      'ok'
+    end
+
+    params do
       requires :image
     end
     post 'upload' do

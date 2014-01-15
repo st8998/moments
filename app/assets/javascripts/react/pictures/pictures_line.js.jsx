@@ -12,10 +12,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
         containment: 'document',
         scope: this.props.dragScope,
         start: function() {
-          var props = pic.getContainerStyle()
-          props.width = props.width / 1.5
-          props.height = props.height / 1.5
-          $(this).css(props).
+          $(this).
             data('originalPic', comp.props.originalPicture).
             data('pic', comp.props.picture)
         },

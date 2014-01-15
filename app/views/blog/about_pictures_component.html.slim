@@ -16,7 +16,7 @@
     m-pictures-line[
       ng-show='blog.pictures.length' pictures='blog.pictures'
       on-remove='blog.removePicture(picture)'
-      on-reorder='blog.removePicture(picture)'
+      on-reorder='blog.reorder()'
       max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
 
   p Some description goes here and pictures line view component
