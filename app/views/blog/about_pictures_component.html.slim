@@ -14,12 +14,12 @@
       h3 Смело отпускайте - мы поймаем
     .horizontal-progress
     m-pictures-line[
-      ng-show='blog.pictures.length' pictures='blog.pictures'
+      ng-show='pictures.length' pictures='pictures'
       on-remove='blog.removePicture(picture)'
       on-reorder='blog.reorder()'
       max-width='900' max-height='500' enhance-ratio-width='0.7' enhance-ratio-height='0.8']
 
   p Some description goes here and pictures line view component
-  m-pictures-line[pictures='blog.pictures' max-height='300' m-scroll='.pictures-line-component']
+  m-pictures-line[pictures='pictures' max-height='300' m-scroll='.pictures-line-component']
 
 = javascript_include_tag 'blog/about_pictures_component'
