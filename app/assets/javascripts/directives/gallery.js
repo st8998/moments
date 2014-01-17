@@ -13,6 +13,7 @@ angular.module('app').directive('mGallery', ['$compile', function($compile) {
       return function(scope, el, attrs, ctrl) {
         ctrl.open = function(pics, pic) {
           container.removeClass('hidden')
+          $('body').css({overflow: 'hidden'})
 
           scope.fotorama = container.fotorama({
             height: '100%',
@@ -38,6 +39,7 @@ angular.module('app').directive('mGallery', ['$compile', function($compile) {
           if (e.which == 27) {
             scope.fotorama.destroy()
             container.addClass('hidden')
+            $('body').css({overflow: 'auto'})
           }
         })
       }
