@@ -19,6 +19,12 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
       var mScroll = controllers[0] || {}
       var mGallery = controllers[1]
 
+      scope.onSelect = function(pic) {
+        scope.$apply(function() {
+          mGallery.open(scope.pictures, pic)
+        })
+      }
+
       if (attrs['onRemove']) {
         scope.onRemove = function(pic) {
           scope.$apply(function() {

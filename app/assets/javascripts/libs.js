@@ -17,3 +17,5 @@
 //= require jquery.ui.droppable
 
 //= require blueimp-file-upload
+
+//= require fotorama

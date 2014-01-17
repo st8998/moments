@@ -13,6 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'slim'
 gem 'react-rails'
 gem 'jquery-rails'
+gem 'fotoramajs'
 
 # infrastructure
 gem 'bcrypt-ruby', '~> 3.0.0'

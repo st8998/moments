@@ -58,6 +58,8 @@ GEM
     execjs (2.0.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
+    fotoramajs (4.4.9)
+      sprockets (>= 2)
     grape (0.6.1)
       activesupport
       builder
@@ -183,6 +185,7 @@ DEPENDENCIES
   cancan
   dragonfly
   elasticsearch
+  fotoramajs
   grape
   grape-entity
   jquery-rails

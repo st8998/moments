@@ -15,7 +15,8 @@ angular.module('app').directive('mScroll', function() {
         bounce: true,
         momentum: true,
         deceleration: 0.005,
-        keyBindings: true
+        keyBindings: true,
+        click: true
       })
 
       controller.refresh = IScroll.prototype.refresh.bind(iScroll)

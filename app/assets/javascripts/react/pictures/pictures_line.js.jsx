@@ -55,12 +55,18 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
         return {onReorder: props.onReorder}
       },
 
+      onRemove: function(e) {
+        console.log('REMOVE')
+        e.stopPropagation()
+        props.onRemove(this.props.originalPicture)
+      },
+
       render: function() {
         var pic = this.props.picture
 
         var controls = []
         if (props.onRemove) {
-          controls.push(<span onClick={props.onRemove.bind(this, this.props.originalPicture)} className='glyphicon glyphicon-trash' />)
+          controls.push(<span onClick={this.onRemove} className='glyphicon glyphicon-trash' />)
         }
 
         if (controls.length) {
@@ -86,7 +92,8 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
         pictures: [],
         maxHeight: 500,
         enhanceRatioWidth: 1,
-        enhanceRatioHeight: 1
+        enhanceRatioHeight: 1,
+        onSelect: Function.empty
       }
     },
 
@@ -112,7 +119,7 @@ angular.module('app').factory('PicturesLineReact', ['ThumbReact', 'Picture', 'se
 
       var pictures = []
       for(var i = 0; i < pics.length; i++) {
-        pictures.push(this.state.thumbComponent({originalPicture: oPics[i], picture: pics[i], key: pics[i].uid()}))
+        pictures.push(this.state.thumbComponent({onSelect: this.props.onSelect.bind(this, oPics[i]), originalPicture: oPics[i], picture: pics[i], key: pics[i].uid()}))
       }
 
       if (!pictures.length)
