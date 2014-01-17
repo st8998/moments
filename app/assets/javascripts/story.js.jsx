@@ -1,7 +1,3 @@
-////= require comp/location/location
-////= require comp/pictures/pictures_line
-////= require models/address
-//
 ///** @jsx React.DOM */
 //
 //require(
