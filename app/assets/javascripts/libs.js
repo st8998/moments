@@ -1,7 +1,6 @@
 // unmanageable libs
 //= require react
 //= require underscore
-//= require dropzone
 //= require cookies-js
 
 //= require iscroll/build/iscroll

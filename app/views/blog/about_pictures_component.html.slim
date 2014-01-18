@@ -4,7 +4,7 @@
   button[ng-click='blog.shufflePictures()'] Shuffle
 
   p new uploader
-  m-uploader[url="blog.api('/pictures/upload')" on-upload='blog.addPicture(attrs)' ng-cloak]
+  m-dropzone[url="blog.api('/pictures/upload')" on-upload='blog.addPicture(attrs)' ng-cloak]
     h3.upload-hint
       span.glyphicon.glyphicon-camera
       | Добавить фотографии

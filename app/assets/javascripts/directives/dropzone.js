@@ -1,4 +1,4 @@
-angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', function($, seq, $timeout) {
+angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', function($, seq, $timeout) {
   return {
     restrict: 'E',
     transclude: true,
@@ -6,7 +6,7 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
       onUpload: '&',
       url: '&'
     },
-    template: '<div class="upload-component" ng-transclude></div>',
+    template: '<div class="dropzone-component" ng-transclude></div>',
     link: function(scope, elem, attrs) {
       var setProgress = (function(hideAfter) {
         var progress = elem.find('.horizontal-progress')
@@ -19,7 +19,7 @@ angular.module('app').directive('mUploader', ['jquery', 'sequence', '$timeout', 
         }
       }(2000))
 
-      var comp = elem.find('.upload-component')
+      var comp = elem.find('.dropzone-component')
       var fileInput = elem.find('.upload-hint').append('<input class="hidden-file-upload-button" type="file" multiple />')
 
       ;(function() {

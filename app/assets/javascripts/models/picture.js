@@ -42,13 +42,6 @@ angular.module('app').factory('Picture',
     _.extend(this, attrs)
   }
 
-  Picture.prototype.extractDropzoneAttrs = function(file) {
-    var resizeInfo = Picture.resize(file)
-    this.width = resizeInfo.trgWidth
-    this.height = resizeInfo.trgHeight
-    return this
-  }
-
   Picture.prototype.getContainerStyle = function() {
     return {
       height: (this.thHeight || this.height) - 2, // 2 is a gap between pics
@@ -242,38 +235,6 @@ angular.module('app').factory('Picture',
     this.thHeight = toHeight
 
     return this
-  }
-
-  Picture.thumbnailSize = 512
-  Picture.resize = function(file) {
-    var info, ratio
-    info = {
-      srcX: 0,
-      srcY: 0,
-      srcWidth: file.width,
-      srcHeight: file.height
-    };
-
-    if (file.width == file.height) {
-      info.trgWidth = Picture.thumbnailSize
-      info.trgHeight = Picture.thumbnailSize
-    }
-
-    if (file.width < file.height) {
-      ratio = file.height / Picture.thumbnailSize
-
-      info.trgWidth = info.srcWidth / ratio
-      info.trgHeight = Picture.thumbnailSize
-    }
-
-    if (file.width > file.height) {
-      ratio = file.width / Picture.thumbnailSize
-
-      info.trgWidth = Picture.thumbnailSize
-      info.trgHeight = info.srcHeight / ratio
-    }
-
-    return info;
   }
 
   return Picture

@@ -9,8 +9,6 @@ if (typeof Function.empty === 'undefined')
 if (typeof Function.stopPropagation === 'undefined')
   Function.stopPropagation = function(e) {e.stopPropagation()}
 
-Dropzone.autoDiscover = false
-
 App = angular.module('app', ['ngResource', 'pasvaz.bindonce'])
 
 App.constant('settings', {
@@ -37,4 +35,3 @@ App.factory('sequence', function() {
 
 App.constant('jquery', jQuery)
 App.constant('cookies', Cookies)
-App.constant('dropzone', Dropzone)
