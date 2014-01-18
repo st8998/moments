@@ -3,9 +3,6 @@ MomentSearchObserver::ASYNC = false
 # st8998 account
 account = Account.find_or_create_by(key: 'st8998')
 
-# demo account
-account = Account.find_or_create_by(key: 'demo')
-
 # base users
 User.find_or_create_by(name: 'Ваньк') do |model|
   model.password = 'joppadriller'
