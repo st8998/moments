@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114192130) do
+ActiveRecord::Schema.define(version: 20140118154252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,13 +26,13 @@ ActiveRecord::Schema.define(version: 20140114192130) do
   add_index "accounts", ["key"], name: "index_accounts_on_key", unique: true, using: :btree
 
   create_table "moments", force: true do |t|
-    t.float    "lat"
-    t.float    "lng"
     t.string   "title"
     t.text     "description"
     t.datetime "date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "place_id"
+    t.integer  "pictures_set_id"
   end
 
   create_table "pictures", force: true do |t|
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(version: 20140114192130) do
     t.integer  "image_height"
     t.integer  "account_id"
     t.integer  "pos"
+  end
+
+  create_table "pictures_sets", force: true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "places", force: true do |t|

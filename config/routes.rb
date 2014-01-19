@@ -4,6 +4,8 @@ Moments::Application.routes.draw do
   get '/blog/:article_key', to: 'blog#article'
 
   scope path: '/:account_key' do
+
+
     get :login, to: 'sessions#new'
     post :login, to: 'sessions#create'
     delete :logout, to: 'sessions#destroy'
