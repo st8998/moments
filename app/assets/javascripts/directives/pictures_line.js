@@ -1,4 +1,4 @@
-angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(PicturesLineReact) {
+angular.module('app').directive('mPicturesLine', ['PicturesSetReact', function(PicturesSetReact) {
   return {
     restrict: 'E',
     replace: true,
@@ -33,22 +33,22 @@ angular.module('app').directive('mPicturesLine', ['PicturesLineReact', function(
         }
       }
       if (attrs['onReorder']) {
-        scope.onReorder = function(droppedOn, target) {
+        scope.onReorder = function(droppedOnIndex, targetIndex) {
           scope.$apply(function() {
             var pics = scope.pictures
 
-            pics.splice(pics.indexOf(target), 1)
-            pics.splice(pics.indexOf(droppedOn), 0, target)
+            var removed = pics.splice(targetIndex, 1)[0]
+            pics.splice(droppedOnIndex, 0, removed)
 
-            scope.onReorderCallback({droppedOn: droppedOn, dragged: target})
+            scope.onReorderCallback()
           })
         }
       }
 
-      React.renderComponent(PicturesLineReact(scope), elem[0], mScroll.refresh)
+      React.renderComponent(PicturesSetReact(scope), elem[0], mScroll.refresh)
 
       scope.$watchCollection('pictures', function() {
-        React.renderComponent(PicturesLineReact(scope), elem[0], mScroll.refresh)
+        React.renderComponent(PicturesSetReact(scope), elem[0], mScroll.refresh)
       })
     }
   }

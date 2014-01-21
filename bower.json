@@ -17,7 +17,8 @@
     "jquery.ui.mouse": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.mouse.js",
     "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.widget.js",
     "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.draggable.js",
-    "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.droppable.js"
+    "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.droppable.js",
 
+    "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/692da622ffc69d20f0de6ce91611993c3e44cb73/React.addons.tagHelper.js"
   }
 }

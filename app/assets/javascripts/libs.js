@@ -1,5 +1,6 @@
 // unmanageable libs
 //= require react
+//= require react-taghelper
 //= require underscore
 //= require cookies-js
 
