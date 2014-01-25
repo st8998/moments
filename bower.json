@@ -1,6 +1,8 @@
 {
   "name": "moments",
   "dependencies": {
+    "react-source": "http://fb.me/react-with-addons-0.8.0.js",
+
     "bootstrap": "latest",
     "almond": "https://raw.github.com/jrburke/almond/master/almond.js",
     "underscore": "http://underscorejs.org/underscore.js",
@@ -19,6 +21,6 @@
     "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.draggable.js",
     "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.droppable.js",
 
-    "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/692da622ffc69d20f0de6ce91611993c3e44cb73/React.addons.tagHelper.js"
+    "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/React.addons.tagHelper.js"
   }
 }

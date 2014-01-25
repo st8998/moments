@@ -54,14 +54,14 @@ angular.module('app').factory('PicturesSetReact', ['Picture', function(Picture) 
       var pic = this.props.picture, removeButton
 
       if (this.props.onRemove) {
-        removeButton = h('.remove-button', {onClick: this.onRemove}, h('span.glyphicon.glyphicon-remove'))
+        removeButton = ['.remove-button', {onClick: this.onRemove}, ['span.glyphicon.glyphicon-remove']]
       }
 
-      return (
-        h('li', {style: pic.getContainerStyle(), onClick: this.props.onSelect},
-          h('img', {src: pic.getUrl(), style: pic.getImageStyle()}),
+      return React.addons.tagHelper(
+        ['li', {style: pic.getContainerStyle(), onClick: this.props.onSelect},
+          ['img', {src: pic.getUrl(), style: pic.getImageStyle()}],
           removeButton
-        )
+        ]
       )
     }
   })
@@ -103,13 +103,13 @@ angular.module('app').factory('PicturesSetReact', ['Picture', function(Picture) 
       }
 
       if (!pictures.length)
-        placeholder = h('h3.placeholder', 'Никто пока ничего не загружал')
+        placeholder = ['h3.placeholder', 'Никто пока ничего не загружал']
 
-      return (
-        h('div.pictures-line-component',
-          h('ul', {style: {height: dimensions.height, width: dimensions.width}}, pictures),
+      return React.addons.tagHelper(
+        ['div.pictures-line-component',
+          ['ul', {style: {height: dimensions.height, width: dimensions.width}}, pictures],
           placeholder
-        )
+        ]
       )
     }
   })
