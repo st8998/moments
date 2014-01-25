@@ -38,6 +38,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :test do
+  gem 'minitest-spec-rails'
+end
+
 group :development do
   gem 'spring'
   gem 'thin'

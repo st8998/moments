@@ -11,10 +11,6 @@ class PicturesController < ApplicationController
   end
 
   def reorder
-    params.require(:pictures).each.with_index do |id, i|
-      pictures.where(id: id).update_all(pos: i)
-    end
-
     render json: 'ok'
   end
 

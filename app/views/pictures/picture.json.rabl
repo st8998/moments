@@ -1,6 +1,6 @@
 object picture
 
-attributes :id, :description, :pos
+attributes :id, :description
 attributes :image_width => :width, :image_height => :height
 
 node(:image_url_small) { |pic| pic.image.thumb('512x512>').url }
