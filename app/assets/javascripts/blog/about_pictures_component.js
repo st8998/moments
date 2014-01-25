@@ -18,9 +18,9 @@
     }
 
     this.reorder = function() {
-      var ids = _.map($scope.pictures, function(pic) { return pic.id })
-
-      $http.post(api('/pictures/reorder'), {pictures: ids})
+//      var ids = _.map($scope.pictures, function(pic) { return pic.id })
+//
+//      $http.post(api('/pictures/reorder'), {pictures: ids})
     }
 
     this.addPicture = function(attrs) {

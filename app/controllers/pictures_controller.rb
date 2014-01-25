@@ -1,4 +1,5 @@
 class PicturesController < ApplicationController
+  expose :pictures_set, strategy: VerifiableStrategy
   expose :pictures, strategy: VerifiableStrategy
   expose :picture, attributes: :picture_params
 
@@ -11,6 +12,10 @@ class PicturesController < ApplicationController
   end
 
   def reorder
+    authorize!(:reorder, PicturesSet)
+    pictures_set.configuration.order = params.require(:order)
+    pictures_set.save
+
     render json: 'ok'
   end
 
@@ -23,7 +28,6 @@ class PicturesController < ApplicationController
   private
 
   def picture_params
-    # TODO get rid of permit!
-    params.require(:picture).permit!
+    params.require(:picture)
   end
 end

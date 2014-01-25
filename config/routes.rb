@@ -4,9 +4,17 @@ Moments::Application.routes.draw do
   get '/blog/:article_key', to: 'blog#article'
 
   scope path: '/:account_key' do
-    resources :pictures, defaults: {format: :json}, except: [:show, :new] do
-      post :upload, on: :collection
-      post :reorder, on: :collection
+
+    scope defaults: {format: :json} do
+      scope path: '/:pictures_set_id' do
+        resources :pictures, only: [:index]
+
+        post '/reorder', to: 'pictures#reorder'
+      end
+
+      resources :pictures, only: [:index, :destroy] do
+        post :upload, on: :collection
+      end
     end
 
     get :login, to: 'sessions#new'
