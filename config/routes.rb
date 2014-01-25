@@ -4,12 +4,13 @@ Moments::Application.routes.draw do
   get '/blog/:article_key', to: 'blog#article'
 
   scope path: '/:account_key' do
-
+    resources :pictures, defaults: {format: :json}, except: [:show, :new] do
+      post :upload, on: :collection
+      post :reorder, on: :collection
+    end
 
     get :login, to: 'sessions#new'
     post :login, to: 'sessions#create'
     delete :logout, to: 'sessions#destroy'
   end
-
-  mount AppEndpoint, at: '/api'
 end

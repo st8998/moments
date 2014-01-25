@@ -8,17 +8,19 @@ class ApplicationController < ActionController::Base
   hide_action :current_user
   helper_method :current_user
 
-  before_action do
-    if params[:account_key]
-      cookies[:akey] = params[:account_key]
-    end
+  def current_account
+    @current_account ||= Account.find_by(key: params[:account_key])
+  end
+
+  def current_ability
+    @ability ||= Ability.new(current_account)
   end
 
   def current_user
     @current_user ||= User.find_by(id: cookies.signed[:id]) if cookies[:id]
   end
 
-  private
+  protected
 
   def redirect_back_or(default, opts = {})
     redirect_to(session.delete(:return_to) || default, opts)

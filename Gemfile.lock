@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/st8998/decent_exposure.git
+  revision: 13f94f53bbc4dfc1c51171153e709bc29fb405a1
+  branch: edge-rails-fix
+  specs:
+    decent_exposure (2.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -29,18 +36,12 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.0)
     atomic (1.1.14)
-    axiom-types (0.0.5)
-      descendants_tracker (~> 0.0.1)
-      ice_nine (~> 0.9)
     bcrypt-ruby (3.0.1)
     builder (3.2.2)
     cancan (1.6.10)
     celluloid (0.15.2)
       timers (~> 1.1.0)
-    coercible (1.0.0)
-      descendants_tracker (~> 0.0.1)
     daemons (1.1.9)
-    descendants_tracker (0.0.3)
     dragonfly (1.0.2)
       multi_json (~> 1.0)
       rack
@@ -52,7 +53,6 @@ GEM
     elasticsearch-transport (0.4.3)
       faraday
       multi_json
-    equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
@@ -60,23 +60,8 @@ GEM
       multipart-post (~> 1.2.0)
     fotoramajs (4.4.9)
       sprockets (>= 2)
-    grape (0.6.1)
-      activesupport
-      builder
-      hashie (>= 1.2.0)
-      multi_json (>= 1.3.2)
-      multi_xml (>= 0.5.2)
-      rack (>= 1.3.0)
-      rack-accept
-      rack-mount
-      virtus (>= 1.0.0)
-    grape-entity (0.3.0)
-      activesupport
-      multi_json (>= 1.3.2)
-    hashie (2.0.5)
     hike (1.2.3)
     i18n (0.6.9)
-    ice_nine (0.11.0)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -87,22 +72,16 @@ GEM
     mime-types (1.25.1)
     minitest (5.2.0)
     multi_json (1.8.2)
-    multi_xml (0.5.5)
     multipart-post (1.2.0)
-    newrelic-grape (1.3.1)
-      grape
-      newrelic_rpm
     newrelic_rpm (3.7.1.180)
     oj (2.5.1)
     pg (0.17.1)
     polyglot (0.3.3)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
+    rabl (0.9.3)
+      activesupport (>= 2.3.14)
     rack (1.5.2)
-    rack-accept (0.4.5)
-      rack (>= 0.4)
-    rack-mount (0.8.3)
-      rack (>= 1.0.0)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.1.0.beta1)
@@ -171,11 +150,6 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    virtus (1.0.1)
-      axiom-types (~> 0.0.5)
-      coercible (~> 1.0)
-      descendants_tracker (~> 0.0.1)
-      equalizer (~> 0.0.7)
 
 PLATFORMS
   ruby
@@ -183,17 +157,16 @@ PLATFORMS
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   cancan
+  decent_exposure!
   dragonfly
   elasticsearch
   fotoramajs
-  grape
-  grape-entity
   jquery-rails
-  newrelic-grape
   newrelic_rpm
   oj
   pg
   quiet_assets
+  rabl
   rails (~> 4.1.0.beta1)
   rails-observers
   react-rails

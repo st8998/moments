@@ -27,7 +27,7 @@ module Moments
     config.react.variant = :production
     config.react.addons = true
 
-    config.autoload_paths += ['api/entities', 'api/endpoints', 'api/helpers']
+    config.autoload_paths += ['lib', 'api/entities', 'api/endpoints', 'api/helpers']
 
     #config.paths.add 'app/api', glob: '**/*.rb'
     #config.autoload_paths += Dir[Rails.root.join('/app/api/*')]

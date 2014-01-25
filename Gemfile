@@ -11,6 +11,8 @@ gem 'pg'
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'slim'
+gem 'rabl'
+gem 'oj' # used with rabl
 gem 'react-rails'
 gem 'jquery-rails'
 gem 'fotoramajs'
@@ -24,15 +26,12 @@ gem 'dragonfly'
 
 # controller
 gem 'cancan'
-
-# api
-gem 'oj'
-gem 'grape'
-gem 'grape-entity'
+gem 'decent_exposure',
+    git: 'https://github.com/st8998/decent_exposure.git',
+    branch: 'edge-rails-fix'
 
 # monitoring
 gem 'newrelic_rpm'
-gem 'newrelic-grape'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
