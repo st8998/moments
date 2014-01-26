@@ -88,7 +88,7 @@ angular.module('app').factory('Picture',
     // collect options
     options = options || {}
     var maxHeight = options.maxHeight,
-        maxWidth = options.maxWidth, // 5 is a reserve for rounding
+        maxWidth = options.maxWidth+5, // 5 is a reserve for rounding
         enhanceRatioWidth = options.enhanceRatioWidth || 1,
         enhanceRatioHeight = options.enhanceRatioHeight || 1
 
