@@ -5,6 +5,8 @@ require 'rails/test_help'
 require 'minitest/spec'
 require 'minitest/autorun'
 
+require 'mocha'
+
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 

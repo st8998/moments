@@ -13,11 +13,15 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @ability ||= Ability.new(current_account)
+    @ability ||= Ability.new(current_account, current_user)
   end
 
   def current_user
     @current_user ||= User.find_by(id: cookies.signed[:id]) if cookies[:id]
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render text: 'GO AWAY', status: 403
   end
 
   protected

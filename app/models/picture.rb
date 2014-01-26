@@ -1,4 +1,5 @@
 class Picture < ActiveRecord::Base
+  include PicturesSetPicture::VirtualAttributes
   extend Dragonfly::Model
   dragonfly_accessor :image
 
@@ -9,6 +10,5 @@ class Picture < ActiveRecord::Base
   # tiny - thumb('256x256')
   # square - thumb('200x200#')
 
-  belongs_to :owner, polymorphic: true
   belongs_to :account
 end

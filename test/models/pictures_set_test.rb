@@ -5,19 +5,37 @@ class PicturesSetTest < ActiveSupport::TestCase
     @p1 = Picture.create()
     @p2 = Picture.create()
     @p3 = Picture.create()
+
+    @ps1 = PicturesSet.create(
+      pictures_set_pictures: [
+          PicturesSetPicture.new(picture: @p1),
+          PicturesSetPicture.new(picture: @p2),
+          PicturesSetPicture.new(picture: @p3)
+      ]
+    )
   end
 
-  it 'ignore orderring without configuration' do
-    order = [@p1.id, @p2.id, @p3.id].shuffle
-    ps1 = PicturesSet.create(pictures: [@p1, @p2, @p3])
+  it 'drain config attributes from pictures on save' do
+    pics = [@p3, @p1, @p2].shuffle
+    pics.each.with_index {|p, i| p.pos = i } # assign position
+    ps2 = PicturesSet.create(pictures: pics)
 
-    ps1.pictures.ordered.to_a # wont raise any Exception
+    ps2.pictures_set_pictures.pluck(:pos).sort.must_equal [0,1,2]
+    ps2.pictures.pluck(:id).must_equal pics.map(&:id)
   end
 
-  it 'provides correct pictures order' do
-    order = [@p1.id, @p2.id, @p3.id].shuffle
-    ps1 = PicturesSet.create(pictures: [@p1, @p2, @p3], configuration: {order: order})
+  it 'assigns virtual attributes to picture' do
+    ps2 = PicturesSet.create(
+        pictures_set_pictures: [
+            PicturesSetPicture.new(picture: @p1, th_width: 10, pos: 3),
+            PicturesSetPicture.new(picture: @p2, th_width: 20, pos: 1),
+            PicturesSetPicture.new(picture: @p3, th_width: 30, pos: 2)
+        ]
+    )
 
-    ps1.pictures.ordered.pluck(:id).must_equal order
+    pics = ps2.pictures(true)
+
+    pics.map(&:th_width).must_equal [20, 30, 10]
+    pics.map(&:pos).must_equal [1, 2, 3]
   end
 end

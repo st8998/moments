@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140125204811) do
+ActiveRecord::Schema.define(version: 20140126132936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,8 +38,6 @@ ActiveRecord::Schema.define(version: 20140125204811) do
   create_table "pictures", force: true do |t|
     t.text     "description"
     t.string   "image_uid"
-    t.integer  "owner_id"
-    t.string   "owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "image_width"
@@ -47,12 +45,25 @@ ActiveRecord::Schema.define(version: 20140125204811) do
     t.integer  "account_id"
   end
 
+  create_table "pictures_set_pictures", force: true do |t|
+    t.integer  "picture_id"
+    t.integer  "pictures_set_id"
+    t.integer  "th_width"
+    t.integer  "th_height"
+    t.integer  "th_left"
+    t.integer  "th_top"
+    t.integer  "c_left"
+    t.integer  "c_top"
+    t.integer  "pos"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "pictures_sets", force: true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "configuration", default: "{}"
     t.integer  "account_id"
   end
 

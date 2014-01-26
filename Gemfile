@@ -39,6 +39,7 @@ group :doc do
 end
 
 group :test do
+  gem 'mocha'
   gem 'minitest-spec-rails'
 end
 

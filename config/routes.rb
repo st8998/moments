@@ -6,13 +6,13 @@ Moments::Application.routes.draw do
   scope path: '/:account_key' do
 
     scope defaults: {format: :json} do
-      scope path: '/:pictures_set_id' do
-        resources :pictures, only: [:index]
+      #scope path: '/:pictures_set_id' do
+      #  resources :pictures, only: [:index]
+      #
+      #  post '/reorder', to: 'pictures#reorder'
+      #end
 
-        post '/reorder', to: 'pictures#reorder'
-      end
-
-      resources :pictures, only: [:index, :destroy] do
+      resources :pictures do
         post :upload, on: :collection
       end
     end
