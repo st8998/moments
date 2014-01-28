@@ -13,7 +13,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'slim'
 gem 'rabl'
 gem 'oj' # used with rabl
-gem 'react-rails'
 gem 'jquery-rails'
 gem 'fotoramajs'
 
