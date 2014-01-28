@@ -1,0 +1,6 @@
+user1:
+  account: account1
+  admin: true
+user2:
+  account: account1
+  admin: false

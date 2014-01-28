@@ -1,18 +1,14 @@
 require 'test_helper'
 
 class PicturesSetTest < ActiveSupport::TestCase
-  before do
-    @p1 = Picture.create()
-    @p2 = Picture.create()
-    @p3 = Picture.create()
+  fixtures [:accounts, :users, :pictures_sets, :pictures_set_pictures, :pictures]
 
-    @ps1 = PicturesSet.create(
-      pictures_set_pictures: [
-          PicturesSetPicture.new(picture: @p1),
-          PicturesSetPicture.new(picture: @p2),
-          PicturesSetPicture.new(picture: @p3)
-      ]
-    )
+  before do
+    @p1 = pictures(:picture1)
+    @p2 = pictures(:picture2)
+    @p3 = pictures(:picture3)
+
+    @ps1 = pictures_sets(:pictures_set1)
   end
 
   it 'drain config attributes from pictures on save' do
