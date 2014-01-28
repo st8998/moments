@@ -6,6 +6,7 @@ gem 'rails', '~> 4.1.0.beta1'
 
 # database
 gem 'pg'
+gem 'eel', git: 'https://github.com/StrangeMood/eel.git'
 
 # view
 gem 'sass-rails', '~> 4.0.0'
@@ -39,7 +40,7 @@ end
 
 group :test do
   gem 'mocha'
-  gem 'minitest-spec-rails'
+  gem 'factory_girl_rails'
 end
 
 group :development do

@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/StrangeMood/eel.git
+  revision: 1faa698d7acf49b5deabc5ef0f032c3cf99dee76
+  specs:
+    eel (1.0.2)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+
+GIT
   remote: https://github.com/st8998/decent_exposure.git
   revision: 13f94f53bbc4dfc1c51171153e709bc29fb405a1
   branch: edge-rails-fix
@@ -56,6 +64,11 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
+    factory_girl (4.3.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.3.0)
+      factory_girl (~> 4.3.0)
+      railties (>= 3.0.0)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
     fotoramajs (4.4.9)
@@ -72,9 +85,6 @@ GEM
     metaclass (0.0.2)
     mime-types (1.25.1)
     minitest (5.2.0)
-    minitest-spec-rails (5.0.2)
-      minitest (~> 5.0)
-      rails (>= 4.1.0.beta, < 5.0)
     mocha (1.0.0)
       metaclass (~> 0.0.1)
     multi_json (1.8.2)
@@ -160,10 +170,11 @@ DEPENDENCIES
   cancan
   decent_exposure!
   dragonfly
+  eel!
   elasticsearch
+  factory_girl_rails
   fotoramajs
   jquery-rails
-  minitest-spec-rails
   mocha
   newrelic_rpm
   oj

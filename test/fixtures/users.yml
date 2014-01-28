@@ -1,6 +1,4 @@
-user1:
-  account: account1
-  admin: true
-user2:
-  account: account1
-  admin: false
+ivan:
+  account: st8998
+olga:
+  account: st8998

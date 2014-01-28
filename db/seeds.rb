@@ -1,20 +1,20 @@
-MomentSearchObserver::ASYNC = false
-
-# st8998 account
-account = Account.find_or_create_by(key: 'st8998')
-
-# base users
-User.find_or_create_by(name: 'Ваньк') do |model|
-  model.password = 'joppadriller'
-
-  model.account = account
-  model.avatar = File.open(Rails.root.join('db/data/userpic.jpg'))
-end
-
-User.find_or_create_by(name: 'Ольк') do |model|
-  model.password = 'joppadriller'
-  model.account = account
-end
+#MomentSearchObserver::ASYNC = false
+#
+## st8998 account
+#account = Account.find_or_create_by(key: 'st8998')
+#
+## base users
+#User.find_or_create_by(name: 'Ваньк') do |model|
+#  model.password = 'joppadriller'
+#
+#  model.account = account
+#  model.avatar = File.open(Rails.root.join('db/data/userpic.jpg'))
+#end
+#
+#User.find_or_create_by(name: 'Ольк') do |model|
+#  model.password = 'joppadriller'
+#  model.account = account
+#end
 
 # this project developing moment
 #Moment.find_or_create_by(title: 'Момент зарождения проекта "Moments"') do |model|
