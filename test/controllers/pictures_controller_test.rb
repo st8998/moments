@@ -5,7 +5,7 @@ class PicturesControllerTest < ActionController::TestCase
   fixtures [:accounts, :users]
 
   setup do
-    ApplicationController.any_instance.stubs(:current_user).returns(users(:ivan))
+    sign_in(:ivan)
   end
 
   test 'accepts pictures upload' do

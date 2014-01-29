@@ -1,20 +1,15 @@
 require 'test_helper'
 
 class PicturesSetTest < ActiveSupport::TestCase
-  fixtures [:accounts, :users, :pictures_sets, :pictures_set_pictures, :pictures]
-
   setup do
-    @p1 = pictures(:picture1)
-    @p2 = pictures(:picture2)
-    @p3 = pictures(:picture3)
-
-    @ps1 = pictures_sets(:pictures_set1)
+    @ps1 = create(:pictures_set)
+    @p1, @p2, @p3 = create_list(:picture, 3)
   end
 
   test 'drain config attributes from pictures on save' do
     pics = [@p3, @p1, @p2].shuffle
     pics.each.with_index {|p, i| p.pos = i } # assign position
-    ps2 = PicturesSet.create(pictures: pics)
+    ps2 = create(:pictures_set, pictures: pics)
 
     assert_equal [0,1,2], ps2.pictures_set_pictures.pluck(:pos).sort
     assert_equal pics.map(&:id), ps2.pictures.pluck(:id)
