@@ -1,11 +1,8 @@
 require 'test_helper'
 
 class PicturesControllerTest < ActionController::TestCase
-
-  fixtures [:accounts, :users]
-
   setup do
-    sign_in(:ivan)
+    sign_in_as(:ivan)
   end
 
   test 'accepts pictures upload' do

@@ -1,8 +1,17 @@
-FactoryGirl.define do
+class FactoryGirl::SyntaxRunner
+  def identify(name)
+    ActiveRecord::FixtureSet.identify(name)
+  end
 
-  # assume we have account fistures loaded
+  def accounts(name)
+    Account.find(identify(name))
+  end
+end
+
+FactoryGirl.define do
+  # assume we have account fixtures loaded
   trait :with_account do
-    account { Account.find(ActiveRecord::FixtureSet.identify(:st8998)) }
+    account { accounts(:st8998) }
   end
 
   factory :picture, traits: [:with_account]

@@ -13,9 +13,9 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::TestCase
-  def sign_in(user_or_anchor)
+  def sign_in_as(user_or_anchor)
     user = user_or_anchor.is_a?(User) ? user_or_anchor : users(user_or_anchor)
 
-    ApplicationController.any_instance.stubs(:current_user).returns(user)
+    @controller.stubs(:current_user).returns(user)
   end
 end
