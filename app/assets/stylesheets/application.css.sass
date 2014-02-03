@@ -1,25 +1,13 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require bootstrap
- *= require bootstrap_fonts
  *= require fotorama
+ *
+ *= require_self
+ *= require bootstrap_import
+ *
  *= require blog
  *= require_tree ./comp
- *= require_self
  */
 
-
-// reset border radius
-.panel, .btn, .form-control
-  border-radius: 2px
 
 .panel
   -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 4px 15px -5px rgba(0,0,0,0.0)!important

@@ -11,6 +11,7 @@ gem 'eel', git: 'https://github.com/StrangeMood/eel.git'
 # view
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
+gem 'bootstrap-sass'
 gem 'slim'
 gem 'rabl'
 gem 'oj' # used with rabl
