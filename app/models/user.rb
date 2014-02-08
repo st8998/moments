@@ -20,4 +20,11 @@ class User < ActiveRecord::Base
   end
 
   belongs_to :account
+
+  def bw_avatar
+    avatar.
+        convert('-set colorspace Gray -separate -average').
+        convert('-brightness-contrast +10x+25')
+  end
+
 end

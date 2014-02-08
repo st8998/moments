@@ -1,0 +1,2 @@
+class PhotostreamController < ApplicationController
+end

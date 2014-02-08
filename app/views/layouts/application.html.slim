@@ -23,4 +23,18 @@ head
   = csrf_meta_tags
 
 body[ng-app='app']
+  nav.navbar.navbar-inverse
+    .container-fluid
+      a.navbar-brand[href='/'] Moments
+
+      ul.nav.navbar-nav.navbar-right
+        - if current_user
+          li
+            = image_tag current_user.bw_avatar.thumb('30x30').url, class: 'avatar'
+          li
+            = link_to current_user.name, logout_path, method: :delete
+        - else
+          li
+            a.navbar-link.login[href='/login'] Login
+
   = yield

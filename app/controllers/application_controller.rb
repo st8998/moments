@@ -8,6 +8,14 @@ class ApplicationController < ActionController::Base
   hide_action :current_user
   helper_method :current_user
 
+  def root
+    if current_user
+      redirect_to account_root_path(account_key: current_user.account.key)
+    else
+      redirect_to login_path
+    end
+  end
+
   def current_account
     @current_account ||= Account.find_by(key: params[:account_key])
   end

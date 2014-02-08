@@ -1,13 +1,13 @@
-/*
- *= require fotorama
- *
- *= require_self
- *= require bootstrap_import
- *
- *= require blog
- *= require_tree ./comp
- */
+//= require fotorama
 
+$border-radius-base: 2px
+
+@import "header"
+
+@import "bootstrap"
+
+@import "blog"
+@import "comp/**/*"
 
 .panel
   -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 4px 15px -5px rgba(0,0,0,0.0)!important
@@ -31,3 +31,4 @@
   left: 0
   width: 100%
   background: url('/assets/background_stripes.gif')
+

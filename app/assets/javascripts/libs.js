@@ -1,4 +1,4 @@
-// unmanageable libs
+//= require jquery_ujs
 //= require react-source
 //= require react-taghelper
 //= require underscore
