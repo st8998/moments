@@ -3,6 +3,8 @@
   "dependencies": {
     "react-source": "http://fb.me/react-with-addons-0.8.0.js",
 
+    "d3": "latest",
+
     "almond": "https://raw.github.com/jrburke/almond/master/almond.js",
     "underscore": "http://underscorejs.org/underscore.js",
     "marked": "https://raw.github.com/chjj/marked/master/lib/marked.js",

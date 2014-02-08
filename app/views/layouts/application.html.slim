@@ -25,14 +25,16 @@ head
 body[ng-app='app']
   nav.navbar.navbar-inverse
     .container-fluid
-      a.navbar-brand[href='/'] Moments
+      a.brand-link[href='/']
+        m-shutter[animate='false' w='30' fill='#999' stroke='#333' n='7' class='logo' open-angle='30']
+        .navbar-brand Moments
 
       ul.nav.navbar-nav.navbar-right
         - if current_user
           li
             = image_tag current_user.bw_avatar.thumb('30x30').url, class: 'avatar'
           li
-            = link_to current_user.name, logout_path, method: :delete
+            = link_to current_user.name, logout_path, method: :delete, class: 'user-name'
         - else
           li
             a.navbar-link.login[href='/login'] Login

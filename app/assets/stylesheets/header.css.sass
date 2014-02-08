@@ -1,6 +1,31 @@
-nav.navbar .avatar
-  display: inline-block
-  margin: 10px 0
+nav.navbar
+  .avatar
+    display: inline-block
+    margin: 10px 0
+
+  .user-name
+    text-transform: uppercase
+
+  .navbar-brand
+    text-transform: uppercase
+
+  .logo
+    display: inline-block
+    margin: 10px 0
+    float: left
+    margin-right: 10px
+
+  .brand-link
+    .shutter-body
+      stroke: #999
+      stroke-width: 3
+    .shutter-blade
+      fill: #999
+    &.loading, &:hover
+      .shutter-blade
+        fill: white
+      .shutter-body
+        stroke: white
 
 
 

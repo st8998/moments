@@ -33,5 +33,6 @@ App.factory('sequence', function() {
   }
 })
 
+App.constant('d3', d3)
 App.constant('jquery', jQuery)
 App.constant('cookies', Cookies)
