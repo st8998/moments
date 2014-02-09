@@ -11,7 +11,7 @@ angular.module('app').directive('mShutter', ['d3', function(d3) {
     restrict: 'E',
     replace: true,
 
-    template: '<svg></svg>',
+    template: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>',
 
     compile: function(elem, attrs) {
       var w = parseInt(attrs['w']) || 100,
