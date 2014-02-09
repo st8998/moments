@@ -1,2 +1,14 @@
-.container
-  h1 JOPPA DRILLER
+- content_for(:head) do
+  = javascript_include_tag 'photostream'
+  = stylesheet_link_tag 'photostream'
+
+.container[ng-controller='PhotostreamCtrl as pc']
+
+  m-dropzone[url="pc.api('/pictures/upload')" on-upload='pc.addPicture(attrs)' ng-cloak]
+    h3.upload-hint
+      span.glyphicon.glyphicon-camera
+      | Upload
+
+    ul.pictures
+      li.picture[ng-repeat='pic in pictures track by pic.uid()']
+        img[ng-src='{{pic.image_url_square}}']

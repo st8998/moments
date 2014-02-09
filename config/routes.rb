@@ -13,6 +13,8 @@ Moments::Application.routes.draw do
 
     scope defaults: {format: :json} do
       get '/photostream', to: 'photostream#index'
+      post '/photostream/:picture_id', to: 'photostream#add'
+      delete '/photostream/:picture_id', to: 'photostream#remove'
 
       #scope path: '/:pictures_set_id' do
       #  resources :pictures, only: [:index]

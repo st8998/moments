@@ -10,8 +10,6 @@ class SessionsController < ApplicationController
 
     user = User.find_by(email: user_attrs[:email])
 
-    puts user
-
     if user && user.password_hash == BCrypt::Engine.hash_secret(user_attrs[:password], user.password_salt)
       cookies.permanent.signed[:id] = user.id
       redirect_back_or(root_path, notice: 'Success')

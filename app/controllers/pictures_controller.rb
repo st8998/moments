@@ -6,7 +6,7 @@ class PicturesController < ApplicationController
 
   def upload
     authorize!(:upload, Picture)
-    self.picture = pictures.create(image: params[:image])
+    @picture = pictures.create(image: params[:image])
     render 'picture'
   end
 end

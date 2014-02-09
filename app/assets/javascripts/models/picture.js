@@ -1,5 +1,5 @@
 angular.module('app').factory('Picture',
-  ['$resource', 'api', 'sequence', function($resource, api, seq) {
+  ['sequence', function(seq) {
   /**
    * @property {Number} id server side picture id
    * @property {String} description
@@ -17,10 +17,9 @@ angular.module('app').factory('Picture',
    * @property {Number} progress current upload progress
    * @property {object} dzFile dropzone file model link
    */
-  var Picture = $resource(
-    api('/pictures/:id'), {
-      id: '@id'
-    })
+  function Picture(attrs) {
+    _.extend(this, attrs)
+  }
 
   Picture.prototype.copyUI = function(key) {
     var copy = new Picture()
