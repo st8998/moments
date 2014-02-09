@@ -16,11 +16,11 @@
     "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js",
     "iscroll": "latest",
 
-    "jquery.ui.core": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.core.js",
-    "jquery.ui.mouse": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.mouse.js",
-    "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.widget.js",
-    "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.draggable.js",
-    "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/jquery.ui.droppable.js",
+    "jquery.ui.core": "https://raw2.github.com/jquery/jquery-ui/master/ui/core.js",
+    "jquery.ui.mouse": "https://raw2.github.com/jquery/jquery-ui/master/ui/mouse.js",
+    "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/widget.js",
+    "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/draggable.js",
+    "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/droppable.js",
 
     "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/React.addons.tagHelper.js"
   }
