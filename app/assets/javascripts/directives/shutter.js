@@ -1,4 +1,4 @@
-angular.module('app').directive('mShutter', ['d3', function(d3) {
+angular.module('app').directive('mShutter', ['d3', 'sequence', function(d3, seq) {
 
   function sin(deg) {
     return Math.sin(deg*Math.PI/180)
@@ -14,6 +14,8 @@ angular.module('app').directive('mShutter', ['d3', function(d3) {
     template: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"></svg>',
 
     compile: function(elem, attrs) {
+      var circleCutOff = seq('circle-cut-off-')
+
       var w = parseInt(attrs['w']) || 100,
         r2 = w/2,
         r3 = r2*1.2,
@@ -24,10 +26,10 @@ angular.module('app').directive('mShutter', ['d3', function(d3) {
         openAngle = attrs['openAngle'] || 40
 
       var svg = d3.select(elem.get(0)).attr('width', w).attr('height', w).attr('class', attrs['class'])
-      var clip = svg.append('clipPath').attr('id', 'circle-cut-off')
+      var clip = svg.append('clipPath').attr('id', circleCutOff)
         .append('circle').attr('cx', w/2).attr('cy', w/2).attr('r', r2)
 
-      svg.attr('clip-path', 'url(#circle-cut-off)')
+      svg.attr('clip-path', 'url(#'+circleCutOff+')')
 
       var blades = [],
         bladeA = 360/ n,

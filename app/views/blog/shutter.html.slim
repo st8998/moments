@@ -8,8 +8,10 @@ css:
     font-size: 300%
   }
 
-div.shutter[ng-init='animate=true']
+div.shutter[ng-init='animate=false']
   input[type='checkbox' ng-model='animate' id='animate']
   label[for='animate'] ANIMATE
 
-  m-shutter[animate='{{animate}}' w='600' fill='#333' stroke='white' n='7']
+  m-shutter[animate='{{animate}}' w='300' fill='#333' stroke='white' n='7']
+  m-shutter[animate='{{animate}}' w='300' fill='#333' stroke='white' n='12']
+  m-shutter[animate='{{animate}}' w='300' fill='#333' stroke='white' n='24']
