@@ -3,7 +3,9 @@
 //= require react-taghelper
 //= require underscore
 //= require cookies-js
+
 //= require d3
+//= require d3-hexbin
 
 //= require iscroll/build/iscroll
 
