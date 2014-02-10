@@ -2,15 +2,18 @@
   = javascript_include_tag 'photostream'
   = stylesheet_link_tag 'photostream'
 
-div[ng-controller='PhotostreamCtrl as pc']
+div[ng-controller='PhotostreamCtrl as pc' m-gallery]
   m-hexagon[pictures='pictures']
 
+  .container.account-info
+    span.avatar-container
+      = image_tag current_user.avatar.thumb('110x110#').url
+    h3= current_account.key
   .container
-
     m-dropzone[url="pc.api('/pictures/upload')" on-upload='pc.addPicture(attrs)' ng-cloak]
-      h3.upload-hint
-        span.glyphicon.glyphicon-camera
-        | Upload
+      /h3.upload-hint
+      /  span.glyphicon.glyphicon-camera
+      /  | Upload
 
       ul.pictures
         li.picture[ng-repeat='pic in pictures track by pic.uid()']

@@ -32,7 +32,7 @@ body[ng-app='app']
       ul.nav.navbar-nav.navbar-right
         - if current_user
           li
-            = image_tag current_user.bw_avatar.thumb('30x30').url, class: 'avatar'
+            = image_tag current_user.bw_avatar.thumb('30x30#').url, class: 'avatar'
           li
             = link_to current_user.name, logout_path, method: :delete, class: 'user-name'
         - else
