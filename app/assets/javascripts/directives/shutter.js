@@ -16,14 +16,14 @@ angular.module('app').directive('mShutter', ['d3', 'sequence', function(d3, seq)
     compile: function(elem, attrs) {
       var circleCutOff = seq('circle-cut-off-')
 
-      var w = parseInt(attrs['w']) || 100,
-        r2 = w/2,
-        r3 = r2*1.2,
-        n = parseInt(attrs['n']) || 7,
-        factor = parseFloat(attrs['factor']) || 0.16,
-        fill = attrs['fill'] || 'black',
-        stroke = attrs['stroke'] || 'white',
-        openAngle = attrs['openAngle'] || 40
+      var w = parseInt(attrs['w']) || 100
+        , r2 = w/2
+        , r3 = r2*1.2
+        , n = parseInt(attrs['n']) || 7
+        , factor = parseFloat(attrs['factor']) || 0.16
+        , fill = attrs['fill'] || 'black'
+        , stroke = attrs['stroke'] || 'white'
+        , openAngle = attrs['openAngle'] || 40
 
       var svg = d3.select(elem.get(0)).attr('width', w).attr('height', w).attr('class', attrs['class'])
       var clip = svg.append('clipPath').attr('id', circleCutOff)
@@ -31,21 +31,21 @@ angular.module('app').directive('mShutter', ['d3', 'sequence', function(d3, seq)
 
       svg.attr('clip-path', 'url(#'+circleCutOff+')')
 
-      var blades = [],
-        bladeA = 360/ n,
-        bladeL = r2*5
+      var blades = _.times(n, _.identity)
+        , bladeA = 360/ n
+        , bladeL = r2*5
 
-      for (var i = 0; i < n; i++) {
-        var c = bladeA*i,
-          u = c - (1-factor)*bladeA*1.05,
-          d = c + factor*bladeA*1.05
+      blades = _.map(function(i) {
+        var c = bladeA*i
+          , u = c - (1-factor)*bladeA*1.05
+          , d = c + factor*bladeA*1.05
 
-        blades.push([
-          {x: w/2+bladeL*cos(u), y: w/2+bladeL*sin(u)},
-          {x: w/2+bladeL*cos(d), y: w/2+bladeL*sin(d)},
-          {x: w/2+r3*cos(c), y: w/2+r3*sin(c)}
-        ])
-      }
+        return [
+            {x: w/2+bladeL*cos(u), y: w/2+bladeL*sin(u)}
+          , {x: w/2+bladeL*cos(d), y: w/2+bladeL*sin(d)}
+          , {x: w/2+r3*cos(c), y: w/2+r3*sin(c)}
+        ]
+      })
 
       svg.selectAll('path.shutter-blade').data(blades).enter()
         .append('path')

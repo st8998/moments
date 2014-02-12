@@ -1,7 +1,7 @@
 //= require jquery_ujs
 //= require react-source
 //= require react-taghelper
-//= require underscore
+//= require lodash
 //= require cookies-js
 
 //= require d3

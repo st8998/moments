@@ -6,8 +6,7 @@
     "d3": "latest",
     "d3-hexbin": "https://raw2.github.com/d3/d3-plugins/master/hexbin/hexbin.js",
 
-    "almond": "https://raw.github.com/jrburke/almond/master/almond.js",
-    "underscore": "http://underscorejs.org/underscore.js",
+    "lodash": "latest",
     "marked": "https://raw.github.com/chjj/marked/master/lib/marked.js",
     "cookies-js": "https://raw.github.com/ScottHamper/Cookies/master/src/cookies.js",
     "base64": "http://stringencoders.googlecode.com/svn-history/r210/trunk/javascript/base64.js",

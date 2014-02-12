@@ -43,6 +43,12 @@ angular.module('app').directive('mHexagon', ['d3', '$window', function(d3, $wind
       var svg = deep.append('svg')
         .attr('height', height)
 
+      var filter = svg.append('filter').attr('id', 'grayscale-filter')
+        .append('feColorMatrix')
+        .attr('in', 'FillPaint')
+        .attr('type', 'saturate')
+        .attr('values', '0')
+
       var mesh = svg.append('path')
         .attr('class', 'hexagon-mesh')
 
