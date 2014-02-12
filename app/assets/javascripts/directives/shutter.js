@@ -105,12 +105,12 @@ angular.module('app').directive('mShutter', ['d3', 'sequence', function(d3, seq)
 
           stopAnimate = true
           if (animate) {
+            stopAnimate = false
             setTimeout(function() {
               start = new Date()
               interpolate = d3.interpolate(openAngle, 0)
               closing = true
               speed = parseInt(animate) || 1000
-              stopAnimate = false
               d3.timer(animateStep)
             }, 0)
           }

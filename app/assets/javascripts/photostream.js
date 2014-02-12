@@ -9,18 +9,16 @@ angular.module('app').controller('PhotostreamCtrl',
     var pic = new Picture(attrs)
 
     $scope.pictures.unshift(pic)
-    $http.post(api('/photostream', pic.id))
+    $http.post(api('/photostream', pic.id), {tracker: 'appTracker'})
   }
 
   this.removePicture = function(pic) {
     $scope.pictures.splice($scope.pictures.indexOf(pic), 1)
-    $http.delete(api('/photostream', pic.id))
+    $http.delete(api('/photostream', pic.id), {tracker: 'appTracker'})
   }
 
-  $http.get(api('/photostream')).success(function(data) {
+  $http.get(api('/photostream'), {tracker: 'appTracker'}).success(function(data) {
     $scope.pictures = _.map(data, function(attrs) { return new Picture(attrs) })
   })
-
-
 
 }])

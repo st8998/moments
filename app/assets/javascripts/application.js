@@ -9,7 +9,7 @@ if (typeof Function.empty === 'undefined')
 if (typeof Function.stopPropagation === 'undefined')
   Function.stopPropagation = function(e) {e.stopPropagation()}
 
-App = angular.module('app', ['ngResource', 'pasvaz.bindonce'])
+App = angular.module('app', ['ngResource', 'pasvaz.bindonce', 'ajoslin.promise-tracker'])
 
 App.constant('settings', {
   map: {
@@ -36,3 +36,9 @@ App.factory('sequence', function() {
 App.constant('d3', d3)
 App.constant('jquery', jQuery)
 App.constant('cookies', Cookies)
+
+App.run(['$rootScope', 'promiseTracker', function($rootScope, promiseTracker) {
+  $rootScope.appTracker = promiseTracker('appTracker', {
+    activationDelay: 100
+  })
+}])

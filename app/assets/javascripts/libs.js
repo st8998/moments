@@ -12,6 +12,7 @@
 //= require angular
 //= require angular-resource
 //= require angular-bindonce
+//= require angular-promise-tracker/promise-tracker
 
 //= require jquery.ui.widget
 //= require jquery.ui.core

@@ -14,6 +14,8 @@
     "angular": "latest",
     "angular-resource": "latest",
     "angular-bindonce": "latest",
+    "angular-promise-tracker": "latest",
+
     "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js",
     "iscroll": "latest",
 

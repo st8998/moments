@@ -25,8 +25,8 @@ head
 body[ng-app='app']
   nav.navbar.navbar-inverse
     .container-fluid
-      a.brand-link[href='/']
-        m-shutter[animate='false' w='30' fill='#999' stroke='#333' n='7' class='logo' open-angle='30']
+      a.brand-link[href='/' ng-class='{"loading": appTracker.active()}']
+        m-shutter[animate='{{appTracker.active()}}' w='30' fill='#999' stroke='#333' n='7' class='logo' open-angle='30']
         .navbar-brand Moments
 
       ul.nav.navbar-nav.navbar-right
