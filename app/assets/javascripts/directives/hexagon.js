@@ -113,6 +113,7 @@ angular.module('app').directive('mHexagon', ['d3', '$window', function(d3, $wind
         anchor.exit().remove()
 
         anchor.enter().append('a')
+          .attr('xlink:href', function(d) { return d.pic.image_url })
           .append('path')
           .attr('d', hexbin.hexagon())
 
@@ -154,7 +155,8 @@ angular.module('app').directive('mHexagon', ['d3', '$window', function(d3, $wind
             pics = _.shuffle(pics)
             pics = _.map(pics, function(pic) {
               return {
-                image_src: pic.image_url_square
+                image_src: pic.image_url_square,
+                image_url: '#photos/photostream/'+pic.id
               }
             })
 

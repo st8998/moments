@@ -1,21 +1,59 @@
-angular.module('app').directive('mGallery', ['$compile', function($compile) {
+angular.module('app').directive('mGallerySet', [function() {
+  return {
+    restrict: 'E',
+    require: '^mGallery',
+    link: function(scope, elem, attrs, mGallery) {
+      scope.$watch(attrs['set'], function(value) {
+        if (value) mGallery.register(attrs['key'], value)
+      })
+    }
+  }
+}])
+
+angular.module('app').directive('mGallery', ['$location', function($location) {
+
+  function Controller() {
+    var sets = {}
+
+    this.set = function(key) {
+      return sets[key]
+    }
+    this.register = function(key, pics) {
+      sets[key] = pics
+    }
+    this.deregister = function(key, pics) {
+      delete sets[key]
+    }
+  }
 
   return {
-    restrict: 'AE',
+    restrict: 'E',
     scope: {},
-    replace: false,
-    controller: Function.empty,
-    compile: function(el, attrs) {
-      var container = $('<div class="gallery-component hidden"></div>')
+    replace: true,
+    transclude: true,
+    controller: Controller,
+    template: '<div class="gallery-component hidden" ng-transclude></div>',
+    link: function(scope, elem, attrs, mGallery) {
+      var fotorama
+        , pathRegexp = /\/photos\/(\w+)\/(\w+)/
+        , pathMatch
 
-      el.append(container)
+      scope.$watch(function() { return location.hash}, function(hash) {
+        if (hash && (pathMatch = hash.match(pathRegexp))) {
+          open(pathMatch[1], parseInt(pathMatch[2]))
+        } else {
+          close()
+        }
+      })
 
-      return function(scope, el, attrs, ctrl) {
-        ctrl.open = function(pics, pic) {
-          container.removeClass('hidden')
+      function open(key, picId) {
+        var pics = mGallery.set(key)
+
+        if (pics) {
+          elem.removeClass('hidden')
           $('body').css({overflow: 'hidden'})
 
-          scope.fotorama = container.fotorama({
+          fotorama = elem.fotorama({
             height: '100%',
             width: '100%',
             nav: 'thumbs',
@@ -29,21 +67,42 @@ angular.module('app').directive('mGallery', ['$compile', function($compile) {
             margin: 5
           }).data('fotorama')
 
-          scope.fotorama.load(_.map(pics, function(pic) {
-            return {img: pic.image_url_big, thumb: pic.image_url_small}
+          fotorama.load(_.map(pics, function(pic) {
+            return {
+              img: pic.image_url_big,
+              thumb: pic.image_url_small
+            }
           }))
-          scope.fotorama.show({index: pics.indexOf(pic), time: 0})
-        }
 
-        $('body').on('keyup', function(e) {
-          if (e.which == 27) {
-            scope.fotorama.destroy()
-            container.addClass('hidden')
-            $('body').css({overflow: 'auto'})
+          if (picId) {
+            var pic = _.find(pics, function(p) { return p.id == picId })
+
+            fotorama.show({
+              index: pics.indexOf(pic),
+              time: 0
+            })
           }
-        })
+        }
       }
+
+      function close() {
+        if (fotorama) {
+          fotorama.destroy()
+          elem.addClass('hidden')
+          $('body').css({overflow: 'auto'})
+          fotorama = undefined
+        }
+      }
+
+      $('body').on('keyup.fotorama', function(e) {
+        if (e.which == 27) close()
+      })
+
+      elem.on('$destroy', function() {
+        $('body').off('.fotorama')
+      })
     }
   }
 
 }])
+

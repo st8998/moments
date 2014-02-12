@@ -35,7 +35,7 @@ angular.module('app').directive('mShutter', ['d3', 'sequence', function(d3, seq)
         , bladeA = 360/ n
         , bladeL = r2*5
 
-      blades = _.map(function(i) {
+      blades = _.map(blades, function(i) {
         var c = bladeA*i
           , u = c - (1-factor)*bladeA*1.05
           , d = c + factor*bladeA*1.05
