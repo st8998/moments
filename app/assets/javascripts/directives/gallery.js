@@ -26,6 +26,13 @@ angular.module('app').directive('mGallery', ['$location', function($location) {
     }
   }
 
+  function fromPicture(pic) {
+    return {
+      img: pic.image_url_big,
+      thumb: pic.image_url_small
+    }
+  }
+
   return {
     restrict: 'E',
     scope: {},
@@ -37,69 +44,61 @@ angular.module('app').directive('mGallery', ['$location', function($location) {
       var fotorama
         , pathRegexp = /\/photos\/(\w+)\/(\w+)/
         , pathMatch
+        , $body = $('body')
 
       scope.$watch(function() { return location.hash}, function(hash) {
+        var pics, pic, id
+
         if (hash && (pathMatch = hash.match(pathRegexp))) {
           open(pathMatch[1], parseInt(pathMatch[2]))
+
+          if (pics = mGallery.set(pathMatch[1])) {
+            if (id = parseInt(pathMatch[2])) {
+              pic = _.find(pics, function(p) { return p.id == id })
+            }
+
+            open(pics, pic)
+          }
         } else {
           close()
         }
       })
 
-      function open(key, picId) {
-        var pics = mGallery.set(key)
+      function open(pics, pic) {
+        elem.removeClass('hidden')
+        $body.addClass('gallery-mode')
 
-        if (pics) {
-          elem.removeClass('hidden')
-          $('body').css({overflow: 'hidden'})
+        fotorama = elem.fotorama({
+          height: '100%',
+          width: '100%',
+          nav: false,
+          fit: 'contain',
+          click: true,
+          swipe: true,
+          arrows: true,
+          keyboard: true,
 
-          fotorama = elem.fotorama({
-            height: '100%',
-            width: '100%',
-            nav: 'thumbs',
-            fit: 'contain',
-            click: true,
-            swipe: true,
-            arrows: true,
-            keyboard: true,
+          margin: 5
+        }).data('fotorama')
 
-            glimpse: '5%',
-            margin: 5
-          }).data('fotorama')
+        fotorama.load(_.map(pics, fromPicture))
 
-          fotorama.load(_.map(pics, function(pic) {
-            return {
-              img: pic.image_url_big,
-              thumb: pic.image_url_small
-            }
-          }))
+        if (pic) fotorama.show({index: pics.indexOf(pic), time: 0})
 
-          if (picId) {
-            var pic = _.find(pics, function(p) { return p.id == picId })
-
-            fotorama.show({
-              index: pics.indexOf(pic),
-              time: 0
-            })
-          }
-        }
+        $body.on('keyup.fotorama', function(e) {
+          if (e.which == 27) close()
+        })
       }
 
       function close() {
-        if (fotorama) {
-          fotorama.destroy()
-          elem.addClass('hidden')
-          $('body').css({overflow: 'auto'})
-          fotorama = undefined
-        }
+        elem.addClass('hidden')
+        $body.removeClass('gallery-mode')
+        $body.off('.fotorama')
+        location.hash = ''
       }
 
-      $('body').on('keyup.fotorama', function(e) {
-        if (e.which == 27) close()
-      })
-
       elem.on('$destroy', function() {
-        $('body').off('.fotorama')
+        if (fotorama) fotorama.destroy()
       })
     }
   }
