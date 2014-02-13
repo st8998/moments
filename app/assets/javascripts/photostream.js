@@ -3,8 +3,6 @@
 angular.module('app').controller('PhotostreamCtrl',
   ['$scope', '$http', 'api', 'Picture', function($scope, $http, api, Picture) {
 
-  this.api = api
-
   this.addPicture = function(attrs) {
     var pic = new Picture(attrs)
 

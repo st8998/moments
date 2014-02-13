@@ -1,14 +1,10 @@
-angular.module('app').directive('mHexagon', ['d3', '$window', function(d3, $window) {
+angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function(d3, $window, $parse) {
 
   return {
     restrict: 'E',
 
     replace: 'true',
     template: '<div class="hexagon-component"><div class="hexagon-deep"></div></div>',
-
-    scope: {
-      pics: '=pictures'
-    },
 
     compile: function(elem, attrs) {
       var height = 400,
@@ -150,13 +146,15 @@ angular.module('app').directive('mHexagon', ['d3', '$window', function(d3, $wind
   //            if (scope.pics && scope.pics.length) resized(scope.pics)
   //          })
 
-        scope.$watchCollection('pics', function(pics) {
+        var url = $parse(attrs['picUrl'])(scope)
+
+        scope.$watchCollection(attrs['pictures'], function(pics) {
           if (pics && pics.length) {
             pics = _.shuffle(pics)
             pics = _.map(pics, function(pic) {
               return {
                 image_src: pic.image_url_square,
-                image_url: '#photos/photostream/'+pic.id
+                image_url: '#'+url(pic.id)
               }
             })
 

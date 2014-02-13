@@ -1,7 +1,7 @@
 //= require_self
-//= require services/api
 //= require_tree ./react
 //= require_tree ./directives
+//= require_tree ./services
 
 if (typeof Function.empty === 'undefined')
   Function.empty = function() {}
@@ -37,8 +37,11 @@ App.constant('d3', d3)
 App.constant('jquery', jQuery)
 App.constant('cookies', Cookies)
 
-App.run(['$rootScope', 'promiseTracker', function($rootScope, promiseTracker) {
+App.run(['$rootScope', 'promiseTracker', 'routes', 'api', function($rootScope, promiseTracker, routes, api) {
   $rootScope.appTracker = promiseTracker('appTracker', {
     activationDelay: 100
   })
+
+  $rootScope.routes = routes
+  $rootScope.api = api
 }])

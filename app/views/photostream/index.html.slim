@@ -6,14 +6,14 @@ div[ng-controller='PhotostreamCtrl as pc']
   m-gallery
     m-gallery-set[key='photostream' set='pictures']
 
-  m-hexagon[pictures='pictures']
+  m-hexagon[pictures='pictures' pic-url='routes.gallery("photostream")']
 
   .container.account-info
     span.avatar-container
       = image_tag current_user.avatar.thumb('110x110#').url
     h3= current_account.key
   .container
-    m-dropzone[url="pc.api('/pictures/upload')" on-upload='pc.addPicture(attrs)' ng-cloak]
+    m-dropzone[url="api('/pictures/upload')" on-upload='pc.addPicture(attrs)' ng-cloak]
       .upload-drag-hint
         h3 Тащите свои фотографии сюда
       .upload-hover-hint
@@ -26,5 +26,5 @@ div[ng-controller='PhotostreamCtrl as pc']
 
       ul.pictures
         li.picture[ng-repeat='pic in pictures track by pic.uid()']
-          a[href='#photos/photostream/{{pic.id}}']
+          a[href='{{"#"+routes.gallery("photostream", pic.id)}}']
             img[ng-src='{{pic.image_url_square}}']

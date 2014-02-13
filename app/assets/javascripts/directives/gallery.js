@@ -10,7 +10,13 @@ angular.module('app').directive('mGallerySet', [function() {
   }
 }])
 
-angular.module('app').directive('mGallery', ['$location', function($location) {
+angular.module('app').directive('mGallery', ['$location', 'routes', function($location, routes) {
+
+  routes.register('gallery', _.curry(function(key, pic) {
+    return '/p/'+key+'/'+pic
+  }))
+
+  var URL_PATTERN = /\/p\/(\w+)\/(\w+)/
 
   function Controller() {
     var sets = {}
@@ -26,13 +32,6 @@ angular.module('app').directive('mGallery', ['$location', function($location) {
     }
   }
 
-  function fromPicture(pic) {
-    return {
-      img: pic.image_url_big,
-      thumb: pic.image_url_small
-    }
-  }
-
   return {
     restrict: 'E',
     scope: {},
@@ -42,31 +41,28 @@ angular.module('app').directive('mGallery', ['$location', function($location) {
     template: '<div class="gallery-component hidden" ng-transclude></div>',
     link: function(scope, elem, attrs, mGallery) {
       var fotorama
-        , pathRegexp = /\/photos\/(\w+)\/(\w+)/
         , pathMatch
         , $body = $('body')
+        , closed = true
 
       scope.$watch(function() { return location.hash}, function(hash) {
-        var pics, pic, id
+        var pics
 
-        if (hash && (pathMatch = hash.match(pathRegexp))) {
-          open(pathMatch[1], parseInt(pathMatch[2]))
-
-          if (pics = mGallery.set(pathMatch[1])) {
-            if (id = parseInt(pathMatch[2])) {
-              pic = _.find(pics, function(p) { return p.id == id })
-            }
-
-            open(pics, pic)
+        if (hash && (pathMatch = hash.match(URL_PATTERN))) {
+          if (closed && (pics = mGallery.set(pathMatch[1]))) {
+            open(pics, pathMatch[2], pathMatch[1])
           }
         } else {
           close()
         }
       })
 
-      function open(pics, pic) {
+      function open(pics, picId, key) {
+        closed = false
         elem.removeClass('hidden')
         $body.addClass('gallery-mode')
+
+        var url = routes.gallery(key)
 
         fotorama = elem.fotorama({
           height: '100%',
@@ -77,24 +73,33 @@ angular.module('app').directive('mGallery', ['$location', function($location) {
           swipe: true,
           arrows: true,
           keyboard: true,
-
-          margin: 5
+          hash: true,
+          margin: 5,
+          startindex: picId ? url(picId) : 0,
+          data: _.map(pics, function(pic) {
+            return {
+              img: pic.image_url_big,
+              thumb: pic.image_url_small,
+              id: url(pic.id)
+            }
+          })
         }).data('fotorama')
 
-        fotorama.load(_.map(pics, fromPicture))
-
-        if (pic) fotorama.show({index: pics.indexOf(pic), time: 0})
-
         $body.on('keyup.fotorama', function(e) {
-          if (e.which == 27) close()
+          if (e.which == 27) location.hash = '/'
         })
       }
 
       function close() {
-        elem.addClass('hidden')
-        $body.removeClass('gallery-mode')
-        $body.off('.fotorama')
-        location.hash = ''
+        if (!closed) {
+          fotorama.destroy()
+          elem.addClass('hidden')
+          elem.removeData('fotorama')
+          $body.removeClass('gallery-mode')
+          $body.off('.fotorama')
+          closed = true
+          fotorama = undefined
+        }
       }
 
       elem.on('$destroy', function() {
