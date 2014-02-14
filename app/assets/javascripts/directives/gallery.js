@@ -1,16 +1,4 @@
-angular.module('app').directive('mGallerySet', [function() {
-  return {
-    restrict: 'E',
-    require: '^mGallery',
-    link: function(scope, elem, attrs, mGallery) {
-      scope.$watch(attrs['set'], function(value) {
-        if (value) mGallery.register(attrs['key'], value)
-      })
-    }
-  }
-}])
-
-angular.module('app').directive('mGallery', ['$location', 'routes', function($location, routes) {
+angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', function($location, routes, Pictures) {
 
   routes.register('gallery', _.curry(function(key, pic) {
     return '/p/'+key+'/'+pic
@@ -18,27 +6,11 @@ angular.module('app').directive('mGallery', ['$location', 'routes', function($lo
 
   var URL_PATTERN = /\/p\/(\w+)\/(\w+)/
 
-  function Controller() {
-    var sets = {}
-
-    this.set = function(key) {
-      return sets[key]
-    }
-    this.register = function(key, pics) {
-      sets[key] = pics
-    }
-    this.deregister = function(key, pics) {
-      delete sets[key]
-    }
-  }
-
   return {
     restrict: 'E',
     scope: {},
     replace: true,
-    transclude: true,
-    controller: Controller,
-    template: '<div class="gallery-component hidden" ng-transclude></div>',
+    template: '<div class="gallery-component hidden"></div>',
     link: function(scope, elem, attrs, mGallery) {
       var fotorama
         , pathMatch
@@ -46,11 +18,13 @@ angular.module('app').directive('mGallery', ['$location', 'routes', function($lo
         , closed = true
 
       scope.$watch(function() { return location.hash}, function(hash) {
-        var pics
+        var picsPromise
 
         if (hash && (pathMatch = hash.match(URL_PATTERN))) {
-          if (closed && (pics = mGallery.set(pathMatch[1]))) {
-            open(pics, pathMatch[2], pathMatch[1])
+          if (closed && (picsPromise = Pictures.pictures(pathMatch[1]))) {
+            picsPromise.then(function(pics) {
+              open(pics, pathMatch[2], pathMatch[1])
+            })
           }
         } else {
           close()

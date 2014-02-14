@@ -1,7 +1,7 @@
 //= require models/picture
 
 angular.module('app').controller('PhotostreamCtrl',
-  ['$scope', '$http', 'api', 'Picture', function($scope, $http, api, Picture) {
+  ['$scope', '$http', 'api', 'Picture', 'Pictures', function($scope, $http, api, Picture, Pictures) {
 
   this.addPicture = function(attrs) {
     var pic = new Picture(attrs)
@@ -15,8 +15,7 @@ angular.module('app').controller('PhotostreamCtrl',
     $http.delete(api('/photostream', pic.id), {tracker: 'appTracker'})
   }
 
-  $http.get(api('/photostream'), {tracker: 'appTracker'}).success(function(data) {
-    $scope.pictures = _.map(data, function(attrs) { return new Picture(attrs) })
+  Pictures.pictures('photostream').then(function(pics) {
+    $scope.pictures = pics
   })
-
 }])
