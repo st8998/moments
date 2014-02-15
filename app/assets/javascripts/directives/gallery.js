@@ -10,12 +10,13 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
     restrict: 'E',
     scope: {},
     replace: true,
-    template: '<div class="gallery-component hidden"></div>',
+    templateUrl: '/assets/directives/gallery.html',
     link: function(scope, elem, attrs, mGallery) {
       var fotorama
         , pathMatch
         , $body = $('body')
         , closed = true
+        , fotoramaContainer = elem.find('.fotorama-container')
 
       scope.$watch(function() { return location.hash}, function(hash) {
         var picsPromise
@@ -31,6 +32,12 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
         }
       })
 
+      fotoramaContainer.on('fotorama:show', function(e, fotorama) {
+        if (scope.pic != fotorama.activeFrame.pic) {
+          scope.pic = fotorama.activeFrame.pic
+        }
+      })
+
       function open(pics, picId, key) {
         closed = false
         elem.removeClass('hidden')
@@ -38,7 +45,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
 
         var url = routes.gallery(key)
 
-        fotorama = elem.fotorama({
+        fotorama = fotoramaContainer.fotorama({
           height: '100%',
           width: '100%',
           nav: false,
@@ -54,7 +61,8 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
             return {
               img: pic.image_url_big,
               thumb: pic.image_url_small,
-              id: url(pic.id)
+              id: url(pic.id),
+              pic: pic
             }
           })
         }).data('fotorama')
@@ -68,7 +76,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
         if (!closed) {
           fotorama.destroy()
           elem.addClass('hidden')
-          elem.removeData('fotorama')
+          fotoramaContainer.removeData('fotorama')
           $body.removeClass('gallery-mode')
           $body.off('.fotorama')
           closed = true
@@ -78,6 +86,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
 
       elem.on('$destroy', function() {
         if (fotorama) fotorama.destroy()
+        fotoramaContainer.off('fotorama:showend')
       })
     }
   }
