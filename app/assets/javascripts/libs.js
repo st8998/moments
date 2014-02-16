@@ -10,7 +10,6 @@
 //= require iscroll/build/iscroll
 
 //= require angular
-//= require angular-resource
 //= require angular-bindonce
 //= require angular-promise-tracker/promise-tracker
 

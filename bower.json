@@ -1,6 +1,8 @@
 {
   "name": "moments",
   "dependencies": {
+    "jquery": "latest",
+
     "react-source": "http://fb.me/react-with-addons-0.8.0.js",
 
     "d3": "latest",
@@ -11,6 +13,7 @@
     "cookies-js": "https://raw.github.com/ScottHamper/Cookies/master/src/cookies.js",
     "base64": "http://stringencoders.googlecode.com/svn-history/r210/trunk/javascript/base64.js",
     "angular": "latest",
+    "angular-mocks": "latest",
     "angular-resource": "latest",
     "angular-bindonce": "latest",
     "angular-promise-tracker": "latest",

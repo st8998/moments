@@ -9,7 +9,7 @@ if (typeof Function.empty === 'undefined')
 if (typeof Function.stopPropagation === 'undefined')
   Function.stopPropagation = function(e) {e.stopPropagation()}
 
-App = angular.module('app', ['ngResource', 'pasvaz.bindonce', 'ajoslin.promise-tracker'])
+App = angular.module('app', ['pasvaz.bindonce', 'ajoslin.promise-tracker'])
 
 App.constant('settings', {
   map: {
@@ -21,15 +21,6 @@ App.constant('settings', {
       route: 15,
       street_number: 18
     }
-  }
-})
-
-App.factory('sequence', function() {
-  var current = 0
-
-  return function(prefix) {
-    current += 1
-    return '' + (prefix || '') + current
   }
 })
 
