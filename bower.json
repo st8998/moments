@@ -1,6 +1,8 @@
 {
   "name": "moments",
   "dependencies": {
+    "jasmine": "latest",
+
     "jquery": "latest",
 
     "react-source": "http://fb.me/react-with-addons-0.8.0.js",
