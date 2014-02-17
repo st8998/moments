@@ -12,7 +12,7 @@ div[ng-controller='PhotostreamCtrl as pc']
       = image_tag current_user.avatar.thumb('110x110#').url
     h3= current_account.key
   .container
-    m-dropzone[url="api('/pictures/upload')" on-upload='pc.addPicture(attrs)' ng-cloak]
+    m-dropzone[url="api('/pictures/upload')" on-upload='pc.Pictures.add(attrs)' ng-cloak]
       .upload-drag-hint
         h3 Тащите свои фотографии сюда
       .upload-hover-hint

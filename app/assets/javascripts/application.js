@@ -27,6 +27,7 @@ App.constant('settings', {
 App.constant('d3', d3)
 App.constant('jquery', jQuery)
 App.constant('cookies', Cookies)
+App.constant('lodash', _)
 
 App.run(['$rootScope', 'promiseTracker', 'routes', 'api', function($rootScope, promiseTracker, routes, api) {
   $rootScope.appTracker = promiseTracker('appTracker', {

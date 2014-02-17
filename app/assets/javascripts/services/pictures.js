@@ -1,4 +1,5 @@
-angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', function(Picture, $http, api, $q) {
+angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', 'lodash',
+  function(Picture, $http, api, $q, _) {
 
   var pictureSets = {}
   var promises = {}
@@ -12,7 +13,7 @@ angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', func
       if (promises[key]) {
         return promises[key]
       } else {
-        var promise = $http.get(api('/photostream')).then(dataToPics)
+        var promise = $http.get(api(key)).then(dataToPics)
 
         var deferred = $q.defer()
         promise.then(function(pics) {
@@ -20,20 +21,21 @@ angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', func
           deferred.resolve(pics)
         })
 
-        promises[key] = deferred.promise
-
-        return deferred.promise
+        return promises[key] = deferred.promise
       }
     },
 
-    add: function(key, pic) {
-      var deferred = $q.defer()
-      promises[key] = deferred.promise
+    add: function(key, picOrAttrs) {
+      var deferred = $q.defer();
 
-      pictureSets[key].push(pic)
-      deferred.resolve(pictureSets[key])
+      (promises[key] || this.pictures(key)).then(function() {
+        var pic = picOrAttrs.constructor.name === 'Picture' ? picOrAttrs : new Picture(picOrAttrs)
 
-      return deferred.promise
+        pictureSets[key].push(pic)
+        deferred.resolve(pictureSets[key])
+      })
+
+      return promises[key] = deferred.promise
     }
   }
 

@@ -17,12 +17,14 @@ module.exports = function(config) {
       'vendor/assets/components/jquery/dist/jquery.js',
       'vendor/assets/components/d3/d3.js',
       'vendor/assets/components/cookies-js/index.js',
+      'vendor/assets/components/lodash/dist/lodash.js',
 
       'vendor/assets/components/angular/angular.js',
       'vendor/assets/components/angular-mocks/angular-mocks.js',
 
-      'test/karma/config/app_helper.js',
+      'test/javascripts/app_helper.js',
 
+      'app/assets/javascripts/helpers/*.js',
       'app/assets/javascripts/directives/*.js',
       'app/assets/javascripts/models/*.js',
       'app/assets/javascripts/services/*.js',
