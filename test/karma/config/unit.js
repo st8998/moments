@@ -27,7 +27,7 @@ module.exports = function(config) {
       'app/assets/javascripts/models/*.js',
       'app/assets/javascripts/services/*.js',
 
-      'test/javascripts/*_spec.js'
+      'test/javascripts/**/*_spec.js'
     ],
 
 
