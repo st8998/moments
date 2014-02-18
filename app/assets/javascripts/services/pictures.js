@@ -43,8 +43,6 @@ angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', 'lod
     },
 
     remove: function(key, pic) {
-      console.log('REMOVE')
-
       var deferred = $q.defer();
 
       (promises[key] || this.pictures(key)).then(function() {
