@@ -150,8 +150,6 @@ angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function
 
         scope.$watchCollection(attrs['pictures'], function(pics) {
           if (pics && pics.length) {
-            console.log('HEXAGON CHANGED')
-
             pics = _.shuffle(pics)
             pics = _.map(pics, function(pic) {
               return {

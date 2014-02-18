@@ -40,6 +40,24 @@ angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', 'lod
       })
 
       return promises[key] = deferred.promise
+    },
+
+    remove: function(key, pic) {
+      console.log('REMOVE')
+
+      var deferred = $q.defer();
+
+      (promises[key] || this.pictures(key)).then(function() {
+        $http.delete(api(key, pic.id)).success(function() {
+          var pics = pictureSets[key]
+
+          pics.splice(pics.indexOf(pic), 1)
+
+          deferred.resolve(pictureSets[key])
+        })
+      })
+
+      return promises[key] = deferred.promise
     }
   }
 

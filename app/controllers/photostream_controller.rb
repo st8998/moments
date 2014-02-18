@@ -11,6 +11,7 @@ class PhotostreamController < ApplicationController
 
   def remove
     photostream.remove(params.require(:picture_id))
+    render json: 'ok'
   end
 
   private

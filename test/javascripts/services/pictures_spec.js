@@ -80,4 +80,20 @@ describe('Pictures service', function() {
 
     $httpBackend.flush()
   })
+
+  it('should remove pictures', function() {
+    var pic1 = new Picture(picAttrs[0])
+    var pic2 = new Picture(picAttrs[1])
+    $httpBackend.expect('DELETE', '/test/photostream/1').respond('ok')
+    $httpBackend.expect('DELETE', '/test/photostream/2').respond('ok')
+
+    service.remove('photostream', pic1)
+    service.remove('photostream', pic2)
+
+    service.pictures('photostream').then(function(pics) {
+      expect(pics.length).toBe(0)
+    })
+
+    $httpBackend.flush()
+  })
 })

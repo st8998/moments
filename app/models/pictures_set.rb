@@ -19,7 +19,7 @@ class PicturesSet < ActiveRecord::Base
   end
 
   def remove(picture_or_id)
-    id = picture_or_id.is?(Picture) ? picture_or_id.id : picture_or_id
+    id = picture_or_id.is_a?(Picture) ? picture_or_id.id : picture_or_id
     pictures_set_pictures.where(picture_id: id).destroy_all
   end
 
