@@ -31,9 +31,11 @@ describe('Pictures service', function() {
   })
 
   it('should add picture to pictures', function() {
-    var picAttrs = {id: 3}
+    var pic1 = {id: 3}
 
-    service.add('photostream', new Picture(picAttrs))
+    $httpBackend.expect('POST', '/test/photostream/3', pic1).respond(pic1)
+
+    service.add('photostream', new Picture(pic1))
 
     service.pictures('photostream').then(function(pics) {
       expect(pics.length).toBe(3)
@@ -46,6 +48,9 @@ describe('Pictures service', function() {
   it('should automatically convert attrs to picture', function() {
     var pic1 = {id: 3}
     var pic2 = new Picture({id: 4})
+
+    $httpBackend.expect('POST', '/test/photostream/3', pic1).respond(pic1)
+    $httpBackend.expect('POST', '/test/photostream/4', pic2).respond(pic2)
 
     service.add('photostream', pic1)
     service.add('photostream', pic2)
@@ -61,6 +66,9 @@ describe('Pictures service', function() {
   it('should add pictures concurrently', function() {
     var pic1 = {id: 3}
     var pic2 = {id: 4}
+
+    $httpBackend.expect('POST', '/test/photostream/3', pic1).respond(pic1)
+    $httpBackend.expect('POST', '/test/photostream/4', pic2).respond(pic2)
 
     service.add('photostream', pic1)
     service.add('photostream', pic2)

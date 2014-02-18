@@ -31,8 +31,12 @@ angular.module('app').factory('Pictures', ['Picture', '$http', 'api', '$q', 'lod
       (promises[key] || this.pictures(key)).then(function() {
         var pic = picOrAttrs.constructor.name === 'Picture' ? picOrAttrs : new Picture(picOrAttrs)
 
-        pictureSets[key].push(pic)
-        deferred.resolve(pictureSets[key])
+        $http.post(api(key, pic.id), pic.attributes()).success(function(attrs) {
+          pic = new Picture(attrs)
+
+          pictureSets[key].push(pic)
+          deferred.resolve(pictureSets[key])
+        })
       })
 
       return promises[key] = deferred.promise

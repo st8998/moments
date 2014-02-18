@@ -23,10 +23,14 @@ angular.module('app').factory('Picture',
 
   Picture.prototype.copyUI = function(key) {
     var copy = new Picture()
-    copy.assignAttributes(_.pick(this, 'width', 'height', 'image_url_small', 'image_url_normal', 'image_url_big'))
+    copy.assignAttributes(this.attributes())
     copy._uid = this.uid()
 
     return copy
+  }
+
+  Picture.prototype.attributes = function(key) {
+    return _.pick(this, 'id', 'width', 'height', 'image_url_small', 'image_url_normal', 'image_url_big')
   }
 
   Picture.prototype.uid = function() {

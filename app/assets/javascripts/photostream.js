@@ -1,13 +1,10 @@
 //= require models/picture
 
 angular.module('app').controller('PhotostreamCtrl',
-  ['$scope', '$http', 'api', 'Picture', 'Pictures', function($scope, $http, api, Picture, Pictures) {
+  ['$scope', '$http', 'api', 'Picture', 'Pictures',
+  function($scope, $http, api, Picture, Pictures) {
 
   this.Pictures = Pictures
-
-  this.addPicture = function(attrs) {
-    Pictures.add(new Picture(attrs))
-  }
 
   Pictures.pictures('photostream').then(function(pics) {
     $scope.pictures = pics

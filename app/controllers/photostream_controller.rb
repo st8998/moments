@@ -5,7 +5,8 @@ class PhotostreamController < ApplicationController
 
   def add
     photostream.add(params.require(:picture_id))
-    render json: 'ok'
+    @picture = Picture.find(params.require(:picture_id))
+    render 'pictures/picture'
   end
 
   def remove
