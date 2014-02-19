@@ -1,6 +1,7 @@
 describe('Pictures service', function() {
-  var service, $httpBackend, Picture
+  var service, $httpBackend, $cacheFactory, Picture
     , picAttrs = [{id: 1}, {id: 2}]
+    , getId = function(p) { return p.id }
 
   beforeEach(function() {
     module('app')
@@ -9,6 +10,7 @@ describe('Pictures service', function() {
       cookies.set('akey', 'test')
 
       $httpBackend = $injector.get('$httpBackend')
+      $cacheFactory = $injector.get('$cacheFactory')
       service = $injector.get('Pictures')
       Picture = $injector.get('Picture')
 
@@ -22,9 +24,9 @@ describe('Pictures service', function() {
   })
 
   it('should return promise for pictures', function() {
-    service.pictures('photostream').then(function(pics) {
+    service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(2)
-      expect(_.map(pics, function(p) {return p.id} )).toEqual([1,2])
+      expect(_.map(pics, getId)).toEqual([1,2])
     })
 
     $httpBackend.flush()
@@ -37,9 +39,9 @@ describe('Pictures service', function() {
 
     service.add('photostream', new Picture(pic1))
 
-    service.pictures('photostream').then(function(pics) {
+    service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(3)
-      expect(_.map(pics, function(p) {return p.id} )).toEqual([1,2,3])
+      expect(_.map(pics, getId)).toEqual([1,2,3])
     })
 
     $httpBackend.flush()
@@ -55,9 +57,9 @@ describe('Pictures service', function() {
     service.add('photostream', pic1)
     service.add('photostream', pic2)
 
-    service.pictures('photostream').then(function(pics) {
+    service.get('photostream').then(function(pics) {
       expect(_.all(pics, function(p) {return p.constructor.name === 'Picture'} )).toBe(true)
-      expect(_.map(pics, function(p) {return p.id} )).toEqual([1,2,3,4])
+      expect(_.map(pics, getId)).toEqual([1,2,3,4])
     })
 
     $httpBackend.flush()
@@ -73,9 +75,9 @@ describe('Pictures service', function() {
     service.add('photostream', pic1)
     service.add('photostream', pic2)
 
-    service.pictures('photostream').then(function(pics) {
+    service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(4)
-      expect(_.map(pics, function(p) {return p.id} )).toEqual([1,2,3,4])
+      expect(_.map(pics, getId)).toEqual([1,2,3,4])
     })
 
     $httpBackend.flush()
@@ -90,8 +92,47 @@ describe('Pictures service', function() {
     service.remove('photostream', pic1)
     service.remove('photostream', pic2)
 
-    service.pictures('photostream').then(function(pics) {
+    service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(0)
+    })
+
+    $httpBackend.flush()
+  })
+
+  it('should provide watchable collections', function() {
+    var pic1 = {id: 3}
+
+    expect(service.getCollection('photostream')).toEqual(undefined)
+
+    service.get('photostream').then(function() {
+      expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2])
+    })
+
+    $httpBackend.expect('POST', '/test/photostream/3', pic1).respond(pic1)
+    service.add('photostream', pic1).then(function() {
+      expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2,3])
+    })
+
+    $httpBackend.expect('DELETE', '/test/photostream/1').respond('ok')
+    service.remove('photostream', {id: 1}).then(function(pics) {
+      expect(_.map(service.getCollection('photostream'), getId)).toEqual([2,3])
+    })
+
+    $httpBackend.flush()
+  })
+
+  it('should work after cache invalidation', function() {
+    var picsCache = $cacheFactory.get('pictureSets')
+
+    service.get('photostream').then(function(pics) {
+      expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2])
+
+      picsCache.removeAll()
+      expect(service.getCollection('photostream')).toEqual(undefined)
+
+      service.get('photostream').then(function(pics) {
+        expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2])
+      })
     })
 
     $httpBackend.flush()

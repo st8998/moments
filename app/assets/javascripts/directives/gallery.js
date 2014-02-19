@@ -22,7 +22,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
         var picsPromise
 
         if (hash && (pathMatch = hash.match(URL_PATTERN))) {
-          if (closed && (picsPromise = Pictures.pictures(pathMatch[1]))) {
+          if (closed && (picsPromise = Pictures.get(pathMatch[1]))) {
             picsPromise.then(function(pics) {
               open(pics, pathMatch[2], pathMatch[1])
             })

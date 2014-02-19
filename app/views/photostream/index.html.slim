@@ -5,12 +5,13 @@
 div[ng-controller='PhotostreamCtrl as pc']
   m-gallery
 
-  m-hexagon[pictures='pictures' pic-url='routes.gallery("photostream")']
+  m-hexagon[pictures='pc.Pictures.getCollection("photostream")' pic-url='routes.gallery("photostream")']
 
   .container.account-info
     span.avatar-container
       = image_tag current_user.avatar.thumb('110x110#').url
     h3= current_account.key
+    button[ng-click='pc.clearCache()'] CLEAR
   .container
     m-dropzone[url="api('/pictures/upload')" on-upload='pc.Pictures.add("photostream", attrs)' ng-cloak]
       .upload-drag-hint
@@ -24,7 +25,7 @@ div[ng-controller='PhotostreamCtrl as pc']
       /  | Upload
 
       ul.pictures
-        li.picture[ng-repeat='pic in pictures track by pic.uid()']
+        li.picture[ng-repeat='pic in pc.Pictures.getCollection("photostream") track by pic.id']
           a[href='{{"#"+routes.gallery("photostream", pic.id)}}']
             img[ng-src='{{pic.image_url_square}}']
           span.glyphicon.glyphicon-remove[ng-click='pc.Pictures.remove("photostream", pic)']

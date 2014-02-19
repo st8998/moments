@@ -1,12 +1,14 @@
 //= require models/picture
 
 angular.module('app').controller('PhotostreamCtrl',
-  ['$scope', '$http', 'api', 'Picture', 'Pictures',
-  function($scope, $http, api, Picture, Pictures) {
+  ['$scope', '$http', '$cacheFactory', 'api', 'Picture', 'Pictures',
+  function($scope, $http, $cacheFactory, api, Picture, Pictures) {
 
   this.Pictures = Pictures
 
-  Pictures.pictures('photostream').then(function(pics) {
-    $scope.pictures = pics
-  })
+  Pictures.get('photostream')
+
+  this.clearCache = function() {
+    $cacheFactory.get('pictureSets').removeAll()
+  }
 }])
