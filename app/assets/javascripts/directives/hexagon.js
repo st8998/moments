@@ -1,4 +1,6 @@
-angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function(d3, $window, $parse) {
+angular.module('app').directive('mHexagon',
+  ['d3', '$window', '$parse', 'sequence', 'Pictures', 'routes',
+  function(d3, $window, $parse, seq, Pictures, routes) {
 
   return {
     restrict: 'E',
@@ -73,11 +75,11 @@ angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function
       }
 
       function resized(data) {
-        var deepWidth = $window.innerWidth * (depth + 1) / depth,
-          deepHeight = height * (depth + 1) / depth,
-          centers = hexbin.size([deepWidth, deepHeight]).centers()
+        var deepWidth = $window.innerWidth * (depth + 1) / depth
+          , deepHeight = height * (depth + 1) / depth
+          , centers = hexbin.size([deepWidth, deepHeight]).centers()
 
-        desiredFocus = [$window.innerWidth / 2, height / 2];
+        desiredFocus = [$window.innerWidth / 2, height / 2]
         moved()
 
         graphic
@@ -86,10 +88,10 @@ angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function
           .attr('width', deepWidth)
           .attr('height', deepHeight)
 
-        _.each(centers, function(center) {
+        _.each(centers, function(center, index) {
           center.j = Math.round(center[1] / (radius * 1.5))
           center.i = Math.round((center[0] - (center.j & 1) * radius * Math.sin(Math.PI / 3)) / (radius * 2 * Math.sin(Math.PI / 3)))
-          center.pic = data[((center.i % 10) + ((center.j + (center.i / 10 & 1) * 5) % 10) * 10)%data.length]
+          center.pic = data[index]
 
           center.pic.image = new Image()
           center.pic.image.src = center.pic.image_src
@@ -104,7 +106,7 @@ angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function
 
         mesh.attr('d', hexbin.mesh)
 
-        anchor = anchor.data(centers, function(d) { return d.i + ',' + d.j })
+        anchor = anchor.data(centers, function(d) { return d.pic.id() })
 
         anchor.exit().remove()
 
@@ -141,24 +143,37 @@ angular.module('app').directive('mHexagon', ['d3', '$window', '$parse', function
         if (!('ontouchstart' in document)) d3.select(elem.get(0))
           .on('mousemove', mousemoved);
 
-  //        d3.select($window)
-  //          .on('resize', function() {
-  //            if (scope.pics && scope.pics.length) resized(scope.pics)
-  //          })
+        var hexagons
+          , hexagonsCount = parseInt(attrs['hexagonsCount']) || 100
+          , key = attrs['pictures']
+          , galleryUrl = routes.gallery(key)
 
-        var url = $parse(attrs['picUrl'])(scope)
+        d3.select($window)
+          .on('resize', function() {
+            if (hexagons && hexagons.length) resized(hexagons)
+          })
 
-        scope.$watchCollection(attrs['pictures'], function(pics) {
+        Pictures.get(key).then(function(pics) {
           if (pics && pics.length) {
-            pics = _.shuffle(pics)
-            pics = _.map(pics, function(pic) {
+            var initialHexagons = _.map(pics, function(pic) {
               return {
+                id: function() {
+                  return this._id || (this._id = seq())
+                },
                 image_src: pic.image_url_square,
-                image_url: '#'+url(pic.id)
+                image_url: '#'+galleryUrl(pic.id)
               }
             })
 
-            resized(pics)
+            hexagons = initialHexagons
+
+            while (hexagonsCount > hexagons.length) {
+              hexagons = hexagons.concat(_.cloneDeep(_.first(initialHexagons, hexagonsCount - hexagons.length)))
+            }
+
+            hexagons = _.shuffle(hexagons)
+
+            resized(hexagons)
           }
         })
       }

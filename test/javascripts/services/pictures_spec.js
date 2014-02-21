@@ -26,7 +26,7 @@ describe('Pictures service', function() {
   it('should return promise for pictures', function() {
     service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(2)
-      expect(_.map(pics, getId)).toEqual([1,2])
+      expect(_.pluck(pics, 'id')).toEqual([1,2])
     })
 
     $httpBackend.flush()
@@ -41,7 +41,7 @@ describe('Pictures service', function() {
 
     service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(3)
-      expect(_.map(pics, getId)).toEqual([1,2,3])
+      expect(_.pluck(pics, 'id')).toEqual([1,2,3])
     })
 
     $httpBackend.flush()
@@ -59,7 +59,7 @@ describe('Pictures service', function() {
 
     service.get('photostream').then(function(pics) {
       expect(_.all(pics, function(p) {return p.constructor.name === 'Picture'} )).toBe(true)
-      expect(_.map(pics, getId)).toEqual([1,2,3,4])
+      expect(_.pluck(pics, 'id')).toEqual([1,2,3,4])
     })
 
     $httpBackend.flush()
@@ -77,7 +77,7 @@ describe('Pictures service', function() {
 
     service.get('photostream').then(function(pics) {
       expect(pics.length).toBe(4)
-      expect(_.map(pics, getId)).toEqual([1,2,3,4])
+      expect(_.pluck(pics, 'id')).toEqual([1,2,3,4])
     })
 
     $httpBackend.flush()
@@ -105,17 +105,17 @@ describe('Pictures service', function() {
     expect(service.getCollection('photostream')).toEqual(undefined)
 
     service.get('photostream').then(function() {
-      expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2])
+      expect(_.pluck(service.getCollection('photostream'), 'id')).toEqual([1,2])
     })
 
     $httpBackend.expect('POST', '/test/photostream/3', pic1).respond(pic1)
     service.add('photostream', pic1).then(function() {
-      expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2,3])
+      expect(_.pluck(service.getCollection('photostream'), 'id')).toEqual([1,2,3])
     })
 
     $httpBackend.expect('DELETE', '/test/photostream/1').respond('ok')
     service.remove('photostream', {id: 1}).then(function(pics) {
-      expect(_.map(service.getCollection('photostream'), getId)).toEqual([2,3])
+      expect(_.pluck(service.getCollection('photostream'), 'id')).toEqual([2,3])
     })
 
     $httpBackend.flush()
@@ -131,7 +131,7 @@ describe('Pictures service', function() {
       expect(service.getCollection('photostream')).toEqual(undefined)
 
       service.get('photostream').then(function(pics) {
-        expect(_.map(service.getCollection('photostream'), getId)).toEqual([1,2])
+        expect(_.pluck(service.getCollection('photostream'), 'id')).toEqual([1,2])
       })
     })
 

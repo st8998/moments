@@ -11,7 +11,7 @@ angular.module('app').factory('Pictures',
   return {
     get: function(key) {
       if (cache.get(key)) {
-        return cache.get(key).promise
+        return cache.get(key)
       } else {
         var promise = $http.get(api(key)).then(dataToPics)
 
@@ -21,25 +21,20 @@ angular.module('app').factory('Pictures',
           deferred.resolve(pics)
         })
 
-        cache.put(key, {promise: deferred.promise})
+        cache.put(key, deferred.promise)
 
         return deferred.promise
       }
     },
 
     getCollection: function(key) {
-      console.log('getCollection')
-
       return cache.get(key) ? cache.get(key).collection : undefined
     },
 
     add: function(key, picOrAttrs) {
       var deferred = $q.defer();
 
-      if (!cache.get(key))
-        this.get(key)
-
-      cache.get(key).promise.then(function() {
+      (cache.get(key) || this.get(key)).then(function() {
         var pic = picOrAttrs.constructor.name === 'Picture' ? picOrAttrs : new Picture(picOrAttrs)
 
         $http.post(api(key, pic.id), pic.attributes()).success(function(attrs) {
@@ -51,9 +46,9 @@ angular.module('app').factory('Pictures',
         })
       })
 
-      var cacheRecord = (cache.get(key) || {})
-      cacheRecord.promise = deferred.promise
-      cache.put(cacheRecord)
+      if (cache.get(key))
+        deferred.promise.collection = cache.get(key).collection
+      cache.put(key, deferred.promise)
 
       return deferred.promise
     },
@@ -61,21 +56,18 @@ angular.module('app').factory('Pictures',
     remove: function(key, pic) {
       var deferred = $q.defer();
 
-      if (!cache.get(key))
-        this.get(key)
-
-      cache.get(key).promise.then(function() {
+      (cache.get(key) || this.get(key)).then(function() {
         $http.delete(api(key, pic.id)).success(function() {
           var pics = cache.get(key).collection
-          var index = _.findIndex(pics, function(p) { return p.id == pic.id })
+          var index = _.findIndex(pics, {id: pic.id})
           pics.splice(index, 1)
           deferred.resolve(pics)
         })
       })
 
-      var cacheRecord = (cache.get(key) || {})
-      cacheRecord.promise = deferred.promise
-      cache.put(cacheRecord)
+      if (cache.get(key))
+        deferred.promise.collection = cache.get(key).collection
+      cache.put(key, deferred.promise)
 
       return deferred.promise
     }
