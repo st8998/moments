@@ -59,8 +59,7 @@ angular.module('app').factory('Pictures',
       (cache.get(key) || this.get(key)).then(function() {
         $http.delete(api(key, pic.id)).success(function() {
           var pics = cache.get(key).collection
-          var index = _.findIndex(pics, {id: pic.id})
-          pics.splice(index, 1)
+          _.remove(pics, {id: pic.id})
           deferred.resolve(pics)
         })
       })

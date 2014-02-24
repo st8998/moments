@@ -2,15 +2,15 @@ ruby '2.1.0'
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.0.beta1'
+gem 'rails', '>= 4.1.0.beta1'
 
 # database
 gem 'pg'
 gem 'eel', git: 'https://github.com/StrangeMood/eel.git'
 
 # view
-gem 'sass-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'sass-rails'
+gem 'uglifier'
 gem 'bootstrap-sass'
 gem 'slim'
 gem 'rabl'
@@ -19,7 +19,7 @@ gem 'jquery-rails'
 gem 'fotoramajs'
 
 # infrastructure
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby'
 gem 'sucker_punch'
 gem 'rails-observers'
 gem 'elasticsearch'
