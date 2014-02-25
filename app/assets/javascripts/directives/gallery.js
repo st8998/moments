@@ -18,6 +18,10 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
         , closed = true
         , fotoramaContainer = elem.find('.fotorama-container')
 
+      scope.updatePicture = function() {
+        Pictures.update(scope.key, scope.pic)
+      }
+
       scope.$watch(function() { return location.hash}, function(hash) {
         var picsPromise
 
@@ -43,6 +47,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
         elem.removeClass('hidden')
         $body.addClass('gallery-mode')
 
+        scope.key = key
         var url = routes.gallery(key)
 
         fotorama = fotoramaContainer.fotorama({

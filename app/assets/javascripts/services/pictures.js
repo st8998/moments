@@ -8,6 +8,20 @@ angular.module('app').factory('Pictures',
     return _.map(response.data, function(attrs) { return new Picture(attrs) })
   }
 
+  function withPromise(func) {
+    return function(key) {
+      var deferred = $q.defer();
+
+      (cache.get(key) || this.get(key)).then(func.bind(this, deferred, key, arguments[1]))
+
+      if (cache.get(key))
+        deferred.promise.collection = cache.get(key).collection
+      cache.put(key, deferred.promise)
+
+      return deferred.promise
+    }
+  }
+
   return {
     get: function(key) {
       if (cache.get(key)) {
@@ -31,45 +45,40 @@ angular.module('app').factory('Pictures',
       return cache.get(key) ? cache.get(key).collection : undefined
     },
 
-    add: function(key, picOrAttrs) {
-      var deferred = $q.defer();
+    add: withPromise(function(deferred, key, picOrAttrs) {
+      var pic = picOrAttrs.constructor.name === 'Picture' ? picOrAttrs : new Picture(picOrAttrs)
 
-      (cache.get(key) || this.get(key)).then(function() {
-        var pic = picOrAttrs.constructor.name === 'Picture' ? picOrAttrs : new Picture(picOrAttrs)
+      $http.post(api(key, pic.id), pic.attributes()).success(function(attrs) {
+        pic = new Picture(attrs)
 
-        $http.post(api(key, pic.id), pic.attributes()).success(function(attrs) {
-          pic = new Picture(attrs)
-
-          var pics = cache.get(key).collection
-          pics.push(pic)
-          deferred.resolve(pics)
-        })
+        var pics = cache.get(key).collection
+        pics.push(pic)
+        deferred.resolve(pics)
       })
+    }),
 
-      if (cache.get(key))
-        deferred.promise.collection = cache.get(key).collection
-      cache.put(key, deferred.promise)
-
-      return deferred.promise
-    },
-
-    remove: function(key, pic) {
-      var deferred = $q.defer();
-
-      (cache.get(key) || this.get(key)).then(function() {
-        $http.delete(api(key, pic.id)).success(function() {
-          var pics = cache.get(key).collection
-          _.remove(pics, {id: pic.id})
-          deferred.resolve(pics)
-        })
+    remove: withPromise(function(deferred, key, pic) {
+      $http.delete(api(key, pic.id)).success(function() {
+        var pics = cache.get(key).collection
+        _.remove(pics, {id: pic.id})
+        deferred.resolve(pics)
       })
+    }),
 
-      if (cache.get(key))
-        deferred.promise.collection = cache.get(key).collection
-      cache.put(key, deferred.promise)
+    update: withPromise(function(deferred, key, pic) {
+      var attrs = pic.attributes !== undefined ? pic.attributes() : pic
 
-      return deferred.promise
-    }
+      $http.put(api('pictures', pic.id), {picture: attrs})
+      .success(function(attrs) {
+        var pics = cache.get(key).collection
+        _.find(pics, {id: pic.id}).assignAttributes(attrs)
+        deferred.resolve(pics)
+      })
+      .error(function() {
+        var pics = cache.get(key).collection
+        deferred.resolve(pics)
+      })
+    })
   }
 
 }])

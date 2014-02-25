@@ -137,4 +137,26 @@ describe('Pictures service', function() {
 
     $httpBackend.flush()
   })
+
+  it('should update meta info for pictures', function() {
+    var attrs = {id: 1, description: 'new'}
+    service.update('photostream', attrs)
+    $httpBackend.expect('PUT', '/test/pictures/1', {picture: attrs}).respond(attrs)
+
+    $httpBackend.flush()
+    expect(_.pluck(service.getCollection('photostream'), 'description')).toEqual(['new', undefined])
+  })
+
+  it('should do nothing for add/remove/update in case of server error', function() {
+    var attrs = {id: 1, description: 'new'}
+    service.update('photostream', attrs)
+    $httpBackend.expect('PUT', '/test/pictures/1', {picture: attrs}).respond(500)
+
+    service.get('photostream').then(function(pics) {
+      expect(_.pluck(service.getCollection('photostream'), 'id')).toEqual([1,2])
+      expect(_.pluck(service.getCollection('photostream'), 'description')).toEqual([undefined, undefined])
+    })
+
+    $httpBackend.flush()
+  })
 })

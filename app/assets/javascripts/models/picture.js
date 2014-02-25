@@ -30,7 +30,7 @@ angular.module('app').factory('Picture',
   }
 
   Picture.prototype.attributes = function(key) {
-    return _.pick(this, 'id', 'width', 'height', 'image_url_small', 'image_url_normal', 'image_url_big')
+    return _.pick(this, 'id', 'description', 'width', 'height', 'image_url_small', 'image_url_normal', 'image_url_big')
   }
 
   Picture.prototype.uid = function() {
