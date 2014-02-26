@@ -13,3 +13,5 @@ before_script:
   - psql -c 'create database moments_test' -U postgres
   - RAILS_ENV=test bundle exec rake --trace db:structure:load
   - npm install karma
+  - npm install bower
+  - bower install
