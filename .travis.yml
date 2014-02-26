@@ -1,0 +1,16 @@
+language: ruby
+
+rvm:
+  2.1.0
+
+env:
+  - DB=postgresql
+
+script:
+  - RAILS_ENV=test bundle exec rake --trace test
+  - karma start --single-run --browsers PhantomJS test/javascripts/config/unit.js
+
+before_script:
+  - psql -c 'create database resonanz_test' -U postgres
+  - RAILS_ENV=test bundle exec rake --trace db:structure:load
+  - npm install karma
