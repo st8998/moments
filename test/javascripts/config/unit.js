@@ -14,6 +14,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/javascripts/bind_polyfill.js',
+
       'vendor/assets/components/jquery/dist/jquery.js',
       'vendor/assets/components/d3/d3.js',
       'vendor/assets/components/cookies-js/index.js',
@@ -69,7 +71,7 @@ module.exports = function(config) {
     // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
     // - PhantomJS
     // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // If browser does not capture in given timeout [ms], kill it
