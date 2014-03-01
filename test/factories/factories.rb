@@ -23,4 +23,10 @@ FactoryGirl.define do
 
     pictures { build_list(:picture, pictures_count) }
   end
+
+  factory :criteria, traits: [:with_account] do
+    factory :criteria_equal, class: Criteria::Equal
+    factory :criteria_order, class: Criteria::Order
+    factory :criteria_explicit, class: Criteria::Explicit
+  end
 end

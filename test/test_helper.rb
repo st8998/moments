@@ -4,6 +4,8 @@ require 'rails/test_help'
 
 require 'mocha/mini_test'
 
+Dir[File.dirname(__FILE__) + '/assertions/*.rb'].each {|file| require file }
+
 class ActiveSupport::TestCase
   ActiveRecord::Migration.check_pending!
 
@@ -22,4 +24,8 @@ class ActionController::TestCase
 
     @controller.stubs(:current_user).returns(user)
   end
+end
+
+module MiniTest::Assertions
+
 end
