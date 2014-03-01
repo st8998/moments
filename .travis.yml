@@ -5,6 +5,9 @@ rvm:
 env:
   - DB=postgresql
 
+addons:
+  postgresql: 9.3
+
 script:
   - RAILS_ENV=test bundle exec rake --trace test
   - karma start --single-run --browsers PhantomJS test/javascripts/config/unit.js
