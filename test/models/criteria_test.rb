@@ -33,18 +33,25 @@ class CriteriaTest < ActiveSupport::TestCase
   end
 
   test 'Explicit criteria' do
+    u1, u2, u3 = create_list(:user, 3)
+    u4 = create(:user)
+
+    base = User.where(id: [u1.id, u2.id, u3.id])
+
     c = build(:criteria_explicit)
-    assert_scope_equal @test_model.all, c.apply(@test_model.all), 'empty criteria'
+    assert_equal [u1, u2, u3], c.apply(base).to_a, 'empty criteria'
 
-    c.approve(1)
-    assert_scope_equal @test_model.where(id: [1]), c.apply(@test_model.all), 'approve 1'
+    c.approve(u1.id)
+    assert_equal [u1, u2, u3], c.apply(base).to_a, 'show all users plus approved u1'
 
-    c.approve(2)
-    c.reject(1)
-    assert_scope_equal @test_model.where(id: [2]).where.not(id: [1]), c.apply(@test_model.all), 'approve 2 reject 1'
+    c.reject(u2.id)
+    assert_equal [u1, u3], c.apply(base).to_a, 'show all users without rejected u2'
 
-    c.reject(2)
-    assert_scope_equal @test_model.where.not(id: [1, 2]), c.apply(@test_model.all), 'reject 1, 2'
+    c.reject(u3.id)
+    assert_equal [u1], c.apply(base.all).to_a, 'show only u1'
+
+    c.approve(u2.id)
+    assert_equal [u1, u2], c.apply(base).to_a, 'show all users without rejected u3'
   end
 
   test 'Predicate criteria' do

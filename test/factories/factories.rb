@@ -14,15 +14,11 @@ FactoryGirl.define do
     account { accounts(:st8998) }
   end
 
+  factory :user, traits: [:with_account]
+
   factory :picture, traits: [:with_account]
 
-  factory :pictures_set, traits: [:with_account] do
-    ignore do
-      pictures_count 0
-    end
-
-    pictures { build_list(:picture, pictures_count) }
-  end
+  factory :pictures_set, traits: [:with_account]
 
   factory :criteria, traits: [:with_account] do
     factory :criteria_equal, class: Criteria::Equal

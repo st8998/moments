@@ -1,26 +1,26 @@
 class PicturesSet < ActiveRecord::Base
-  has_many :pictures_set_pictures
-
-  has_many :pictures,
-      -> {
-        select("pictures.*, #{PicturesSetPicture::PICTURE_ATTRIBUTES_SELECT_STATEMENT}").
-          order('pictures_set_pictures.pos NULLS LAST')
-      },
-      through: :pictures_set_pictures, source: :picture
-
   belongs_to :owner, polymorphic: true
   belongs_to :account
 
-  serialize :configuration, JSON
+  has_many :criterias, as: :owner
 
-  def add(picture_or_id)
-    id = picture_or_id.is_a?(Picture) ? picture_or_id.id : picture_or_id
-    pictures_set_pictures.create(picture_id: id)
+  def pictures
+    criterias(true).reduce(Picture.where(account_id: account_id)) do |scope, criteria|
+      criteria.apply(scope)
+    end
   end
 
-  def remove(picture_or_id)
-    id = picture_or_id.is_a?(Picture) ? picture_or_id.id : picture_or_id
-    pictures_set_pictures.where(picture_id: id).destroy_all
+  def add(pic)
+    if pic.account_id == account_id
+      explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
+      explicit_criteria.approve!(pic.id)
+    end
   end
 
+  def remove(pic)
+    if pic.account_id == account_id
+      explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
+      explicit_criteria.reject!(pic.id)
+    end
+  end
 end

@@ -3,9 +3,12 @@ class Criteria
     store_accessor :attrs, :column, :whitelist, :blacklist
 
     def apply(scope)
-      scope = scope.where(column => whitelist) if whitelist.present?
-
       scope = scope.where.not(column => blacklist) if blacklist.present?
+
+      if whitelist.present?
+        and_wheres = scope.where_values.presence || '1=1'
+        scope = scope.unscope(:where).where(Arel::Nodes::Or.new(Arel::Nodes::And.new(and_wheres), scope.arel_table[column].in(whitelist)))
+      end
 
       scope
     end
@@ -15,13 +18,25 @@ class Criteria
     end
 
     def approve(value)
-      whitelist << value
-      blacklist.delete(value)
+      self.whitelist += [*value]
+      self.blacklist -= [*value]
+      attrs_will_change!
     end
 
     def reject(value)
-      whitelist.delete(value)
-      blacklist << value
+      self.whitelist -= [*value]
+      self.blacklist += [*value]
+      attrs_will_change!
+    end
+
+    def approve!(value)
+      approve(value)
+      save!
+    end
+
+    def reject!(value)
+      reject(value)
+      save!
     end
 
     def whitelist
