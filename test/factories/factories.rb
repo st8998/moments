@@ -28,5 +28,6 @@ FactoryGirl.define do
     factory :criteria_equal, class: Criteria::Equal
     factory :criteria_order, class: Criteria::Order
     factory :criteria_explicit, class: Criteria::Explicit
+    factory :criteria_predicate, class: Criteria::Predicate
   end
 end

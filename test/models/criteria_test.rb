@@ -47,6 +47,19 @@ class CriteriaTest < ActiveSupport::TestCase
     assert_scope_equal @test_model.where.not(id: [1, 2]), c.apply(@test_model.all), 'reject 1, 2'
   end
 
+  test 'Predicate criteria' do
+    c = build(:criteria_predicate, column: 'test', value: 1)
+    assert_scope_equal @test_model.where(:test.eq(1)), c.apply(@test_model.all), 'default (equal) predicate'
+
+    c.predicate = 'not_eq'
+    assert_scope_equal @test_model.where(:test.not_eq(1)), c.apply(@test_model.all), 'not equal predicate'
+
+    c.predicate = 'unpermitted'
+    assert_raises ArgumentError, 'unpermitted predicate' do
+      c.apply(@test_model.all)
+    end
+  end
+
   test 'Criteria combination' do
     eq = build(:criteria_equal, column: 'test', value: 1)
     order = build(:criteria_order, column: 'test', direction: 'asc')

@@ -25,7 +25,3 @@ class ActionController::TestCase
     @controller.stubs(:current_user).returns(user)
   end
 end
-
-module MiniTest::Assertions
-
-end
