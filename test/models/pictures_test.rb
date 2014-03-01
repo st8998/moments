@@ -23,6 +23,7 @@ class PicturesTest < ActiveSupport::TestCase
     assert_equal 63, p.focal_length, 'focal_length'
     assert_equal 4.5, p.aperture_value, 'aperture_value'
     assert_equal '1/80', p.exposure_time, 'exposure_time'
+    assert_equal ['lenin', 'samara'], p.keywords, 'keywords'
   end
 
   test 'analyse metadata only if image present and changed' do

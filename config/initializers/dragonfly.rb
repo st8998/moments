@@ -1,8 +1,11 @@
 require 'dragonfly'
 
 class Dragonfly::Content
-  def exifr
-    @exifr ||= EXIFR::JPEG.new(file)
+  def exif
+    @exif ||= EXIFR::JPEG.new(file)
+  end
+  def xmp
+    @xmp ||= XMP.parse(exif)
   end
 end
 
@@ -25,19 +28,23 @@ Dragonfly.app.configure do
   ]
 
   analyser :iso do |content|
-    content.exifr.iso_speed_ratings
+    content.exif.iso_speed_ratings
   end
 
   analyser :exposure_time do |content|
-    content.exifr.exposure_time.to_s
+    content.exif.exposure_time.to_s
   end
 
   analyser :aperture_value do |content|
-    content.exifr.aperture_value
+    content.exif.aperture_value
   end
 
   analyser :focal_length do |content|
-    content.exifr.focal_length_in_35mm_film
+    content.exif.focal_length_in_35mm_film
+  end
+
+  analyser :keywords do |content|
+    content.xmp.dc.subject
   end
 end
 

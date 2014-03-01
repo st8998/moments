@@ -24,7 +24,10 @@ gem 'sucker_punch'
 gem 'rails-observers'
 gem 'elasticsearch'
 gem 'dragonfly'
+
+# jpeg metadata extractors
 gem 'exifr'
+gem 'xmp'
 
 # controller
 gem 'cancan'

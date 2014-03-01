@@ -14,8 +14,10 @@ class Picture < ActiveRecord::Base
 
   before_save :analyze_image_attributes, if: -> pic { pic.image_uid_changed? && pic.image }
 
+  attr_accessor :keywords
+
   def analyze_image_attributes
-    %i[width height exposure_time aperture_value iso focal_length].each do |attr|
+    %i[width height exposure_time aperture_value iso focal_length keywords].each do |attr|
       self.send("#{attr}=", image.send(attr))
     end
   end
