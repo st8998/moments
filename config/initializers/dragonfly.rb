@@ -44,7 +44,9 @@ Dragonfly.app.configure do
   end
 
   analyser :keywords do |content|
-    content.xmp.dc.subject
+    if content.xmp
+      content.xmp.dc.subject
+    end
   end
 end
 
