@@ -10,6 +10,10 @@ class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 
   fixtures [:accounts, :users]
+
+  def data_root
+    Rails.root.join('test/data')
+  end
 end
 
 class ActionController::TestCase

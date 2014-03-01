@@ -12,4 +12,28 @@ class PicturesTest < ActiveSupport::TestCase
     assert_equal p1.account, p2.account
     assert_equal p2.account, p3.account
   end
+
+  test 'fetching metadata' do
+    p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
+
+    assert_equal 64, p.width, 'width'
+    assert_equal 64, p.height, 'height'
+
+    assert_equal 320, p.iso, 'iso'
+    assert_equal 63, p.focal_length, 'focal_length'
+    assert_equal 4.5, p.aperture_value, 'aperture_value'
+    assert_equal '1/80', p.exposure_time, 'exposure_time'
+  end
+
+  test 'analyse metadata only if image present and changed' do
+    begin
+      create(:picture)
+    rescue NoMethodError
+      assert(false, 'should not analyse without image')
+    end
+
+    p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
+    assert_equal 64, p.width, 'analyse if image present'
+  end
+
 end

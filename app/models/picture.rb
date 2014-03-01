@@ -11,4 +11,12 @@ class Picture < ActiveRecord::Base
   # square - thumb('200x200#')
 
   belongs_to :account
+
+  before_save :analyze_image_attributes, if: -> pic { pic.image_uid_changed? && pic.image }
+
+  def analyze_image_attributes
+    %i[width height exposure_time aperture_value iso focal_length].each do |attr|
+      self.send("#{attr}=", image.send(attr))
+    end
+  end
 end
