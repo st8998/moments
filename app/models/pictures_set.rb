@@ -2,25 +2,28 @@ class PicturesSet < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   belongs_to :account
 
-  has_many :criterias, as: :owner
+  # Explicit criteria should be the last one to work correctly
+  has_many :criterias,
+      -> { order("criterias.type = 'Criteria::Explicit'") },
+      as: :owner
 
   def pictures
-    criterias(true).reduce(Picture.where(account_id: account_id)) do |scope, criteria|
+    # isolate criterias scope
+    criterias_scope = criterias(true).reduce(Picture) do |scope, criteria|
       criteria.apply(scope)
     end
+
+    # limit pictures outside of criterias
+    criterias_scope.where(account_id: account_id)
   end
 
   def add(pic)
-    if pic.account_id == account_id
-      explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
-      explicit_criteria.approve!(pic.id)
-    end
+    explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
+    explicit_criteria.approve!([*pic].map(&:id))
   end
 
   def remove(pic)
-    if pic.account_id == account_id
-      explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
-      explicit_criteria.reject!(pic.id)
-    end
+    explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
+    explicit_criteria.reject!([*pic].map(&:id))
   end
 end

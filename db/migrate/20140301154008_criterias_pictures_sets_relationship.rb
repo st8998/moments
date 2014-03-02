@@ -1,7 +1,7 @@
 class CriteriasPicturesSetsRelationship < ActiveRecord::Migration
   def change
-    add_column :criteria, :owner_type, :string
-    add_column :criteria, :owner_id, :integer
+    add_column :criterias, :owner_type, :string
+    add_column :criterias, :owner_id, :integer
 
     revert do
       create_table :pictures_set_pictures do |t|

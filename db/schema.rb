@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140301154008) do
 
   add_index "accounts", ["key"], name: "index_accounts_on_key", unique: true, using: :btree
 
-  create_table "criteria", force: true do |t|
+  create_table "criterias", force: true do |t|
     t.json     "attrs"
     t.string   "type"
     t.integer  "account_id"
