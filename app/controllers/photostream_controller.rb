@@ -17,6 +17,6 @@ class PhotostreamController < ApplicationController
   private
 
   def photostream
-    @photostream ||= PicturesSet.find_or_create_by(key: 'photostream')
+    @photostream ||= PicturesSet.find_or_create_by(key: 'photostream', account: current_account)
   end
 end

@@ -13,6 +13,10 @@ class PicturesTest < ActiveSupport::TestCase
     assert_equal p2.account, p3.account
   end
 
+  test 'missing metadata' do
+    create(:picture, image: File.new(data_root.join('ass.jpg')))
+  end
+
   test 'fetching metadata' do
     p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
 

@@ -10,7 +10,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
     restrict: 'E',
     scope: {},
     replace: true,
-    templateUrl: '/assets/directives/gallery.html',
+    templateUrl: '/template/directives/gallery.html',
     link: function(scope, elem, attrs, mGallery) {
       var fotorama
         , pathMatch

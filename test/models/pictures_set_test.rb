@@ -26,7 +26,7 @@ class PicturesSetTest < ActiveSupport::TestCase
     ps.remove(@p1)
     assert_equal [@p2], ps.pictures.to_a
 
-    ps.add([@p3, p4])
+    ps.add([@p3.id, p4])
     assert_equal [@p2, @p3], ps.pictures.to_a
   end
 end

@@ -9,7 +9,7 @@ class PicturesSet < ActiveRecord::Base
 
   def pictures
     # isolate criterias scope
-    criterias_scope = criterias(true).reduce(Picture) do |scope, criteria|
+    criterias_scope = criterias(true).reduce(Picture.all) do |scope, criteria|
       criteria.apply(scope)
     end
 
@@ -19,11 +19,11 @@ class PicturesSet < ActiveRecord::Base
 
   def add(pic)
     explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
-    explicit_criteria.approve!([*pic].map(&:id))
+    explicit_criteria.approve!([*pic].map {|p| p.respond_to?(:id) ? p.id : p })
   end
 
   def remove(pic)
     explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
-    explicit_criteria.reject!([*pic].map(&:id))
+    explicit_criteria.reject!([*pic].map {|p| p.respond_to?(:id) ? p.id : p })
   end
 end

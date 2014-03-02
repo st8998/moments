@@ -1,0 +1,9 @@
+.gallery-component.container-fluid.hidden
+  .row
+    a.gallery-close[href='#/']: span.glyphicon.glyphicon-remove
+    .fotorama-container
+    .controls-container
+      h1 CONTROLS
+      .pic-id {{pic.id}}
+      textarea ng-model='pic.description'
+      button ng-click='updatePicture()' UPDATE

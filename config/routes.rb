@@ -7,6 +7,8 @@ Moments::Application.routes.draw do
   post :login, to: 'sessions#create'
   delete :logout, to: 'sessions#destroy'
 
+  get '/template/*path', to: 'templates#template'
+
   scope path: '/:account_key' do
 
     get '/', to: 'photostream#index', as: :account_root

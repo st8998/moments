@@ -6,8 +6,10 @@ class Criteria
       scope = scope.where.not(column => blacklist) if blacklist.present?
 
       if whitelist.present?
-        and_wheres = scope.where_values.presence || '1=1'
-        scope = scope.unscope(:where).where(Arel::Nodes::Or.new(Arel::Nodes::And.new(and_wheres), scope.arel_table[column].in(whitelist)))
+        and_wheres = scope.where_values
+        if and_wheres.present?
+          scope = scope.unscope(:where).where(Arel::Nodes::Or.new(Arel::Nodes::And.new(and_wheres), scope.arel_table[column].in(whitelist)))
+        end
       end
 
       scope
