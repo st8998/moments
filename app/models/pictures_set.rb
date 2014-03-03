@@ -17,13 +17,18 @@ class PicturesSet < ActiveRecord::Base
     criterias_scope.where(account_id: account_id)
   end
 
-  def add(pic)
-    explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
-    explicit_criteria.approve!([*pic].map {|p| p.respond_to?(:id) ? p.id : p })
+  def add(pics)
+    update_explicit_criteria(:approve!, pics)
   end
 
-  def remove(pic)
-    explicit_criteria = criterias.find_or_create_by(type: 'Criteria::Explicit')
-    explicit_criteria.reject!([*pic].map {|p| p.respond_to?(:id) ? p.id : p })
+  def remove(pics)
+    update_explicit_criteria(:reject!, pics)
+  end
+
+  private
+
+  def update_explicit_criteria(method, pics)
+    @explicit_criteria ||= criterias.find_or_create_by(type: 'Criteria::Explicit')
+    @explicit_criteria.send(method, [*pics].map {|p| p.respond_to?(:id) ? p.id : p })
   end
 end
