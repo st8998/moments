@@ -1,0 +1,11 @@
+- name: Create deploy user
+  user: name=deploy
+        shell=/bin/bash
+        state=present
+        groups="sudo"
+
+- name: Allow sudo users to sudo without password
+  lineinfile: 'dest=/etc/sudoers state=present regexp="^%sudo" line="%sudo ALL=(ALL) NOPASSWD: ALL"'
+
+- name: Copy ssh key
+  authorized_key: user=deploy key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

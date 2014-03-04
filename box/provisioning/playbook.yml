@@ -3,6 +3,9 @@
   sudo: yes
 
   tasks:
+    - include: deployer.yml
+      tags: deployer
+
     # updates apt cache once a week
     - apt: update_cache=true cache_valid_time=604800
       tags: apt-cache

@@ -23,12 +23,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.provider :managed do |managed, override|
       managed.server = '188.226.164.42'
-      override.ssh.username = 'root'
+      override.ssh.username = 'deploy'
       override.ssh.private_key_path = '/Users/loki/.ssh/id_rsa'
     end
 
     config.vm.provision 'ansible' do |ansible|
       ansible.playbook = 'provisioning/playbook.yml'
+      #ansible.tags = 'deployer'
+      ansible.skip_tags = 'deployer'
     end
   end
 end
