@@ -1,0 +1,10 @@
+- apt_repository: repo='ppa:chris-lea/redis-server'
+- apt: pkg='redis-server'
+
+- name: Set redis maxmemory
+  lineinfile: dest=/etc/redis/redis.conf regexp="maxmemory" line="maxmemory {{maxmemory}}" state=present
+  notify: restart redis
+
+- name: Set redis maxmemory policy
+  lineinfile: dest=/etc/redis/redis.conf regexp="maxmemory-policy" line="maxmemory-policy {{maxmemory_policy}}" state=present
+  notify: restart redis

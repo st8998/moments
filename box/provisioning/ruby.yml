@@ -1,0 +1,8 @@
+- apt: pkg=python-pycurl
+- apt_repository: repo='ppa:brightbox/ruby-ng'
+- apt: pkg=ruby2.1
+- apt: pkg=ruby-switch
+- shell: ruby-switch --set ruby2.1
+  register: command_result
+  changed_when: "'update-alternatives' in command_result.stdout"
+- gem: name=bundler state=present user_install=no

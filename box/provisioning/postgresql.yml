@@ -1,0 +1,24 @@
+- copy: dest=/etc/default/locale content='LANG="en_US.UTF-8"'
+
+- apt: pkg=python-pycurl
+
+- apt_key: url=http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+- apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main'
+- apt: pkg=postgresql-9.3
+- apt: pkg=postgresql-contrib
+
+- name: Backup main postgresql config file
+  command: cp /etc/postgresql/9.3/main/postgresql.conf /etc/postgresql/9.3/main/postgresql.conf.old creates=/etc/postgresql/9.3/main/postgresql.conf.old
+
+- apt: pkg=pgtune
+- name: Create pgtunned config
+  sudo_user: postgres
+  notify: restart postgresql
+  shell: pgtune
+          -i /etc/postgresql/9.3/main/postgresql.conf
+          -o /etc/postgresql/9.3/main/postgresql.conf.pgtune_{{type}}_{{total_memory}}_{{max_connections}}
+          --type={{type}}
+          --memory={{total_memory}}
+          --connections={{max_connections}};
+         cp /etc/postgresql/9.3/main/postgresql.conf.pgtune_{{type}}_{{total_memory}}_{{max_connections}} /etc/postgresql/9.3/main/postgresql.conf
+         creates=/etc/postgresql/9.3/main/postgresql.conf.pgtune_{{type}}_{{total_memory}}_{{max_connections}}

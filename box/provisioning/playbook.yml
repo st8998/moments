@@ -1,0 +1,40 @@
+---
+- hosts: all
+  sudo: yes
+
+  tasks:
+    # updates apt cache once a week
+    - apt: update_cache=true cache_valid_time=604800
+      tags: apt-cache
+
+    - include: vim.yml
+      tags: vim
+
+    - include: ruby.yml
+      tags: ruby
+
+    - include: postgresql.yml
+      tags: postgresql
+      vars:
+        type: web
+        total_memory: 178956970 # 1/3 of 512Mb
+        max_connections: 20
+
+    - include: nginx.yml
+      tags: nginx
+
+    - include: redis.yml
+      tags: redis
+      vars:
+        maxmemory: 85mb
+        maxmemory_policy: allkeys-lru
+
+  handlers:
+    - name: restart postgresql
+      service: name=postgresql state=restarted
+
+    - name: restart redis
+      service: name=redis-server state=restarted
+
+    - name: restart nginx
+      service: name=nginx state=restarted
