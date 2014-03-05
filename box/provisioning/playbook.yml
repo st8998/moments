@@ -37,6 +37,9 @@
 
     - include: nginx.yml
       tags: nginx
+      vars:
+        application: moments
+        rails_env: production
 
     - include: redis.yml
       tags: redis
