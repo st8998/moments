@@ -59,5 +59,6 @@ group :development do
 
   gem 'capistrano', require: false
   gem 'capistrano-rails', require: false
+  gem 'capistrano-bower', require: false
   gem 'capistrano-bundler', require: false
 end

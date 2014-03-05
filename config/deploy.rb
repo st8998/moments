@@ -35,6 +35,9 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/assets}
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+set :bower_flags, '--quiet'
+set :bower_roles, :all
+
 namespace :deploy do
 
   desc 'Restart application'

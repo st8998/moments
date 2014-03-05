@@ -16,6 +16,7 @@
         - python-pycurl
         - libxslt1-dev
         - libxml2-dev
+        - imagemagick
       tags: packages
 
     - include: deployer.yml
