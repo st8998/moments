@@ -17,5 +17,6 @@ test:
   password:
 
 production:
+  <<: *defaults
   database: moments
 
