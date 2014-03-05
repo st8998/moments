@@ -1,3 +1,4 @@
+//= depend_on directives/gallery.html
 angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', function($location, routes, Pictures) {
 
   routes.register('gallery', _.curry(function(key, pic) {
@@ -10,7 +11,7 @@ angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', 
     restrict: 'E',
     scope: {},
     replace: true,
-    templateUrl: '/template/directives/gallery.html',
+    templateUrl: '<%= asset_path('directives/gallery.html') %>',
     link: function(scope, elem, attrs, mGallery) {
       var fotorama
         , pathMatch
