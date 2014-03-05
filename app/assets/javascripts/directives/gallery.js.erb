@@ -1,4 +1,4 @@
-//= depend_on directives/gallery.html
+//= depend_on ./gallery.html
 angular.module('app').directive('mGallery', ['$location', 'routes', 'Pictures', function($location, routes, Pictures) {
 
   routes.register('gallery', _.curry(function(key, pic) {
