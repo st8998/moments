@@ -17,5 +17,5 @@ test:
   password:
 
 production:
-  database: moments_production
+  database: moments
 

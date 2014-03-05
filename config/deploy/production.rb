@@ -14,7 +14,7 @@
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-server '188.226.164.42', user: 'deploy', roles: %w{all}
+server '188.226.164.42', user: 'deploy', roles: %w{web app db}
 
 set :rails_env, :production
 

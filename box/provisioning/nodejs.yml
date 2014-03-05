@@ -1,0 +1,2 @@
+- apt_repository: repo='ppa:chris-lea/node.js'
+- apt: pkg=nodejs state=latest

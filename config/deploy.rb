@@ -26,6 +26,7 @@ set :log_level, :info
 # set :linked_files, %w{config/database.yml}
 
 # Default value for linked_dirs is []
+set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/assets}
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # Default value for default_env is {}
@@ -38,7 +39,7 @@ namespace :deploy do
 
   desc 'Restart application'
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
+    on roles(:all), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
       execute 'sudo restart unicorn'
@@ -46,20 +47,4 @@ namespace :deploy do
   end
 
   after :publishing, :restart
-
-  namespace :assets do
-    task :precompile, roles: :all, except: {no_release: true} do
-      logger.info 'Skipping asset pre-compilation'
-    end
-  end
-
-  #after :restart, :clear_cache do
-  #  on roles(:web), in: :groups, limit: 3, wait: 10 do
-  #    # Here we can do anything such as:
-  #    # within release_path do
-  #    #   execute :rake, 'cache:clear'
-  #    # end
-  #  end
-  #end
-
 end
