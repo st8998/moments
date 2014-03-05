@@ -13,6 +13,9 @@
     - include: vim.yml
       tags: vim
 
+    - include: git.yml
+      tags: git
+
     - include: ruby.yml
       tags: ruby
 

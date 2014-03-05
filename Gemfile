@@ -1,4 +1,4 @@
-ruby '2.1.1'
+ruby '2.1'
 
 source 'https://rubygems.org'
 
@@ -52,4 +52,8 @@ group :development do
   gem 'spring'
   gem 'thin'
   gem 'quiet_assets'
+
+  gem 'capistrano', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
 end
