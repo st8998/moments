@@ -1,0 +1,19 @@
+- apt: pkg=python-psycopg2
+
+- file: path=/var/www state=directory owner={{ansible_ssh_user}} group={{ansible_ssh_user}}
+
+- postgresql_db: name={{application}}
+  sudo: yes
+  sudo_user: postgres
+
+- postgresql_user: name=={{ansible_ssh_user}} password={{ansible_ssh_user}}
+  sudo: yes
+  sudo_user: postgres
+
+- template: src=files/etc_init_unicorn.j2 dest=/etc/init/unicorn.conf
+
+- apt: pkg=git
+
+- template: src=files/nginx.conf.j2 dest=/etc/nginx/sites-available/unicorn
+- command: ln -sf /etc/nginx/sites-available/unicorn /etc/nginx/sites-enabled/unicorn
+- action: service name=nginx state=restarted

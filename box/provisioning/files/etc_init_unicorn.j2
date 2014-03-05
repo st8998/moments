@@ -1,0 +1,4 @@
+chdir /var/www/current
+setuid {{ansible_ssh_user}}
+respawn
+exec bundle exec unicorn -c unicorn.rb -E {{rails_env}}

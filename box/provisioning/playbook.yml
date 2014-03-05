@@ -13,9 +13,6 @@
     - include: vim.yml
       tags: vim
 
-    - include: git.yml
-      tags: git
-
     - include: ruby.yml
       tags: ruby
 
@@ -34,6 +31,12 @@
       vars:
         maxmemory: 85mb
         maxmemory_policy: allkeys-lru
+
+    - include: rails.yml
+      tags: rails
+      vars:
+        application: moments
+        rails_env: production
 
   handlers:
     - name: restart postgresql

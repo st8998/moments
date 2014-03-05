@@ -17,7 +17,7 @@ set :repo_url, 'git@github.com:st8998/moments.git'
 # set :format, :pretty
 
 # Default value for :log_level is :debug
-# set :log_level, :debug
+set :log_level, :info
 
 # Default value for :pty is false
 # set :pty, true
@@ -41,18 +41,27 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       # execute :touch, release_path.join('tmp/restart.txt')
+      execute 'sudo restart unicorn'
     end
   end
 
   after :publishing, :restart
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
+  namespace :deploy do
+    namespace :assets do
+      task :precompile, roles: :web, except: {no_release: true} do
+        logger.info 'Skipping asset pre-compilation'
+      end
     end
   end
+
+  #after :restart, :clear_cache do
+  #  on roles(:web), in: :groups, limit: 3, wait: 10 do
+  #    # Here we can do anything such as:
+  #    # within release_path do
+  #    #   execute :rake, 'cache:clear'
+  #    # end
+  #  end
+  #end
 
 end

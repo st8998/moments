@@ -1,15 +1,20 @@
 development: &defaults
   adapter: postgresql
-  host: localhost
-  database: moments_development
   encoding: unicode
   pool: 5
+
+development:
+  <<: *defaults
+  database: moments_development
+  host: localhost
   username: postgres
   password:
 
 test:
   <<: *defaults
   database: moments_test
+  username: postgres
+  password:
 
 production:
   database: moments_production
