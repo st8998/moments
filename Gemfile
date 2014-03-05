@@ -48,6 +48,10 @@ group :test do
   gem 'factory_girl_rails'
 end
 
+group :production do
+  gem 'unicorn'
+end
+
 group :development do
   gem 'spring'
   gem 'thin'

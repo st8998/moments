@@ -47,11 +47,9 @@ namespace :deploy do
 
   after :publishing, :restart
 
-  namespace :deploy do
-    namespace :assets do
-      task :precompile, roles: :web, except: {no_release: true} do
-        logger.info 'Skipping asset pre-compilation'
-      end
+  namespace :assets do
+    task :precompile, roles: :all, except: {no_release: true} do
+      logger.info 'Skipping asset pre-compilation'
     end
   end
 
