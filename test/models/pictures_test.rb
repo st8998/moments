@@ -30,15 +30,18 @@ class PicturesTest < ActiveSupport::TestCase
     assert_equal ['lenin', 'samara'], p.keywords, 'keywords'
   end
 
-  test 'analyse metadata only if image present and changed' do
-    begin
-      create(:picture)
-    rescue NoMethodError
-      assert(false, 'should not analyse without image')
-    end
+  # test 'analyse metadata only if image present and changed' do
+  #   begin
+  #     create(:picture)
+  #   rescue NoMethodError
+  #     assert(false, 'should not analyse without image')
+  #   end
+  #
+  #   p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
+  #   assert_equal 64, p.width, 'analyse if image present'
+  # end
 
     p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
     assert_equal 64, p.width, 'analyse if image present'
   end
-
 end

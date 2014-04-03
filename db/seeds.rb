@@ -1,5 +1,3 @@
-MomentSearchObserver::ASYNC = false
-
 # st8998 account
 account = Account.find_or_create_by(key: 'st8998')
 

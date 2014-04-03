@@ -13,6 +13,7 @@ development:
 test:
   <<: *defaults
   database: moments_test
+  host: localhost
   username: postgres
   password:
 

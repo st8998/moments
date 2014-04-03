@@ -20,7 +20,7 @@ gem 'fotoramajs'
 
 # infrastructure
 gem 'bcrypt-ruby'
-gem 'sucker_punch'
+gem 'celluloid'
 gem 'rails-observers'
 gem 'elasticsearch'
 gem 'dragonfly'

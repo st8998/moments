@@ -168,8 +168,6 @@ GEM
       net-scp (>= 1.1.2)
       net-ssh
       term-ansicolor
-    sucker_punch (1.0.2)
-      celluloid (~> 0.15.1)
     temple (0.6.7)
     term-ansicolor (1.3.0)
       tins (~> 1.0)
@@ -209,6 +207,7 @@ DEPENDENCIES
   capistrano-bower
   capistrano-bundler
   capistrano-rails
+  celluloid
   decent_exposure!
   dragonfly
   eel!
@@ -229,7 +228,6 @@ DEPENDENCIES
   sdoc
   slim
   spring
-  sucker_punch
   thin
   uglifier
   unicorn

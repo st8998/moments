@@ -22,7 +22,7 @@ module Moments
 
     config.quiet_assets = true
 
-    config.active_record.observers = [:moment_search_observer, :picture_demo_observer]
+    config.active_record.observers = []
     config.active_record.schema_format = :ruby
 
     config.autoload_paths += ['lib']
