@@ -1,5 +1,4 @@
-class Picture < ActiveRecord::Base
-  include PicturesSetPicture::VirtualAttributes
+class Photo < ActiveRecord::Base
   extend Dragonfly::Model
   dragonfly_accessor :image
 
@@ -21,29 +20,4 @@ class Picture < ActiveRecord::Base
       self.send("#{attr}=", image.send(attr))
     end
   end
-
-
-  attr_accessor :self_destructed
-
-  after_save do
-    if self_destructed
-      SelfDestructed.worker.async.destroy_the_picture(self)
-    end
-  end
-
-  # This is just a demo of working with celluloid
-  class SelfDestructed
-    include Celluloid
-
-    def self.worker
-      @pool ||= pool
-    end
-
-    def destroy_the_picture picture
-      ActiveRecord::Base.connection_pool.with_connection do
-        picture.destroy
-      end
-    end
-  end
-
 end

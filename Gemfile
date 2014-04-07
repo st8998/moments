@@ -22,7 +22,6 @@ gem 'fotoramajs'
 gem 'bcrypt-ruby'
 gem 'celluloid'
 gem 'rails-observers'
-gem 'elasticsearch'
 gem 'dragonfly'
 
 # jpeg metadata extractors
@@ -31,9 +30,7 @@ gem 'xmp'
 
 # controller
 gem 'cancan'
-gem 'decent_exposure',
-    git: 'https://github.com/st8998/decent_exposure.git',
-    branch: 'edge-rails-fix'
+gem 'decent_exposure'
 
 # monitoring
 gem 'newrelic_rpm'

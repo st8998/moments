@@ -1,4 +1,4 @@
-class PicturesSet < ActiveRecord::Base
+class PhotoSet < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   belongs_to :account
 
@@ -7,9 +7,9 @@ class PicturesSet < ActiveRecord::Base
       -> { order("criterias.type = 'Criteria::Explicit'") },
       as: :owner
 
-  def pictures
+  def photos
     # isolate criterias scope
-    criterias_scope = criterias(true).reduce(Picture.all) do |scope, criteria|
+    criterias_scope = criterias(true).reduce(Photo.all) do |scope, criteria|
       criteria.apply(scope)
     end
 

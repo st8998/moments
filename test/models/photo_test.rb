@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class PicturesTest < ActiveSupport::TestCase
+class PhotoTest < ActiveSupport::TestCase
   test 'factories' do
-    p1 = create(:picture)
-    p2 = create(:picture)
-    p3 = create(:picture)
+    p1 = create(:photo)
+    p2 = create(:photo)
+    p3 = create(:photo)
 
     assert p1.account.present?
     assert p2.account.present?
@@ -14,11 +14,11 @@ class PicturesTest < ActiveSupport::TestCase
   end
 
   test 'missing metadata' do
-    create(:picture, image: File.new(data_root.join('ass.jpg')))
+    create(:photo, image: File.new(data_root.join('ass.jpg')))
   end
 
   test 'fetching metadata' do
-    p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
+    p = create(:photo, image: File.new(data_root.join('lenin.jpg')))
 
     assert_equal 64, p.width, 'width'
     assert_equal 64, p.height, 'height'
@@ -32,12 +32,12 @@ class PicturesTest < ActiveSupport::TestCase
 
   test 'analyse metadata only if image present and changed' do
     begin
-      create(:picture)
+      create(:photo)
     rescue NoMethodError
       assert(false, 'should not analyse without image')
     end
 
-    p = create(:picture, image: File.new(data_root.join('lenin.jpg')))
+    p = create(:photo, image: File.new(data_root.join('lenin.jpg')))
     assert_equal 64, p.width, 'analyse if image present'
   end
 end

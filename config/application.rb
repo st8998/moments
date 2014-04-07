@@ -23,7 +23,7 @@ module Moments
     config.quiet_assets = true
 
     config.active_record.observers = []
-    config.active_record.schema_format = :ruby
+    config.active_record.schema_format = :sql
 
     config.autoload_paths += ['lib']
   end

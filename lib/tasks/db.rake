@@ -13,6 +13,6 @@ namespace :db do
     end
   end
 
-  Rake::Task["db:drop"].enhance [:clear_uploads]
-  Rake::Task["db:drop"].enhance [:drop_search_index]
+  # Rake::Task["db:drop"].enhance [:clear_uploads]
+  # Rake::Task["db:drop"].enhance [:drop_search_index]
 end
