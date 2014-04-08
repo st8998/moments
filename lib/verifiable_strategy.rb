@@ -1,4 +1,4 @@
-class VerifiableStrategy < DecentExposure::ActiveRecordStrategy
+class VerifiableStrategy < DecentExposure::StrongParametersStrategy
   delegate :current_ability, :to => :controller
 
   def model

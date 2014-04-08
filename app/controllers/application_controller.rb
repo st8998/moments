@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   hide_action :current_user, :current_account
   helper_method :current_user, :current_account
 
+  decent_configuration do
+    strategy DecentExposure::StrongParametersStrategy
+  end
+
   def root
     if current_user
       redirect_to account_root_path(account_key: current_user.account.key)
