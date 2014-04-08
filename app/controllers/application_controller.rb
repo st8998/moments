@@ -54,8 +54,12 @@ class ApplicationController < ActionController::Base
 
   def ensure_user
     unless current_user
-      store_location
-      redirect_to(login_path)
+      if request.format == 'json'
+        head :forbidden
+      else
+        store_location
+        redirect_to(login_path)
+      end
     end
   end
 end

@@ -19,6 +19,17 @@ class PhotosControllerTest < ActionController::TestCase
     assert_hash_valid({id: 'integer', image_url_small: 'string'}.stringify_keys, JSON.parse(response.body))
   end
 
+  test 'upload to another account' do
+    post :create, photo: {image: data_root.join('ass.jpg').open, description: 'some'}, account_key: accounts(:another_account).key, format: :json
+    assert_response 403
+  end
+
+  test 'upload without account' do
+    @controller.stubs(:current_user).returns(nil) # logout
+    post :create, photo: {image: data_root.join('ass.jpg').open, description: 'some'}, account_key: accounts(:another_account).key, format: :json
+    assert_response 403
+  end
+
   test 'delete photo' do
     photo = Photo.create(account: accounts(:st8998))
 

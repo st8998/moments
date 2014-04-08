@@ -4,10 +4,15 @@ class PhotosController < ApplicationController
   before_action :ensure_user
 
   def create
+    authorize!(:create, Photo)
     photo.save
     render 'photo'
   end
-  alias_method :update, :create
+
+  def update
+    photo.save
+    render 'photo'
+  end
 
   def destroy
     photo.destroy
