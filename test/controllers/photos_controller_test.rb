@@ -16,9 +16,7 @@ class PhotosControllerTest < ActionController::TestCase
     assert_equal 'some', @controller.photo.description
     assert @controller.photo.image.present?
 
-    body = JSON.parse(response.body)
-    assert body['id'].present?
-    assert body['image_url_small'].present?, 'small image url'
+    assert_hash_valid({id: 'integer', image_url_small: 'string'}.stringify_keys, JSON.parse(response.body))
   end
 
 end
