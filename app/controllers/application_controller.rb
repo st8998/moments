@@ -8,6 +8,12 @@ class ApplicationController < ActionController::Base
   hide_action :current_user, :current_account
   helper_method :current_user, :current_account
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
   decent_configuration do
     strategy DecentExposure::StrongParametersStrategy
   end

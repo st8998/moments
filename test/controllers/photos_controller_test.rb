@@ -19,4 +19,33 @@ class PhotosControllerTest < ActionController::TestCase
     assert_hash_valid({id: 'integer', image_url_small: 'string'}.stringify_keys, JSON.parse(response.body))
   end
 
+  test 'delete photo' do
+    photo = Photo.create(account: accounts(:st8998))
+
+    delete :destroy, id: photo.id, account_key: accounts(:st8998).key, format: :json
+    assert_response :success
+    assert_raises(ActiveRecord::RecordNotFound) { Photo.find(photo.id) }
+  end
+
+  test 'delete photo from another account' do
+    assert_raises(ActionController::RoutingError) do
+      photo = Photo.create(account: accounts(:another_account))
+      delete :destroy, id: photo.id, account_key: accounts(:st8998).key, format: :json
+    end
+  end
+
+  test 'update photo' do
+    photo = Photo.create(account: accounts(:st8998))
+
+    put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
+    assert_response :success
+    assert_equal 'new desc', Photo.find(photo.id).description
+  end
+
+  test 'update photo from another account' do
+    assert_raises(ActionController::RoutingError) do
+      photo = Photo.create(account: accounts(:another_account))
+      put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
+    end
+  end
 end

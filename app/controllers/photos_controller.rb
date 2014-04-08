@@ -7,12 +7,16 @@ class PhotosController < ApplicationController
     photo.save
     render 'photo'
   end
+  alias_method :update, :create
+
+  def destroy
+    photo.destroy
+    render nothing: true
+  end
 
   private
 
   def photo_params
-    puts 'photo params'
     params.require(:photo).permit(:image, :description)
   end
-
 end
