@@ -8,10 +8,12 @@ class ApplicationController < ActionController::Base
   hide_action :current_user, :current_account
   helper_method :current_user, :current_account
 
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ActiveRecord::RecordNotFound do
+    head :not_found
+  end
 
-  def not_found
-    raise ActionController::RoutingError.new('Not Found')
+  rescue_from CanCan::AccessDenied do |exception|
+    head :forbidden
   end
 
   decent_configuration do
@@ -36,10 +38,6 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= User.find_by(id: cookies.signed[:id]) if cookies[:id]
-  end
-
-  rescue_from CanCan::AccessDenied do |exception|
-    render text: 'GO AWAY', status: 403
   end
 
   protected

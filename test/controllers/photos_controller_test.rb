@@ -21,13 +21,13 @@ class PhotosControllerTest < ActionController::TestCase
 
   test 'upload to another account' do
     post :create, photo: {image: data_root.join('ass.jpg').open, description: 'some'}, account_key: accounts(:another_account).key, format: :json
-    assert_response 403
+    assert_response :forbidden
   end
 
   test 'upload without account' do
     @controller.stubs(:current_user).returns(nil) # logout
     post :create, photo: {image: data_root.join('ass.jpg').open, description: 'some'}, account_key: accounts(:another_account).key, format: :json
-    assert_response 403
+    assert_response :forbidden
   end
 
   test 'delete photo' do
@@ -39,10 +39,9 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   test 'delete photo from another account' do
-    assert_raises(ActionController::RoutingError) do
-      photo = Photo.create(account: accounts(:another_account))
-      delete :destroy, id: photo.id, account_key: accounts(:st8998).key, format: :json
-    end
+    photo = Photo.create(account: accounts(:another_account))
+    delete :destroy, id: photo.id, account_key: accounts(:st8998).key, format: :json
+    assert_response :not_found
   end
 
   test 'update photo' do
@@ -58,9 +57,8 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   test 'update photo from another account' do
-    assert_raises(ActionController::RoutingError) do
-      photo = Photo.create(account: accounts(:another_account))
-      put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
-    end
+    photo = Photo.create(account: accounts(:another_account))
+    put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
+    assert_response :not_found
   end
 end
