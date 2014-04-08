@@ -39,7 +39,11 @@ class PhotosControllerTest < ActionController::TestCase
 
     put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
     assert_response :success
+
     assert_equal 'new desc', Photo.find(photo.id).description
+    body = JSON.parse(response.body)
+    assert_equal('new desc', body['description'])
+    assert_hash_valid({id: 'integer', description: 'string'}.stringify_keys, body)
   end
 
   test 'update photo from another account' do

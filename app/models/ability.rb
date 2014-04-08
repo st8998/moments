@@ -7,7 +7,7 @@ class Ability
       can :manage, PhotoSet, account_id: account.id
       can :manage, Photo, account_id: account.id
     else
-      can :read, [PhotoSet, Photo]
+      can :read, [PhotoSet]
     end
 
   end
