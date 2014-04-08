@@ -10,7 +10,7 @@ addons:
 
 script:
   - RAILS_ENV=test bundle exec rake --trace test
-  - karma start --single-run --browsers PhantomJS test/javascripts/config/unit.js
+  - ./node_modules/.bin/karma start --single-run --browsers PhantomJS test/javascripts/config/unit.js
 
 before_script:
   - psql -c 'create database moments_test' -U postgres
