@@ -1,8 +1,6 @@
 class PhotosController < ApplicationController
   expose(:photo, strategy: VerifiableStrategy, attributes: :photo_params)
 
-  before_action :ensure_user
-
   def create
     authorize!(:create, Photo)
     photo.save

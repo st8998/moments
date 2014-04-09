@@ -92,6 +92,38 @@ ALTER SEQUENCE criterias_id_seq OWNED BY criterias.id;
 
 
 --
+-- Name: moments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE moments (
+    id integer NOT NULL,
+    account_id integer,
+    description text,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: moments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE moments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: moments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE moments_id_seq OWNED BY moments.id;
+
+
+--
 -- Name: photo_sets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -221,6 +253,13 @@ ALTER TABLE ONLY criterias ALTER COLUMN id SET DEFAULT nextval('criterias_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY moments ALTER COLUMN id SET DEFAULT nextval('moments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY photo_sets ALTER COLUMN id SET DEFAULT nextval('photo_sets_id_seq'::regclass);
 
 
@@ -252,6 +291,14 @@ ALTER TABLE ONLY accounts
 
 ALTER TABLE ONLY criterias
     ADD CONSTRAINT criterias_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: moments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY moments
+    ADD CONSTRAINT moments_pkey PRIMARY KEY (id);
 
 
 --
@@ -300,4 +347,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140407152143');
 INSERT INTO schema_migrations (version) VALUES ('20140407152348');
 
 INSERT INTO schema_migrations (version) VALUES ('20140407152437');
+
+INSERT INTO schema_migrations (version) VALUES ('20140409143446');
 

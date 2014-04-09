@@ -61,4 +61,10 @@ class PhotosControllerTest < ActionController::TestCase
     put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
     assert_response :not_found
   end
+
+  test 'update photo with forbidden attributes' do
+    photo = Photo.create(account: accounts(:st8998))
+    put :update, id: photo.id, photo: {dummy_attribute: 'dummy'}, account_key: accounts(:st8998).key, format: :json
+    assert_response :success
+  end
 end
