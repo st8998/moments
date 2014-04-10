@@ -15,4 +15,8 @@ class Account < ActiveRecord::Base
     end while Account.exists?(key: key)
     key
   end
+
+  def to_param
+    key
+  end
 end

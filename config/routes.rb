@@ -9,6 +9,7 @@ Moments::Application.routes.draw do
 
   scope path: '/:account_key' do
     scope defaults: {format: :json} do
+      resources :moments
       resources :photos
     end
   end

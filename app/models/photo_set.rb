@@ -1,4 +1,6 @@
 class PhotoSet < ActiveRecord::Base
+  extend EnhancedNestedAttributes
+
   belongs_to :owner, polymorphic: true
   belongs_to :account
 
@@ -6,6 +8,8 @@ class PhotoSet < ActiveRecord::Base
   has_many :criterias,
       -> { order("criterias.type = 'Criteria::Explicit'") },
       as: :owner
+
+  accepts_nested_attributes_for :criterias, allow_destroy: true
 
   def photos
     # isolate criterias scope
