@@ -1,5 +1,3 @@
-object moment
-
 attributes :id, :description
 
 node :photo_set do |moment|

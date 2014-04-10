@@ -8,7 +8,8 @@ class MomentsController < ApplicationController
 
     authorize!(:create, Moment)
     moment.save
-    render 'moment'
+
+    render_rabl(moment, 'moments/moment')
   end
 
   private
