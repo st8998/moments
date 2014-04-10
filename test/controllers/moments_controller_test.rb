@@ -12,7 +12,7 @@ class MomentsControllerTest < ActionController::TestCase
     moment_attrs = {
         description: 'some',
         photo_set: {
-            criterias: [{type: 'Criteria::Explicit', whitelist: [photo1.id, photo2.id]}]
+            criterias: [{type: 'Criteria::Equal', column: 'id', value: '0'}, {type: 'Criteria::Explicit', whitelist: [photo1.id, photo2.id]}]
         }
     }
 

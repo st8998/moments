@@ -14,7 +14,12 @@ class MomentsController < ApplicationController
 
   private
 
+  PERMITTED_ATTRIBUTES = [
+      :description,
+      {photo_set: [:description, {criterias: [:id, :type, :column, :value, {whitelist: []}]}]}
+  ]
+
   def moment_params
-    params.require(:moment).permit!
+    params.require(:moment).permit(*PERMITTED_ATTRIBUTES)
   end
 end
