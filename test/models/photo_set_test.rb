@@ -29,4 +29,26 @@ class PhotoSetTest < ActiveSupport::TestCase
     ps.add([@p3.id, p4])
     assert_equal [@p2, @p3], ps.photos.to_a
   end
+
+  test 'assign nested criterias' do
+    ps = PhotoSet.create(criterias: [{type: 'Criteria::Equal'}])
+    ps.reload
+
+    assert ps.persisted?
+    assert_equal 1, ps.criterias.count
+
+    c = ps.criterias.first
+    ps.update_attributes(criterias: [{id: c.id, _destroy: true}])
+    ps.reload
+
+    assert_equal 0, ps.criterias.count
+    assert_nil Criteria.find_by(id: c.id)
+
+    c2 = Criteria::Equal.create
+
+    ps.update_attributes(criterias: [{id: c2.id}])
+    ps.reload
+
+    assert_equal 1, ps.criterias.count
+  end
 end
