@@ -1,3 +1,5 @@
+object(photo) unless root_object
+
 attributes(:id, :description)
 
 attributes :image_width => :width, :image_height => :height

@@ -42,10 +42,6 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def render_rabl object, template
-    render text: Rabl.render(object, template, view_path: 'app/views', format: :json)
-  end
-
   def redirect_back_or(default, opts = {})
     redirect_to(session.delete(:return_to) || default, opts)
   end

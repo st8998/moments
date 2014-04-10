@@ -4,12 +4,12 @@ class PhotosController < ApplicationController
   def create
     authorize!(:create, Photo)
     photo.save
-    render_rabl(photo, 'photos/photo')
+    render 'photo'
   end
 
   def update
     photo.save
-    render_rabl(photo, 'photos/photo')
+    render 'photo'
   end
 
   def destroy
