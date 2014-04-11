@@ -5,4 +5,6 @@ class Moment < ActiveRecord::Base
   accepts_nested_attributes_for :photo_set, allow_destroy: true
 
   belongs_to :account
+
+  delegate :photos, to: :photo_set, allow_nil: true
 end

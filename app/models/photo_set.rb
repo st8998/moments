@@ -21,6 +21,12 @@ class PhotoSet < ActiveRecord::Base
     criterias_scope.where(account_id: account_id)
   end
 
+  def photos= photos
+    forbid_all_criteria # ensure it exists
+
+    explicit_criteria.whitelist = photos
+  end
+
   def add(pics)
     update_explicit_criteria(:approve!, pics)
   end
@@ -31,8 +37,15 @@ class PhotoSet < ActiveRecord::Base
 
   private
 
+  def forbid_all_criteria
+    @forbid_all_criteria ||= criterias.find_or_initialize_by(type: 'Criteria::Equal', column: 'id', value: '0')
+  end
+
+  def explicit_criteria
+    @explicit_criteria ||= criterias.find_or_initialize_by(type: 'Criteria::Explicit')
+  end
+
   def update_explicit_criteria(method, pics)
-    @explicit_criteria ||= criterias.find_or_create_by(type: 'Criteria::Explicit')
-    @explicit_criteria.send(method, [*pics].map {|p| p.respond_to?(:id) ? p.id : p })
+    explicit_criteria.send(method, [*pics].map {|p| p.respond_to?(:id) ? p.id : p })
   end
 end

@@ -5,15 +5,17 @@ class MomentsControllerTest < ActionController::TestCase
     sign_in_as(:ivan)
   end
 
+  def many(validation)
+    HashValidator::Validations::Many.new(validation)
+  end
+
   test 'create new moment' do
     photo1 = create(:photo)
     photo2 = create(:photo)
 
     moment_attrs = {
         description: 'some',
-        photo_set: {
-            criterias: [{type: 'Criteria::Equal', column: 'id', value: '0'}, {type: 'Criteria::Explicit', whitelist: [photo1.id, photo2.id]}]
-        }
+        photos: [photo1.id, photo2.id]
     }
 
     post :create, moment: moment_attrs, account_key: accounts(:st8998), format: :json
@@ -22,12 +24,38 @@ class MomentsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_equal accounts(:st8998).id, moment.account_id
+    assert_equal [photo1, photo2], moment.photos
 
-    assert_equal accounts(:st8998).id, moment.photo_set.account_id
+    assert_hash_valid({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})}.deep_stringify_keys, JSON.parse(response.body))
+  end
 
-    assert_equal [photo1, photo2], moment.photo_set.photos
+  test 'update moment' do
+    photo1 = create(:photo)
+    photo2 = create(:photo)
+    moment = Moment.create(account_id: accounts(:st8998).id, photo_set: {photos: [photo1.id]})
 
-    assert_hash_valid({id: 'integer', photo_set: {id: 'integer'}}.deep_stringify_keys, JSON.parse(response.body))
+    moment_attrs = {
+        description: 'some',
+        photos: [photo1.id, photo2.id]
+    }
+
+    put :update, moment: moment_attrs, id: moment.id, account_key: accounts(:st8998), format: :json
+
+    moment = Moment.find(@controller.moment.id)
+
+    assert_response :success
+    assert_equal 'some', moment.description
+    assert_equal [photo1, photo2], moment.photos
+
+    assert_hash_valid({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})}.deep_stringify_keys, JSON.parse(response.body))
+  end
+
+  test 'delete moment' do
+    moment = Moment.create(account_id: accounts(:st8998).id)
+    delete :destroy, id: moment.id, account_key: accounts(:st8998), format: :json
+
+    assert_response :success
+    assert_raises(ActiveRecord::RecordNotFound) { Moment.find(moment.id) }
   end
 
 end

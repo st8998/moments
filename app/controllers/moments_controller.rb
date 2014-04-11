@@ -4,7 +4,6 @@ class MomentsController < ApplicationController
 
   def create
     moment.account = current_account
-    moment.photo_set.account = current_account
 
     authorize!(:create, Moment)
     moment.save
@@ -12,14 +11,33 @@ class MomentsController < ApplicationController
     render 'moment'
   end
 
+  def update
+    authorize!(:update, moment)
+    moment.save
+
+    render 'moment'
+  end
+
+  def destroy
+    authorize!(:delete, moment)
+    moment.destroy
+    render nothing: true
+  end
+
   private
 
   PERMITTED_ATTRIBUTES = [
       :description,
-      {photo_set: [:description, {criterias: [:id, :type, :column, :value, {whitelist: []}]}]}
+      {photos: []}
   ]
 
   def moment_params
-    params.require(:moment).permit(*PERMITTED_ATTRIBUTES)
+    moment_attrs = params.require(:moment).permit(*PERMITTED_ATTRIBUTES)
+
+    if photos = moment_attrs.delete(:photos)
+      moment_attrs[:photo_set] = {photos: photos, account: current_account}
+    end
+
+    moment_attrs
   end
 end
