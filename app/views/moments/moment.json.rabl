@@ -1,4 +1,8 @@
-object(moment) unless root_object
+if @moments
+  collection(@moments)
+elsif root_object.nil?
+  object(moment)
+end
 
 attributes :id, :description
 

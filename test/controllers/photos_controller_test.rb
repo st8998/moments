@@ -15,7 +15,7 @@ class PhotosControllerTest < ActionController::TestCase
     assert_equal 'some', @controller.photo.description
     assert @controller.photo.image.present?
 
-    assert_hash_valid({id: 'integer', image_url_small: 'string'}.stringify_keys, JSON.parse(response.body))
+    assert_api_response({id: 'integer', image_url_small: 'string'})
   end
 
   test 'upload to another account' do
@@ -52,7 +52,7 @@ class PhotosControllerTest < ActionController::TestCase
     assert_equal 'new desc', Photo.find(photo.id).description
     body = JSON.parse(response.body)
     assert_equal('new desc', body['description'])
-    assert_hash_valid({id: 'integer', description: 'string'}.stringify_keys, body)
+    assert_api_response({id: 'integer', description: 'string'})
   end
 
   test 'update photo from another account' do

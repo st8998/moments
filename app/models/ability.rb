@@ -3,14 +3,13 @@ class Ability
 
   def initialize(account, user)
 
-    can :read, Moment
+    can :read, [Moment, Photo], account_id: account.id
 
-    if account.present? && user.present? && account.id == user.account_id
-      can :create, [Moment, Photo]
+    if user.present?
+      can :create, [Moment, Photo], account_id: account.id
 
-      can :manage, Moment, account_id: account.id
-      can :manage, PhotoSet, account_id: account.id
-      can :manage, Photo, account_id: account.id
+      can [:update, :delete], Moment, account_id: user.account_id
+      can [:update, :delete], Photo, account_id: user.account_id
     end
 
   end

@@ -19,7 +19,9 @@ class PhotosController < ApplicationController
 
   private
 
+  PERMITTED_ATTRIBUTES = [:image, :description]
+
   def photo_params
-    params.require(:photo).permit(:image, :description)
+    params.require(:photo).permit(*PERMITTED_ATTRIBUTES)
   end
 end

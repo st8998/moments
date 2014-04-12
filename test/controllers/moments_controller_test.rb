@@ -26,7 +26,7 @@ class MomentsControllerTest < ActionController::TestCase
     assert_equal accounts(:st8998).id, moment.account_id
     assert_equal [photo1, photo2], moment.photos
 
-    assert_hash_valid({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})}.deep_stringify_keys, JSON.parse(response.body))
+    assert_api_response({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})})
   end
 
   test 'update moment' do
@@ -47,7 +47,7 @@ class MomentsControllerTest < ActionController::TestCase
     assert_equal 'some', moment.description
     assert_equal [photo1, photo2], moment.photos
 
-    assert_hash_valid({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})}.deep_stringify_keys, JSON.parse(response.body))
+    assert_api_response({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})})
   end
 
   test 'delete moment' do
@@ -58,4 +58,26 @@ class MomentsControllerTest < ActionController::TestCase
     assert_raises(ActiveRecord::RecordNotFound) { Moment.find(moment.id) }
   end
 
+  test 'moments index' do
+    photos = create_list(:photo, 1)
+    moment = create(:moment, photo_set: {photos: photos.map(&:id)})
+
+    get :index, account_key: accounts(:st8998), format: :json
+    assert_response :success
+
+    body = JSON.parse(response.body)
+    assert_kind_of(Array, body)
+    assert_hash_valid({id: 'integer'}.deep_stringify_keys, body.first)
+  end
+
+  test 'moments index from another account' do
+    photos = create_list(:photo, 1)
+    moment = create(:moment, photo_set: {photos: photos.map(&:id)})
+
+    get :index, account_key: accounts(:another_account), format: :json
+    assert_response :success
+
+    body = JSON.parse(response.body)
+    assert_equal [], body
+  end
 end
