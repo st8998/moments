@@ -1,6 +1,6 @@
 class MomentsController < ApplicationController
-  expose(:moments, strategy: VerifiableStrategy)
-  expose(:moment, strategy: VerifiableStrategy, attributes: :moment_params)
+  expose :moments
+  expose :moment, attributes: :moment_params
 
   def index
     @moments = moments

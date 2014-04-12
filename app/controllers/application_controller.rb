@@ -17,7 +17,10 @@ class ApplicationController < ActionController::Base
   end
 
   decent_configuration do
-    strategy DecentExposure::StrongParametersStrategy
+    strategy Class.new(DecentExposure::ActiveRecordStrategy) {
+      include Strategies::CanCanVerifiable
+      include Strategies::StrongParameters
+    }
   end
 
   def root

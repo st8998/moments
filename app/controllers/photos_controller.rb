@@ -1,5 +1,7 @@
 class PhotosController < ApplicationController
-  expose(:photo, strategy: VerifiableStrategy, attributes: :photo_params)
+  expose :photo
+
+  PERMITTED_ATTRIBUTES = [:image, :description]
 
   def create
     authorize!(:create, Photo)
@@ -15,13 +17,5 @@ class PhotosController < ApplicationController
   def destroy
     photo.destroy
     render nothing: true
-  end
-
-  private
-
-  PERMITTED_ATTRIBUTES = [:image, :description]
-
-  def photo_params
-    params.require(:photo).permit(*PERMITTED_ATTRIBUTES)
   end
 end
