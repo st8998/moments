@@ -26,4 +26,6 @@ FactoryGirl.define do
     factory :criteria_explicit, class: Criteria::Explicit
     factory :criteria_predicate, class: Criteria::Predicate
   end
+
+  factory :moment, traits: [:with_account]
 end

@@ -30,7 +30,7 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   test 'delete photo' do
-    photo = Photo.create(account: accounts(:st8998))
+    photo = create(:photo)
 
     delete :destroy, id: photo.id, account_key: accounts(:st8998).key, format: :json
     assert_response :success
@@ -38,13 +38,13 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   test 'delete photo from another account' do
-    photo = Photo.create(account: accounts(:another_account))
+    photo = create(:photo, account: accounts(:another_account))
     delete :destroy, id: photo.id, account_key: accounts(:st8998).key, format: :json
     assert_response :not_found
   end
 
   test 'update photo' do
-    photo = Photo.create(account: accounts(:st8998))
+    photo = create(:photo)
 
     put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
     assert_response :success
@@ -56,13 +56,13 @@ class PhotosControllerTest < ActionController::TestCase
   end
 
   test 'update photo from another account' do
-    photo = Photo.create(account: accounts(:another_account))
+    photo = create(:photo, account: accounts(:another_account))
     put :update, id: photo.id, photo: {description: 'new desc'}, account_key: accounts(:st8998).key, format: :json
     assert_response :not_found
   end
 
   test 'update photo with forbidden attributes' do
-    photo = Photo.create(account: accounts(:st8998))
+    photo = create(:photo)
     put :update, id: photo.id, photo: {dummy_attribute: 'dummy'}, account_key: accounts(:st8998).key, format: :json
     assert_response :success
   end

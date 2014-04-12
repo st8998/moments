@@ -51,7 +51,7 @@ class MomentsControllerTest < ActionController::TestCase
   end
 
   test 'delete moment' do
-    moment = Moment.create(account_id: accounts(:st8998).id)
+    moment = create(:moment)
     delete :destroy, id: moment.id, account_key: accounts(:st8998), format: :json
 
     assert_response :success
