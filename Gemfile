@@ -6,7 +6,7 @@ gem 'rails', '>= 4.1.0'
 
 # database
 gem 'pg'
-gem 'eel', git: 'https://github.com/StrangeMood/eel.git'
+gem 'eel'
 
 # view
 gem 'sass-rails'

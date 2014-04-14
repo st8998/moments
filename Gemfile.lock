@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/StrangeMood/eel.git
-  revision: 1faa698d7acf49b5deabc5ef0f032c3cf99dee76
-  specs:
-    eel (1.0.2)
-      activerecord (>= 3.1)
-      activesupport (>= 3.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,6 +54,9 @@ GEM
     dragonfly (1.0.4)
       multi_json (~> 1.0)
       rack
+    eel (1.0.3)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
@@ -193,7 +188,7 @@ DEPENDENCIES
   celluloid
   decent_exposure
   dragonfly
-  eel!
+  eel
   exifr
   factory_girl_rails
   fotoramajs
