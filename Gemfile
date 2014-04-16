@@ -44,6 +44,7 @@ group :test do
   gem 'mocha'
   gem 'factory_girl_rails'
   gem 'hash_validator'
+  gem 'trafaret'
 end
 
 group :production do

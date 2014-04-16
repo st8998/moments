@@ -5,10 +5,6 @@ class MomentsControllerTest < ActionController::TestCase
     sign_in_as(:ivan)
   end
 
-  def many(validation)
-    HashValidator::Validations::Many.new(validation)
-  end
-
   test 'create new moment' do
     photo1 = create(:photo)
     photo2 = create(:photo)
@@ -26,7 +22,7 @@ class MomentsControllerTest < ActionController::TestCase
     assert_equal accounts(:st8998).id, moment.account_id
     assert_equal [photo1, photo2], moment.photos
 
-    assert_api_response({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})})
+    assert_api_response({id: :integer, photos: [{id: :integer}]})
   end
 
   test 'update moment' do
@@ -47,7 +43,7 @@ class MomentsControllerTest < ActionController::TestCase
     assert_equal 'some', moment.description
     assert_equal [photo1, photo2], moment.photos
 
-    assert_api_response({id: 'integer', photos: many({'id' => [photo1.id, photo2.id]})})
+    assert_api_response({id: :integer, photos: [{id: :integer}]})
   end
 
   test 'delete moment' do
@@ -67,7 +63,7 @@ class MomentsControllerTest < ActionController::TestCase
 
     body = JSON.parse(response.body)
     assert_kind_of(Array, body)
-    assert_hash_valid({id: 'integer'}.deep_stringify_keys, body.first)
+    assert_hash_valid({id: :integer}, body.first)
   end
 
   test 'moments index from another account' do

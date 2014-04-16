@@ -1,14 +1,14 @@
 module MiniTest::Assertions
-  def assert_hash_valid(validations, act, msg = nil)
-    validator = HashValidator.validate(act, validations)
+  def assert_hash_valid(validations, data, msg = nil)
+    trafaret = Trafaret.construct(validations)
 
-    msg = message(msg) { "Hash doesn't conform validation rules: \n #{validator.errors} \n Original hash: \n #{act}" }
-    assert(validator.valid?, msg)
+    validated = trafaret.call(data)
+
+    msg = message(msg) { "Hash doesn't conform validation rules: \n #{validated} \n Original hash: \n #{data}" }
+    assert_kind_of(Hash, validated, msg)
   end
 
   def assert_api_response(validations, msg = nil)
-    validations.deep_stringify_keys! if validations.respond_to?(:deep_stringify_keys!)
-
     assert_hash_valid(validations, JSON.parse(response.body), msg)
   end
 end
