@@ -3,8 +3,12 @@ class MomentsController < ApplicationController
   expose :moment, attributes: :moment_params
 
   def index
-    @moments = moments
-    render 'moment'
+    if request.format.json?
+      @moments = moments
+      render 'moment'
+    else
+      render 'index'
+    end
   end
 
   def create

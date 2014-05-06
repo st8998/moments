@@ -8,6 +8,8 @@ Moments::Application.routes.draw do
   get '/template/*path', to: 'templates#template'
 
   scope path: '/:account_key' do
+    get '/', to: 'moments#index', as: :account_root
+
     scope defaults: {format: :json} do
       resources :moments
       resources :photos
