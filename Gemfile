@@ -17,6 +17,8 @@ gem 'oj' # used with rabl
 gem 'jquery-rails'
 gem 'fotoramajs'
 
+gem 'neat'
+
 # infrastructure
 gem 'bcrypt-ruby'
 gem 'celluloid'
