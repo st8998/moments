@@ -38,6 +38,8 @@ $green:     #859900
 $fontstack: "din-pro-regular",sans-serif
 //$fontstack: Arial,"Helvetica Neue",Helvetica,sans-serif
 
+$max-width: em(960)
+
 @mixin rebase($rebase03,$rebase02,$rebase01,$rebase00,$rebase0,$rebase1,$rebase2,$rebase3)
   background-color: $rebase03
   color: $rebase0
@@ -90,6 +92,7 @@ body
   @include outer-container
   font-family: $fontstack
   font-size: 16px/1.231
+  @include font-feature-settings("kern")
   //font-size: 123.1%
   font-weight: lighter
 h1
@@ -97,3 +100,4 @@ h1
 
 p
   font-size: 123.1%
+
