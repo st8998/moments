@@ -11,6 +11,7 @@ gem 'eel'
 # view
 gem 'sass-rails'
 gem 'uglifier'
+gem 'ngmin-rails'
 gem 'slim'
 gem 'rabl'
 gem 'oj' # used with rabl
