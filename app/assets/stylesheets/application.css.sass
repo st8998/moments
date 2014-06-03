@@ -2,17 +2,29 @@
 
 @font-face
   font-family: "din-pro-regular"
-  src: url("DINPro-Regular.otf") format("opentype")
+  font-weight: 200
+  src: url("DINPro-Light.otf") format("opentype")
 
 @font-face
   font-family: "din-pro-regular"
-  font-weight: bold
+  src: url("DINPro-Regular.otf") format("opentype")
+  font-weight: 400
+
+@font-face
+  font-family: "din-pro-regular"
+  font-weight: 500
+  src: url("DINPro-Medium.otf") format("opentype")
+
+@font-face
+  font-family: "din-pro-regular"
+  font-weight: 700
   src: url("DINPro-Bold.otf") format("opentype")
 
 @font-face
   font-family: "din-pro-regular"
-  font-weight: lighter
-  src: url("DINPro-Light.otf") format("opentype")
+  font-weight: 800
+  src: url("DINPro-Black.otf") format("opentype")
+
 
 
 @import "bourbon"
@@ -45,13 +57,21 @@ $max-width: em(960)
   color: $rebase0
   *
     color: $rebase0
+  body
+    font-family: $fontstack
+    @include font-feature-settings("kern")
+    font-weight: 200
   h1, h2, h3, h4, h5, h6
     color: $rebase1
     border-color: $rebase0
+    font-weight: 200
   a, a:active, a:visited
     color: $rebase1
   a:hover
     background-color: $rebase02
+  strong
+    font-weight: 500
+
 @mixin accentize($accent)
   a, a:active, a:visited, code.url
     color: $accent
@@ -90,14 +110,6 @@ html *
 //  26              197
 body
   @include outer-container
-  font-family: $fontstack
-  font-size: 16px/1.231
-  @include font-feature-settings("kern")
-  //font-size: 123.1%
-  font-weight: lighter
-h1
-  font-weight: lighter
-
-p
-  font-size: 123.1%
+*
+  font-size: 108%
 

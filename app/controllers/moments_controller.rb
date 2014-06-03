@@ -4,7 +4,7 @@ class MomentsController < ApplicationController
 
   def index
     if request.format.json?
-      @moments = moments
+      @moments = moments.order(:created_at.desc)
       render 'moment'
     else
       render 'index'
