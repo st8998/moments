@@ -17,6 +17,7 @@ gem 'rabl'
 gem 'oj' # used with rabl
 gem 'jquery-rails'
 gem 'fotoramajs'
+gem 'active_model_serializers'
 
 gem 'neat'
 

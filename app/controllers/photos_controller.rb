@@ -6,12 +6,12 @@ class PhotosController < ApplicationController
   def create
     authorize!(:create, Photo)
     photo.save
-    render 'photo'
+    render json: photo
   end
 
   def update
     photo.save
-    render 'photo'
+    render json: photo
   end
 
   def destroy

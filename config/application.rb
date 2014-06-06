@@ -26,5 +26,10 @@ module Moments
     config.active_record.schema_format = :sql
 
     config.autoload_paths += ['lib']
+
+    # Disable for all serializers (except ArraySerializer)
+    ActiveModel::Serializer.root = false
+    # Disable for ArraySerializer
+    ActiveModel::ArraySerializer.root = false
   end
 end

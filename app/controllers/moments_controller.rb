@@ -5,9 +5,7 @@ class MomentsController < ApplicationController
   def index
     if request.format.json?
       @moments = moments.order(:created_at.desc)
-      render 'moment'
-    else
-      render 'index'
+      render json: @moments
     end
   end
 
@@ -15,14 +13,14 @@ class MomentsController < ApplicationController
     authorize!(:create, Moment)
     moment.save
 
-    render 'moment'
+    render json: moment
   end
 
   def update
     authorize!(:update, moment)
     moment.save
 
-    render 'moment'
+    render json: moment
   end
 
   def destroy
