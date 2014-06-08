@@ -1,5 +1,5 @@
 class MomentSerializer < ActiveModel::Serializer
-  attributes :id, :description, :created_at
+  attributes :id, :description, :date
 
   has_many :photos
 

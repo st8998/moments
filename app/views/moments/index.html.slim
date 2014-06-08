@@ -18,6 +18,7 @@
       div
         img[ng-src='{{moment.author.avatar}}']
         | {{moment.author.name}}
+      span {{moment.date}}
       p {{moment.description}}
       ul
         li[ng-repeat='photo in moment.photos']

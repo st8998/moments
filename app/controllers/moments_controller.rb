@@ -32,6 +32,7 @@ class MomentsController < ApplicationController
   private
 
   PERMITTED_ATTRIBUTES = [
+      :date,
       :description,
       {photos: [:id]}
   ]

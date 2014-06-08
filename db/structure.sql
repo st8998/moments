@@ -101,7 +101,8 @@ CREATE TABLE moments (
     description text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    author_id integer
+    author_id integer,
+    date timestamp without time zone
 );
 
 
@@ -171,7 +172,8 @@ CREATE TABLE photos (
     aperture_value double precision,
     iso integer,
     focal_length integer,
-    moment_id integer
+    moment_id integer,
+    date timestamp without time zone
 );
 
 
@@ -355,4 +357,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140409143446');
 INSERT INTO schema_migrations (version) VALUES ('20140608124426');
 
 INSERT INTO schema_migrations (version) VALUES ('20140608150745');
+
+INSERT INTO schema_migrations (version) VALUES ('20140608154517');
 

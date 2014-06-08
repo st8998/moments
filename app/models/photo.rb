@@ -17,7 +17,7 @@ class Photo < ActiveRecord::Base
   attr_accessor :keywords
 
   def analyze_image_attributes
-    %i[width height exposure_time aperture_value iso focal_length keywords].each do |attr|
+    %i[width height exposure_time aperture_value iso focal_length keywords date].each do |attr|
       self.send("#{attr}=", image.send(attr))
     end
   end

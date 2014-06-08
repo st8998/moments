@@ -27,6 +27,10 @@ Dragonfly.app.configure do
       /public/
   ]
 
+  analyser :date do |content|
+    content.exif.date_time_original
+  end
+
   analyser :iso do |content|
     content.exif.iso_speed_ratings
   end
