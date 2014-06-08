@@ -4,8 +4,7 @@ class MomentsController < ApplicationController
 
   def index
     if request.format.json?
-      @moments = moments.order(:created_at.desc)
-      render json: @moments
+      render json: moments.order(:created_at.desc)
     end
   end
 
@@ -33,16 +32,10 @@ class MomentsController < ApplicationController
 
   PERMITTED_ATTRIBUTES = [
       :description,
-      {photos: []}
+      {photos: [:id]}
   ]
 
   def moment_params
-    moment_attrs = params.require(:moment).permit(*PERMITTED_ATTRIBUTES)
-
-    if photos = moment_attrs.delete(:photos)
-      moment_attrs[:photo_set] = {photos: photos, account: current_account}
-    end
-
-    moment_attrs
+    params.require(:moment).permit(*PERMITTED_ATTRIBUTES)
   end
 end

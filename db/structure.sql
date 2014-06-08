@@ -169,7 +169,8 @@ CREATE TABLE photos (
     exposure_time character varying,
     aperture_value double precision,
     iso integer,
-    focal_length integer
+    focal_length integer,
+    moment_id integer
 );
 
 
@@ -349,4 +350,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140407152348');
 INSERT INTO schema_migrations (version) VALUES ('20140407152437');
 
 INSERT INTO schema_migrations (version) VALUES ('20140409143446');
+
+INSERT INTO schema_migrations (version) VALUES ('20140608124426');
 

@@ -11,7 +11,7 @@ class MomentsControllerTest < ActionController::TestCase
 
     moment_attrs = {
         description: 'some',
-        photos: [photo1.id, photo2.id]
+        photos: [{id: photo1.id}, {id: photo2.id}]
     }
 
     post :create, moment: moment_attrs, account_key: accounts(:st8998), format: :json
@@ -28,11 +28,11 @@ class MomentsControllerTest < ActionController::TestCase
   test 'update moment' do
     photo1 = create(:photo)
     photo2 = create(:photo)
-    moment = Moment.create(account_id: accounts(:st8998).id, photo_set: {photos: [photo1.id]})
+    moment = Moment.create(account_id: accounts(:st8998).id, photos: [photo1])
 
     moment_attrs = {
         description: 'some',
-        photos: [photo1.id, photo2.id]
+        photos: [{id: photo1.id}, {id: photo2.id}]
     }
 
     put :update, moment: moment_attrs, id: moment.id, account_key: accounts(:st8998), format: :json
@@ -56,7 +56,7 @@ class MomentsControllerTest < ActionController::TestCase
 
   test 'moments index' do
     photos = create_list(:photo, 1)
-    moment = create(:moment, photo_set: {photos: photos.map(&:id)})
+    moment = create(:moment, photos: photos)
 
     get :index, account_key: accounts(:st8998), format: :json
     assert_response :success
@@ -68,7 +68,7 @@ class MomentsControllerTest < ActionController::TestCase
 
   test 'moments index from another account' do
     photos = create_list(:photo, 1)
-    moment = create(:moment, photo_set: {photos: photos.map(&:id)})
+    moment = create(:moment, photos: photos)
 
     get :index, account_key: accounts(:another_account), format: :json
     assert_response :success
