@@ -104,8 +104,6 @@ GEM
     polyglot (0.3.5)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
-    rabl (0.10.1)
-      activesupport (>= 2.3.14)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -209,7 +207,6 @@ DEPENDENCIES
   oj
   pg
   quiet_assets
-  rabl
   rails (>= 4.1.0)
   rails-observers
   sass-rails
