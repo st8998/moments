@@ -4,7 +4,8 @@ angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', 
     transclude: true,
     scope: {
       onUpload: '&',
-      url: '&'
+      url: '&',
+      paramName: '@'
     },
     template: '<div class="dropzone-component" ng-transclude></div>',
     link: function(scope, elem, attrs) {
@@ -61,7 +62,7 @@ angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', 
         dropZone: comp,
         pasteZone: comp,
         fileInput: fileInput,
-        paramName: 'image',
+        paramName: scope.paramName || 'image',
         sequentialUploads: true, // TODO review this option
 
         done: function(e, data) {

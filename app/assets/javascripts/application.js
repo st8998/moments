@@ -2,6 +2,7 @@
 //= require_tree ./react
 //= require_tree ./directives
 //= require_tree ./services
+//= require_tree ./models
 
 if (typeof Function.empty === 'undefined')
   Function.empty = function() {}

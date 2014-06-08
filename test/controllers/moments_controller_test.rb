@@ -21,6 +21,7 @@ class MomentsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal accounts(:st8998).id, moment.account_id
     assert_equal [photo1, photo2], moment.photos
+    assert_equal users(:ivan), moment.author
 
     assert_api_response({id: :integer, photos: [{id: :integer}]})
   end

@@ -4,12 +4,13 @@ class MomentsController < ApplicationController
 
   def index
     if request.format.json?
-      render json: moments.includes(:photos).order(:created_at.desc)
+      render json: moments.includes(:photos, :author).order(:created_at.desc)
     end
   end
 
   def create
     authorize!(:create, Moment)
+    moment.author = current_user
     moment.save
 
     render json: moment

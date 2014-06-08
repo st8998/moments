@@ -100,7 +100,8 @@ CREATE TABLE moments (
     account_id integer,
     description text,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    author_id integer
 );
 
 
@@ -352,4 +353,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140407152437');
 INSERT INTO schema_migrations (version) VALUES ('20140409143446');
 
 INSERT INTO schema_migrations (version) VALUES ('20140608124426');
+
+INSERT INTO schema_migrations (version) VALUES ('20140608150745');
 

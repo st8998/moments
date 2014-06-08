@@ -1,16 +1,24 @@
 //= require models/picture
 
-angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Picture, Pictures) {
+angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Moment) {
+
+  this.api = api
+
+  $scope.newMoment = new Moment()
 
   $http.get(api('moments')).success(function(data) {
     $scope.moments = data
   })
 
   $scope.createMoment = function() {
-    $http.post(api('moments'), $scope.newMoment).success(function(moment) {
+    $http.post(api('moments'), {moment: $scope.newMoment}).success(function(moment) {
       $scope.moments.unshift(moment)
-      $scope.newMoment = {}
+      $scope.newMoment = new Moment()
     })
+  }
+
+  $scope.addPhoto = function(attrs) {
+    $scope.newMoment.photos.push(attrs)
   }
 
 })

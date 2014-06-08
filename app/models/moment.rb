@@ -3,6 +3,8 @@ class Moment < ActiveRecord::Base
 
   belongs_to :account
 
+  belongs_to :author, class_name: 'User'
+
   has_many :photos
   accepts_nested_attributes_for :photos, allow_destroy: true
 end
