@@ -1,5 +1,6 @@
 form.new-moment
   position: relative
+
   textarea
     width: 100%
     resize: none
@@ -8,18 +9,34 @@ form.new-moment
 
   .upload-hint
     position: absolute
-    right: 10px
+    right: 20px
     margin-top: 20px
-    .icon
-      fill: $base1
-    &:hover
-      .icon
-        fill: $base00
+
+ul.moments
+  > li
+    border-bottom: 1px solid $base2
+    padding: 1em 0
+
 
 ul.photos
   @include clearfix
   width: 100.5%
+  margin: 0
   li
+    position: relative
     float: left
-    margin: 0 3px 3px 0
+    margin-right: 3px
     padding: 0
+    width: 32.8%
+    img
+      width: 100%
+  button.remove
+    line-height: 0
+    padding: 2px
+    margin: 2px
+    position: absolute
+    top: 0
+    right: 0
+    border: none
+    background: $base2
+

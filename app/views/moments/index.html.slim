@@ -3,19 +3,18 @@
 .moments-container[ng-controller='MomentsCtrl as mc']
   m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
     form.new-moment[ng-submit='createMoment()']
-      .upload-hint
-        svg.icon.icon-camera[viewBox="0 0 32 32"]
-          use[xlink:href="#icon-camera"]
+      .upload-hint= icon(:camera)
 
       textarea[ng-model='newMoment.description' rows='3']
 
       .upload-hover-hint Бросайте смелее
-      .upload-drag-hint Тащите их сюда
+      .upload-drag-hint Тащите свои фоточки сюда
       ul.photos
         li[ng-repeat='photo in newMoment.photos']
           img[ng-src='{{photo.image_url_square}}']
+          button.remove[ng-click='removePhoto(photo)']= icon(:cross)
 
-      button[type='submit'] Добавить
+      button[type='submit' ng-disabled='!newMoment.photos.length && !newMoment.description'] Добавить
 
   ul.moments
     li[ng-repeat='moment in moments']

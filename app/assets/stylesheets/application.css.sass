@@ -1,4 +1,5 @@
 //= require fotorama
+//= require hint.css.css
 
 @font-face
   font-family: "din-pro-regular"
@@ -52,25 +53,28 @@ $fontstack: "din-pro-regular",sans-serif
 
 $max-width: em(608)
 
-@mixin rebase($rebase03,$rebase02,$rebase01,$rebase00,$rebase0,$rebase1,$rebase2,$rebase3)
-  background-color: $rebase03
-  color: $rebase0
+@mixin rebase($base3,$base2,$base1,$base0,$base00,$base01,$base02,$base03)
+  background-color: $base3
+  color: $base00
   *
-    color: $rebase0
+    color: $base00
   body
     font-family: $fontstack
     @include font-feature-settings("kern")
     font-weight: 200
   h1, h2, h3, h4, h5, h6
-    color: $rebase1
-    border-color: $rebase0
+    color: $base01
+    border-color: $base00
     font-weight: 200
   a, a:active, a:visited
-    color: $rebase1
+    color: $base01
   a:hover
-    background-color: $rebase02
+    background-color: $base2
   strong
     font-weight: 500
+  button
+    &:hover
+      cursor: pointer
 
 @mixin accentize($accent)
   a, a:active, a:visited, code.url
@@ -110,8 +114,8 @@ html *
 //  26              197
 body
   @include outer-container
-  border-left: 1px dashed $base0
-  border-right: 1px dashed $base0
+  //border-left: 1px dashed $base0
+  //border-right: 1px dashed $base0
 
 
 *
@@ -122,7 +126,15 @@ ul
   list-style: none
   padding-left: 0
 
+button
+  margin: 0
+
 @import 'icons'
 @import 'comp/*'
 @import 'moments'
 
+.icon
+  fill: $base1
+*:hover
+  >.icon
+    fill: $base00

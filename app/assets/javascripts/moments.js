@@ -21,4 +21,8 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
     $scope.newMoment.photos.push(attrs)
   }
 
+  $scope.removePhoto = function(photo) {
+    $http.delete(api('/photos/', photo.id))
+    _.remove($scope.newMoment.photos, {id: photo.id})
+  }
 })
