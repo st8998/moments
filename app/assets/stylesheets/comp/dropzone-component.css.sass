@@ -15,24 +15,15 @@
 
   .upload-hint
     margin: 0
-    padding-top: 10px
-    font-weight: lighter
-    color: #aaa
-    &:hover
-      color: #666
-
-    position: relative
     overflow: hidden
-    cursor: pointer
-    text-align: center
-    .glyphicon
-      margin-right: 10px
+    &:hover
+      cursor: pointer
     .hidden-file-upload-button
       text-align: left
       position: absolute
       font-size: 200px
-      right: 0
-      top: 0
+      right: -10px
+      top: -10px
       cursor: pointer
       &:focus
         outline: 0
@@ -52,7 +43,7 @@
     h3
       width: 100%
       font-weight: lighter
-      color: #666
+      color: $base0
       text-align: center
       position: absolute
       top: 50%
@@ -62,9 +53,9 @@
     z-index: 1001
 
   &.file-page-hover .upload-drag-hint
-    border-color: #ccc
+    border-color: $base2
     display: block
   &.file-hover .upload-hover-hint
-    border-color: #ccc
-    background-color: #f4f4f4
+    border-color: $base2
+    background-color: $base3
     display: block

@@ -50,7 +50,7 @@ $green:     #859900
 $fontstack: "din-pro-regular",sans-serif
 //$fontstack: Arial,"Helvetica Neue",Helvetica,sans-serif
 
-$max-width: em(960)
+$max-width: em(608)
 
 @mixin rebase($rebase03,$rebase02,$rebase01,$rebase00,$rebase0,$rebase1,$rebase2,$rebase3)
   background-color: $rebase03
@@ -110,6 +110,19 @@ html *
 //  26              197
 body
   @include outer-container
+  border-left: 1px dashed $base0
+  border-right: 1px dashed $base0
+
+
 *
-  font-size: 108%
+  font-size: 100%
+
+// reset some settings
+ul
+  list-style: none
+  padding-left: 0
+
+@import 'icons'
+@import 'comp/*'
+@import 'moments'
 

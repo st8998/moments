@@ -1,17 +1,21 @@
 = javascript_include_tag 'moments'
 
 .moments-container[ng-controller='MomentsCtrl as mc']
-  form[ng-submit='createMoment()']
-    textarea[ng-model='newMoment.description']
+  m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
+    form.new-moment[ng-submit='createMoment()']
+      .upload-hint
+        svg.icon.icon-camera[viewBox="0 0 32 32"]
+          use[xlink:href="#icon-camera"]
 
-    m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
-      .upload-hint ADD SOME PHOTOS
-      ul
+      textarea[ng-model='newMoment.description' rows='3']
+
+      .upload-hover-hint Бросайте смелее
+      .upload-drag-hint Тащите их сюда
+      ul.photos
         li[ng-repeat='photo in newMoment.photos']
-          img[ng-src='{{photo.image_url_small}}']
+          img[ng-src='{{photo.image_url_square}}']
 
-
-    button Добавить
+      button[type='submit'] Добавить
 
   ul.moments
     li[ng-repeat='moment in moments']
@@ -20,8 +24,8 @@
         | {{moment.author.name}}
       span {{moment.date}}
       p {{moment.description}}
-      ul
+      ul.photos
         li[ng-repeat='photo in moment.photos']
-          img[ng-src='{{photo.image_url_small}}']
+          img[ng-src='{{photo.image_url_square}}']
 
 

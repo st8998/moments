@@ -1,0 +1,25 @@
+form.new-moment
+  position: relative
+  textarea
+    width: 100%
+    resize: none
+    padding-right: 44px
+    border-color: $base1
+
+  .upload-hint
+    position: absolute
+    right: 10px
+    margin-top: 20px
+    .icon
+      fill: $base1
+    &:hover
+      .icon
+        fill: $base00
+
+ul.photos
+  @include clearfix
+  width: 100.5%
+  li
+    float: left
+    margin: 0 3px 3px 0
+    padding: 0
