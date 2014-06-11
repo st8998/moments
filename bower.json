@@ -1,6 +1,7 @@
 {
   "name": "moments",
   "dependencies": {
+    "progress.js": "latest",
     "hint.css": "latest",
     "jasmine": "latest",
 

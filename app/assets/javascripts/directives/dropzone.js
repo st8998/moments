@@ -1,4 +1,4 @@
-angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', function($, seq, $timeout) {
+angular.module('app').directive('mDropzone', function(progressJs, sequence, $timeout) {
   return {
     restrict: 'E',
     transclude: true,
@@ -9,17 +9,6 @@ angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', 
     },
     template: '<div class="dropzone-component" ng-transclude></div>',
     link: function(scope, elem, attrs) {
-      var setProgress = (function(hideAfter) {
-        var progress = elem.find('.horizontal-progress')
-        var hideProgressTimeout
-        return function(amount) {
-          $timeout.cancel(hideProgressTimeout)
-          progress.removeClass('hidden')
-          progress.css({width: amount+'%'})
-          hideProgressTimeout = $timeout(progress.addClass.bind(progress, 'hidden'), hideAfter, false)
-        }
-      }(2000))
-
       var comp = elem.find('.dropzone-component')
       var fileInput = elem.find('.upload-hint').append('<input class="hidden-file-upload-button" type="file" multiple />')
 
@@ -56,6 +45,8 @@ angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', 
         })
       }())
 
+      var progressBar, progressComp = comp.find('.progress')
+
       comp.fileupload({
         url: scope.url(),
         type: 'post',
@@ -71,7 +62,20 @@ angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', 
           })
         },
         progressall: function(e, data) {
-          setProgress(parseInt(data.loaded / data.total * 100, 10))
+          if (progressComp) {
+            console.log('PROGRESS ENABLED')
+
+            if (!progressBar) {
+              progressBar = progressJs(progressComp).start()
+            }
+            progressBar.set(data.loaded / data.total * 100)
+          }
+
+          if (data.loaded == data.total) {
+            console.log('PROGRESS END')
+            progressBar.end()
+            progressBar = undefined
+          }
         }
       })
 
@@ -80,4 +84,4 @@ angular.module('app').directive('mDropzone', ['jquery', 'sequence', '$timeout', 
       })
     }
   }
-}])
+})

@@ -14,11 +14,9 @@
 //= require angular-promise-tracker/promise-tracker
 
 //= require jquery.ui.widget
-//= require jquery.ui.core
-//= require jquery.ui.mouse
-//= require jquery.ui.draggable
-//= require jquery.ui.droppable
 
 //= require blueimp-file-upload
 
 //= require fotorama
+
+//= require progress.js.js

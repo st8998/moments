@@ -27,6 +27,7 @@ App.constant('settings', {
 
 App.constant('d3', d3)
 App.constant('jquery', jQuery)
+App.constant('progressJs', progressJs)
 App.constant('cookies', Cookies)
 App.constant('lodash', _)
 
