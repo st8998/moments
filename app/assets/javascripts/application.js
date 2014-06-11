@@ -25,11 +25,14 @@ App.constant('settings', {
   }
 })
 
+moment.lang('ru')
+
 App.constant('d3', d3)
 App.constant('jquery', jQuery)
 App.constant('progressJs', progressJs)
 App.constant('cookies', Cookies)
 App.constant('lodash', _)
+App.constant('$moment', moment)
 
 App.run(['$rootScope', 'promiseTracker', 'routes', 'api', function($rootScope, promiseTracker, routes, api) {
   $rootScope.appTracker = promiseTracker('appTracker', {

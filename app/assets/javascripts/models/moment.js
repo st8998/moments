@@ -8,7 +8,7 @@ angular.module('app').factory('Moment', function(sequence) {
   }
 
   Moment.prototype.attributes = function() {
-    return _.pick(this, 'id', 'description', 'photos')
+    return _.pick(this, 'id', 'description', 'photos', 'date')
   }
 
   return Moment

@@ -4,6 +4,7 @@
     "progress.js": "latest",
     "hint.css": "latest",
     "jasmine": "latest",
+    "moment": "latest",
 
     "jquery": "latest",
 

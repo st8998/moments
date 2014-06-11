@@ -20,3 +20,5 @@
 //= require fotorama
 
 //= require progress.js.js
+//= require moment
+//= require moment/lang/ru
