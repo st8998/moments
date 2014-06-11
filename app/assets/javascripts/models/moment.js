@@ -7,5 +7,9 @@ angular.module('app').factory('Moment', function(sequence) {
     _.extend(this, {photos: [], date: new Date()}, attrs)
   }
 
+  Moment.prototype.attributes = function() {
+    return _.pick(this, 'id', 'description', 'photos')
+  }
+
   return Moment
 })

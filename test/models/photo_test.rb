@@ -23,7 +23,7 @@ class PhotoTest < ActiveSupport::TestCase
     assert_equal 64, p.width, 'width'
     assert_equal 64, p.height, 'height'
 
-    assert_equal DateTime.parse('Sat, 08 Feb 2014 11:30:15 UTC +00:00'), p.date, 'date'
+    assert_equal DateTime.parse('Sat, 08 Feb 2014 11:30:15'), p.date, 'date'
     assert_equal 320, p.iso, 'iso'
     assert_equal 63, p.focal_length, 'focal_length'
     assert_equal 4.5, p.aperture_value, 'aperture_value'
