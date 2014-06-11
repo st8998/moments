@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
     default 'app/assets/images/default_avatar.jpg'
   end
 
+  belongs_to :account
+
   # auth stuff
   attr_accessor :password
   before_save :encrypt_password
@@ -18,13 +20,4 @@ class User < ActiveRecord::Base
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
   end
-
-  belongs_to :account
-
-  def bw_avatar
-    avatar.
-        convert('-set colorspace Gray -separate -average').
-        convert('-brightness-contrast +10x+25')
-  end
-
 end

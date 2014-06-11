@@ -1,3 +1,15 @@
+input.new-moment, form.new-moment textarea
+  padding: 0.2em 0.3em
+  &:focus
+    outline: 0
+
+input.new-moment
+  margin: 0
+  width: 100%
+  @include placeholder
+    color: $base1
+    font-size: 93%
+
 form.new-moment
   position: relative
 
@@ -14,8 +26,8 @@ form.new-moment
 
   .upload-hint
     position: absolute
-    right: 20px
-    margin-top: 20px
+    right: 0.5em
+    margin-top: 1em
 
 ul.moments
   > li

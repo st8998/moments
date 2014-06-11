@@ -1,11 +1,19 @@
 = javascript_include_tag 'moments'
 
 .moments-container[ng-controller='MomentsCtrl as mc']
-  m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
-    form.new-moment[ng-submit='createMoment()']
+  input.new-moment[
+    type='text' ng-if='!newMoment' placeholder='Добавить новую запись'
+    ng-click='openNewMoment()'
+  ]
+
+  m-dropzone[
+    url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]'
+    ng-if='newMoment'
+  ]
+    form.new-moment[ng-submit='createMoment()' m-closeable='closeNewMoment()']
       .upload-hint= icon(:camera)
 
-      textarea[ng-model='newMoment.description' rows='3']
+      textarea[ng-model='newMoment.description' rows='3' m-autofocus]
 
       .progress
 

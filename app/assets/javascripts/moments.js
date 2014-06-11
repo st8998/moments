@@ -4,16 +4,25 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   this.api = api
 
-  $scope.newMoment = new Moment()
+//  $scope.newMoment = new Moment()
 
   $http.get(api('moments')).success(function(data) {
     $scope.moments = data
   })
 
+  $scope.openNewMoment = function() {
+    $scope.newMoment = new Moment()
+  }
+
+  $scope.closeNewMoment = function() {
+    console.log('CLOSE NEW MOMENT')
+    $scope.newMoment = undefined
+  }
+
   $scope.createMoment = function() {
     $http.post(api('moments'), {moment: $scope.newMoment}).success(function(moment) {
       $scope.moments.unshift(moment)
-      $scope.newMoment = new Moment()
+      $scope.closeNewMoment()
     })
   }
 
