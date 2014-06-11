@@ -32,7 +32,7 @@
         img[ng-src='{{moment.author.avatar}}']
       div.content
         h3.name {{moment.author.name}}
-        span.date {{moment.date | formatDate:'pretty'}}
+        span.date[m-formatted-date='{{moment.date}}']
         p {{moment.description}}
         ul.photos
           li[ng-repeat='photo in moment.photos']
