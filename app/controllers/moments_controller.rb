@@ -4,7 +4,7 @@ class MomentsController < ApplicationController
 
   def index
     if request.format.json?
-      render json: moments.includes(:photos, :author).order(:date.desc)
+      render json: moments.root.includes(:photos, :author).order(:date.desc)
     end
   end
 
@@ -34,6 +34,7 @@ class MomentsController < ApplicationController
   PERMITTED_ATTRIBUTES = [
       :date,
       :description,
+      :parent_id,
       {photos: [:id]}
   ]
 

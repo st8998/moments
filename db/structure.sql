@@ -102,7 +102,8 @@ CREATE TABLE moments (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     author_id integer,
-    date timestamp without time zone
+    date timestamp without time zone,
+    parent_id integer
 );
 
 
@@ -359,4 +360,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140608124426');
 INSERT INTO schema_migrations (version) VALUES ('20140608150745');
 
 INSERT INTO schema_migrations (version) VALUES ('20140608154517');
+
+INSERT INTO schema_migrations (version) VALUES ('20140612163256');
 

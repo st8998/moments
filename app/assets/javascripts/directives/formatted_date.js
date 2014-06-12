@@ -5,7 +5,7 @@ angular.module('app').directive('mFormattedDate', function($moment, $timeout) {
       var date, timer
 
       attrs.$observe('mFormattedDate', function(attrDate) {
-        date = $moment(attrDate)
+        date = $moment(attrDate, 'DD/MM/YYYY HH:mm')
         $timeout.cancel(timer)
         outputDate()
       })

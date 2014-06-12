@@ -7,4 +7,9 @@ class Moment < ActiveRecord::Base
 
   has_many :photos, dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
+
+  belongs_to :parent, class_name: 'Moment'
+  has_many :sub_moments, class_name: 'Moment', foreign_key: :parent_id, dependent: :destroy
+
+  scope :root, -> { where(parent_id: nil) }
 end

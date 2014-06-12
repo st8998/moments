@@ -1,4 +1,4 @@
-//= require models/picture
+//= require widgets/moment_widget
 
 angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Moment) {
 
@@ -8,31 +8,33 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   $http.get(api('moments')).success(function(data) {
     $scope.moments = _.map(data, function(attrs) {
-      return new Moment(attrs)
+      var m = new Moment(attrs)
+      m.newMoment = new Moment({parent_id: m.id})
+      if (!m.sub_moments) m.sub_moments = []
+      return m
     })
   })
-
-  $scope.openMoment = function(moment) {
-    moment._edit = true
-  }
-
-  $scope.closeMoment = function(moment) {
-    moment._edit = false
-  }
 
   $scope.createMoment = function() {
     if (!$scope.newMoment.date) $scope.newMoment.date = new Date()
 
     $http.post(api('moments'), {moment: $scope.newMoment.attributes()}).success(function(moment) {
       $scope.moments.unshift(new Moment(moment))
-      $scope.closeMoment($scope.newMoment)
       $scope.newMoment = new Moment()
+    })
+  }
+
+  $scope.createSubMoment = function(moment) {
+    if (!moment.newMoment.date) moment.newMoment.date = new Date()
+
+    $http.post(api('moments'), {moment: moment.newMoment.attributes()}).success(function(attrs) {
+      moment.sub_moments.unshift(new Moment(attrs))
+      moment.newMoment = new Moment({parent_id: moment.id})
     })
   }
 
   $scope.updateMoment = function(moment) {
     $http.put(api('moments', moment.id), {moment: moment.attributes()}).success(function(attrs) {
-      $scope.closeMoment(moment)
       moment.assignAttributes(attrs)
     })
   }
@@ -42,13 +44,8 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
     $http.delete(api('moments', moment.id))
   }
 
-  $scope.addPhoto = function(moment, attrs) {
-    moment.photos.push(attrs)
-    if (!moment.date) moment.date = attrs.date
-  }
-
-  $scope.removePhoto = function(moment, photo) {
-    $http.delete(api('/photos/', photo.id))
-    _.remove(moment.photos, {id: photo.id})
+  $scope.removeSubMoment = function(moment, sub_moment) {
+    _.remove(moment.sub_moments, {id: sub_moment.id})
+    $http.delete(api('moments', sub_moment.id))
   }
 })

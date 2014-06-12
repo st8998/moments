@@ -1,0 +1,44 @@
+.moment-widget
+  .moment-view[ng-if='!moment.id && !moment._edit']
+    input.moment[
+      type='text' placeholder='Добавить новую запись'
+      ng-click='open()'
+    ]
+
+  .moment-view[ng-if='moment.id && !moment._edit']
+    h3.name
+      | {{moment.author.name}}
+      a<[href='javascript:' ng-click='open()'] редактировать
+    span.date[m-formatted-date='{{moment.date}}']
+    p {{moment.description}}
+    ul.photos
+      li[ng-repeat='photo in moment.photos']
+        img[ng-src='{{photo.image_url_square}}']
+
+
+
+  .moment-edit[ng-if='moment._edit']
+    m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
+      form.moment[ng-submit='submit()' m-closeable='close()']
+
+        .upload-hint= icon(:camera)
+
+        textarea[ng-model='moment.description' rows='3' m-autofocus]
+        .info
+          label[for='{{moment.uid}}-date'] Когда:
+          input.date<[id='{{moment.uid}}-date' type='text' ng-model='moment.date']
+
+        .progress
+
+        .upload-hover-hint Бросайте смелее
+        .upload-drag-hint Тащите свои фоточки сюда
+        ul.photos
+          li[ng-repeat='photo in moment.photos']
+            img[ng-src='{{photo.image_url_square}}']
+            button.remove[ng-click='removePhoto(photo)']= icon(:cross)
+
+        button[ng-if='!moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Добавить
+
+        button[ng-if='moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Обновить
+        button.remove[ng-if='moment.id' type='button' ng-click='onRemove()'] Удалить
+
