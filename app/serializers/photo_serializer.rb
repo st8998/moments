@@ -1,5 +1,9 @@
 class PhotoSerializer < ActiveModel::Serializer
-  attributes(:id, :description, :width, :height)
+  attributes(:id, :description, :width, :height, :date)
+
+  def date
+    object.date.strftime('%d/%m/%Y %H:%M') if object.date
+  end
 
   def attributes
     super.tap do |attrs|

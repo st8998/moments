@@ -28,7 +28,7 @@ Dragonfly.app.configure do
   ]
 
   analyser :date do |content|
-    content.exif.date_time_original
+    content.exif.date_time_original.to_datetime.change(offset: '+0000')
   end
 
   analyser :iso do |content|

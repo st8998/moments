@@ -11,7 +11,8 @@ class MomentsControllerTest < ActionController::TestCase
 
     moment_attrs = {
         description: 'some',
-        photos: [{id: photo1.id}, {id: photo2.id}]
+        photos: [{id: photo1.id}, {id: photo2.id}],
+        date: '11/05/2014 11:33'
     }
 
     post :create, moment: moment_attrs, account_key: accounts(:st8998), format: :json
@@ -22,6 +23,7 @@ class MomentsControllerTest < ActionController::TestCase
     assert_equal accounts(:st8998).id, moment.account_id
     assert_equal [photo1, photo2], moment.photos
     assert_equal users(:ivan), moment.author
+    assert_equal DateTime.parse('11/05/2014 11:33'), moment.date
 
     assert_api_response({id: :integer, photos: [{id: :integer}]})
   end

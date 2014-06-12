@@ -28,6 +28,7 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   $scope.addPhoto = function(attrs) {
     $scope.newMoment.photos.push(attrs)
+    $scope.newMoment.date = attrs.date
   }
 
   $scope.removePhoto = function(photo) {

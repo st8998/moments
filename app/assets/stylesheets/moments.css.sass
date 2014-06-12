@@ -1,4 +1,4 @@
-input.new-moment, form.new-moment textarea
+input.new-moment, form.new-moment textarea, form.new-moment input
   padding: 0.2em 0.3em
   &:focus
     outline: 0
@@ -9,6 +9,22 @@ input.new-moment
   @include placeholder
     color: $base1
     font-size: 93%
+
+form.new-moment
+  textarea
+    border: 1px solid $base1
+    border-bottom: 1px dashed $base01
+  .info
+    border: 1px solid $base1
+    border-top: none
+    background-color: #fff
+    width: 100%
+    padding: 0.2em 0.3em
+    #newmoment-date
+      width: 40%
+      border: none
+      margin: 0
+      border-bottom: 1px dashed $base1
 
 form.new-moment
   position: relative
@@ -36,7 +52,9 @@ ul.moments
     @include outer-container
   .author
     float: left
-    @include span-columns(1)
+    font-size: 0
+    img
+      border-radius: 2px
   .content
     @include span-columns(11)
     padding-left: 0.5em

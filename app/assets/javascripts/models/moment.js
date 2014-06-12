@@ -4,7 +4,7 @@ angular.module('app').factory('Moment', function(sequence) {
    * @property {String} description
    */
   function Moment(attrs) {
-    _.extend(this, {photos: [], date: new Date()}, attrs)
+    _.extend(this, {photos: []}, attrs)
   }
 
   Moment.prototype.attributes = function() {

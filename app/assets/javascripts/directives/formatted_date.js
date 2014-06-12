@@ -15,8 +15,10 @@ angular.module('app').directive('mFormattedDate', function($moment, $timeout) {
           var diff = moment.duration(moment().diff(date))
           var text
 
-          if (diff.days() > 0) {
-            text = date.format('DD MMM в HH:MM')
+          if (moment().year() != date.year()) {
+            text = date.format('DD MMM YYYY в HH:mm')
+          } else if (diff.days() > 0) {
+            text = date.format('DD MMM в HH:mm')
           } else if (diff.hours() > 0) {
             text = date.fromNow()
             timer = $timeout(outputDate, 60*60*1000)
@@ -41,8 +43,6 @@ angular.module('app').directive('mFormattedDate', function($moment, $timeout) {
 
 angular.module('app').filter('formatDate', function($moment) {
   return function(date, type) {
-    console.log('FORMAT', date, type)
-
     if (!date) return
 
     var date = $moment(date)
