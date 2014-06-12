@@ -1,22 +1,23 @@
 = javascript_include_tag 'moments'
 
 .moments-container[ng-controller='MomentsCtrl as mc']
-  input.new-moment[
+  input.moment[
     type='text' ng-if='!newMoment._edit' placeholder='Добавить новую запись'
-    ng-click='openNewMoment()'
+    ng-click='openMoment(newMoment)'
   ]
 
   m-dropzone[
-    url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]'
+    url='api("/photos")' on-upload='addPhoto(newMoment, attrs)' param-name='photo[image]'
     ng-if='newMoment._edit'
   ]
-    form.new-moment[ng-submit='createMoment()' m-closeable='closeNewMoment()']
+    form.moment[ng-submit='createMoment()' m-closeable='closeMoment(newMoment)']
+
       .upload-hint= icon(:camera)
 
       textarea[ng-model='newMoment.description' rows='3' m-autofocus]
       .info
         label[for='newmoment-date'] Когда:
-        input<[id='newmoment-date' type='text' ng-model='newMoment.date']
+        input.date<[id='newmoment-date' type='text' ng-model='newMoment.date']
 
       .progress
 
@@ -25,7 +26,7 @@
       ul.photos
         li[ng-repeat='photo in newMoment.photos']
           img[ng-src='{{photo.image_url_square}}']
-          button.remove[ng-click='removePhoto(photo)']= icon(:cross)
+          button.remove[ng-click='removePhoto(newMoment, photo)']= icon(:cross)
 
       button[type='submit' ng-disabled='!newMoment.photos.length && !newMoment.description'] Добавить
 
@@ -34,11 +35,37 @@
       div.author
         img[ng-src='{{moment.author.avatar}}']
       div.content
-        h3.name {{moment.author.name}}
-        span.date[m-formatted-date='{{moment.date}}']
-        p {{moment.description}}
-        ul.photos
-          li[ng-repeat='photo in moment.photos']
-            img[ng-src='{{photo.image_url_square}}']
+        div[ng-if='!moment._edit']
+          h3.name
+            | {{moment.author.name}}
+            a<[href='javascript:' ng-click='openMoment(moment)'] редактировать
+          span.date[m-formatted-date='{{moment.date}}']
+          p {{moment.description}}
+          ul.photos
+            li[ng-repeat='photo in moment.photos']
+              img[ng-src='{{photo.image_url_square}}']
+        m-dropzone[
+          url='api("/photos")' on-upload='addPhoto(moment, attrs)' param-name='photo[image]'
+          ng-if='moment._edit'
+        ]
+          form.moment[ng-submit='updateMoment(moment)' m-closeable='closeMoment(moment)']
+            .upload-hint= icon(:camera)
+
+            textarea[ng-model='moment.description' rows='3' m-autofocus]
+            .info
+              label[for='moment-{{moment.id}}-date'] Когда:
+              input.date<[id='moment-{{moment.id}}-date' type='text' ng-model='moment.date']
+
+            .progress
+
+            .upload-hover-hint Бросайте смелее
+            .upload-drag-hint Тащите свои фоточки сюда
+            ul.photos
+              li[ng-repeat='photo in moment.photos']
+                img[ng-src='{{photo.image_url_square}}']
+                button.remove[ng-click='removePhoto(moment, photo)']= icon(:cross)
+
+            button[type='submit' ng-disabled='!moment.photos.length && !moment.description'] Обновить
+            button.remove[type='button' ng-click='removeMoment(moment)'] Удалить
 
 

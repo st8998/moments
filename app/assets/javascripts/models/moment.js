@@ -11,5 +11,9 @@ angular.module('app').factory('Moment', function(sequence) {
     return _.pick(this, 'id', 'description', 'photos', 'date')
   }
 
+  Moment.prototype.assignAttributes = function(attrs) {
+    _.extend(this, attrs)
+  }
+
   return Moment
 })

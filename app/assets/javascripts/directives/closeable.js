@@ -19,7 +19,7 @@ angular.module('app').directive('mCloseable', function() {
       })
 
       elem.on('$destroy', function() {
-        $(document).off('.mCloseable')
+        $(document).off('click', close)
       })
     }
   }
