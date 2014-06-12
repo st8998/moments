@@ -19,7 +19,11 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
     if (!$scope.newMoment.date) $scope.newMoment.date = new Date()
 
     $http.post(api('moments'), {moment: $scope.newMoment.attributes()}).success(function(moment) {
-      $scope.moments.unshift(new Moment(moment))
+      var created = new Moment(moment)
+      created.newMoment = new Moment({parent_id: created.id})
+      created.sub_moments = []
+
+      $scope.moments.unshift(created)
       $scope.newMoment = new Moment()
     })
   }
@@ -28,7 +32,7 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
     if (!moment.newMoment.date) moment.newMoment.date = new Date()
 
     $http.post(api('moments'), {moment: moment.newMoment.attributes()}).success(function(attrs) {
-      moment.sub_moments.unshift(new Moment(attrs))
+      moment.sub_moments.push(new Moment(attrs))
       moment.newMoment = new Moment({parent_id: moment.id})
     })
   }

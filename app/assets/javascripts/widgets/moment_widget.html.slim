@@ -1,10 +1,4 @@
 .moment-widget
-  .moment-view[ng-if='!moment.id && !moment._edit']
-    input.moment[
-      type='text' placeholder='Добавить новую запись'
-      ng-click='open()'
-    ]
-
   .moment-view[ng-if='moment.id && !moment._edit']
     h3.name
       | {{moment.author.name}}

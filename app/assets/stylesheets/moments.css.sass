@@ -55,8 +55,12 @@ form.moment
 ul.moments
   > li
     border-bottom: 1px solid $base2
-    padding: 1em 0
+    padding: 0.5em 0
+    margin: 0.5em 0
     @include outer-container
+    &:last-child
+      border-bottom: none
+
   .author
     float: left
     font-size: 0

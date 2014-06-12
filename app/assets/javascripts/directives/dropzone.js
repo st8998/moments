@@ -63,8 +63,6 @@ angular.module('app').directive('mDropzone', function(progressJs, sequence, $tim
         },
         progressall: function(e, data) {
           if (progressComp) {
-            console.log('PROGRESS ENABLED')
-
             if (!progressBar) {
               progressBar = progressJs(progressComp).start()
             }
@@ -72,7 +70,6 @@ angular.module('app').directive('mDropzone', function(progressJs, sequence, $tim
           }
 
           if (data.loaded == data.total) {
-            console.log('PROGRESS END')
             progressBar.end()
             progressBar = undefined
           }

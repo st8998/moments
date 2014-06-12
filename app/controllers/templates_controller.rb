@@ -5,6 +5,10 @@ class TemplatesController < ApplicationController
   layout false
 
   def template
-    render params.require(:path)
+    if request.format == :html
+      render params.require(:path)
+    else
+      render status: :forbidden, text: 'Only html templates are permitted'
+    end
   end
 end
