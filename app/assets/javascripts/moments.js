@@ -1,6 +1,6 @@
 //= require widgets/moment_widget
 
-angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Moment) {
+angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Moment, $moment) {
 
   this.api = api
 
@@ -20,7 +20,9 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   })
 
   $scope.createMoment = function() {
-    if (!$scope.newMoment.date) $scope.newMoment.date = new Date()
+    if (!$scope.newMoment.date) $scope.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')
+
+    console.log($scope.newMoment.date)
 
     $http.post(api('moments'), {moment: $scope.newMoment.attributes()}).success(function(moment) {
       var created = new Moment(moment)
@@ -33,7 +35,7 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   }
 
   $scope.createSubMoment = function(moment) {
-    if (!moment.newMoment.date) moment.newMoment.date = new Date()
+    if (!moment.newMoment.date) moment.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')
 
     $http.post(api('moments'), {moment: moment.newMoment.attributes()}).success(function(attrs) {
       moment.sub_moments.push(new Moment(attrs))

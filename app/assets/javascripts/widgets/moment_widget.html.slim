@@ -2,7 +2,7 @@
   .moment-view[ng-if='moment.id && !moment._edit']
     h3.name
       | {{moment.author.name}}
-      a<[href='javascript:' ng-click='open()'] редактировать
+      a<[href='javascript:' ng-click='open()' ng-if='moment.can_update'] редактировать
     span.date[m-formatted-date='{{moment.date}}']
     p {{moment.description}}
     ul.photos
@@ -11,7 +11,7 @@
 
 
 
-  .moment-edit[ng-if='moment._edit']
+  .moment-edit[ng-if='moment._edit && moment.can_update']
     m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
       form.moment[ng-submit='submit()' m-closeable='close()']
 

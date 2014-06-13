@@ -1,4 +1,4 @@
-class MomentSerializer < ActiveModel::Serializer
+class MomentSerializer < ApplicationSerializer
   cached
 
   attributes :id, :description, :date, :parent_id
@@ -7,6 +7,8 @@ class MomentSerializer < ActiveModel::Serializer
   has_many :photos
 
   has_many :sub_moments
+
+  security_attributes :update, :delete, :create_sub_moment
 
   def attributes
     # for caching reasons only id, updated_at are loaded initially
@@ -24,8 +26,4 @@ class MomentSerializer < ActiveModel::Serializer
   end
 
   SERIALIZER_MTIME = File.new(__FILE__).mtime
-
-  def cache_key
-    [object, SERIALIZER_MTIME]
-  end
 end

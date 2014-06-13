@@ -1,4 +1,5 @@
 class TemplatesController < ApplicationController
+  skip_before_filter :ensure_account
 
   prepend_view_path Rails.root.join('app/assets/javascripts')
 

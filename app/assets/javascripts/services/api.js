@@ -21,7 +21,7 @@ angular.module('app').provider('api', function() {
     if (demo) {
       return buildApi(cookies.get('dakey'))
     } else {
-      return buildApi(cookies.get('akey'))
+      return buildApi($('meta[name=akey]').attr('content'))
     }
   }]
 })

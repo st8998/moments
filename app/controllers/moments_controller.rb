@@ -10,7 +10,11 @@ class MomentsController < ApplicationController
   end
 
   def create
-    authorize!(:create, Moment)
+    if moment.parent_id
+      authorize!(:create_sub_moment, moment.parent)
+    else
+      authorize!(:create, Moment)
+    end
     moment.author = current_user
     moment.save
 

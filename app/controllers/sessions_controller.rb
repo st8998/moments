@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :ensure_user, only: :create
+  skip_before_action :ensure_account
 
   def new
     render layout: false

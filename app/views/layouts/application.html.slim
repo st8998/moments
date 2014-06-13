@@ -26,6 +26,8 @@ head
   javascript:
     try{Typekit.load();}catch(e){}
 
+  meta[name='akey' content='#{current_account.try(:key)}']
+
 body[ng-app='app']
   = render 'layouts/icons'
 
