@@ -4,7 +4,8 @@ class MomentsController < ApplicationController
 
   def index
     if request.format.json?
-      render json: moments.root.includes(:photos, :author, sub_moments: [:photos, :author]).order(:date.desc)
+      # render json: moments.root.includes(:photos, :author, sub_moments: [:photos, :author]).order(:date.desc)
+      render json: moments.root.select(:id, :updated_at).order(:date.desc)
     end
   end
 

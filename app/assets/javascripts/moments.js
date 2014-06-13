@@ -10,7 +10,11 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
     $scope.moments = _.map(data, function(attrs) {
       var m = new Moment(attrs)
       m.newMoment = new Moment({parent_id: m.id})
-      if (!m.sub_moments) m.sub_moments = []
+      if (m.sub_moments) {
+        m.sub_moments = _.map(m.sub_moments, function(attrs) {return new Moment(attrs)})
+      } else {
+        m.sub_moments = []
+      }
       return m
     })
   })
@@ -40,6 +44,12 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   $scope.updateMoment = function(moment) {
     $http.put(api('moments', moment.id), {moment: moment.attributes()}).success(function(attrs) {
       moment.assignAttributes(attrs)
+
+      if (attrs.sub_moments) {
+        moment.sub_moments = _.map(attrs.sub_moments, function(attrs) {return new Moment(attrs)})
+      } else {
+        moment.sub_moments = []
+      }
     })
   }
 
