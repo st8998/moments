@@ -7,27 +7,14 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   $scope.newMoment = new Moment()
 
   $http.get(api('moments')).success(function(data) {
-    $scope.moments = _.map(data, function(attrs) {
-      var m = new Moment(attrs)
-      m.newMoment = new Moment({parent_id: m.id})
-      if (m.sub_moments) {
-        m.sub_moments = _.map(m.sub_moments, function(attrs) {return new Moment(attrs)})
-      } else {
-        m.sub_moments = []
-      }
-      return m
-    })
+    $scope.moments = Moment.fromJson(data)
   })
 
   $scope.createMoment = function() {
     if (!$scope.newMoment.date) $scope.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')
 
-    console.log($scope.newMoment.date)
-
-    $http.post(api('moments'), {moment: $scope.newMoment.attributes()}).success(function(moment) {
-      var created = new Moment(moment)
-      created.newMoment = new Moment({parent_id: created.id})
-      created.sub_moments = []
+    $http.post(api('moments'), {moment: $scope.newMoment.attributes()}).success(function(data) {
+      var created = Moment.fromJson(data)
 
       $scope.moments.unshift(created)
       $scope.newMoment = new Moment()

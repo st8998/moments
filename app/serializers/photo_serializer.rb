@@ -1,4 +1,6 @@
 class PhotoSerializer < ActiveModel::Serializer
+  cached
+
   attributes(:id, :description, :width, :height, :date)
 
   def date
@@ -15,4 +17,6 @@ class PhotoSerializer < ActiveModel::Serializer
       end
     end
   end
+
+  SERIALIZER_MTIME = File.new(__FILE__).mtime
 end

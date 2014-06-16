@@ -8,13 +8,26 @@ class MomentSerializer < ApplicationSerializer
 
   has_many :sub_moments
 
+  has_many :photo_set
+
   security_attributes :update, :delete, :create_sub_moment
 
   def attributes
+    puts 'RELOAD'
     # for caching reasons only id, updated_at are loaded initially
     # this workaround will load all attributes for uncached entries
     object.reload
     super
+  end
+
+  def photo_set
+    if object.parent_id.nil?
+      object.sub_moments.reduce(object.photos) do |photos, moment|
+        photos + moment.photos
+      end
+    else
+      []
+    end
   end
 
   def sub_moments
