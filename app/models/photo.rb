@@ -10,7 +10,7 @@ class Photo < ActiveRecord::Base
   # square - thumb('200x200#')
 
   belongs_to :account
-  belongs_to :moment, touch: true
+  belongs_to :moment
 
   before_save :analyze_image_attributes, if: -> pic { pic.image_uid_changed? && pic.image }
 

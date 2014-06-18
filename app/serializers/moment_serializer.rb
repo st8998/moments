@@ -13,7 +13,6 @@ class MomentSerializer < ApplicationSerializer
   security_attributes :update, :delete, :create_sub_moment
 
   def attributes
-    puts 'RELOAD'
     # for caching reasons only id, updated_at are loaded initially
     # this workaround will load all attributes for uncached entries
     object.reload

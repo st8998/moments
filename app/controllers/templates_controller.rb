@@ -7,7 +7,11 @@ class TemplatesController < ApplicationController
 
   def template
     if request.format == :html
-      render params.require(:path)
+      template_path = params.require(:path)
+
+      if stale?(last_modified: File.new("app/assets/javascripts/#{template_path}.html.slim").mtime)
+        render template_path
+      end
     else
       render status: :forbidden, text: 'Only html templates are permitted'
     end

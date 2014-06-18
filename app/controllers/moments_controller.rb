@@ -23,6 +23,7 @@ class MomentsController < ApplicationController
 
   def update
     authorize!(:update, moment)
+    moment.touch
     moment.save
 
     render json: moment
