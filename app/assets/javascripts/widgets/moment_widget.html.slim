@@ -7,7 +7,7 @@
     p {{moment.description}}
     ul.photos
       li[ng-repeat='photo in moment.photos']
-        img[ng-src='{{photo.image_url_square}}']
+        img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.photos, photo)']
 
 
 
@@ -28,7 +28,7 @@
         .upload-drag-hint Тащите свои фоточки сюда
         ul.photos
           li[ng-repeat='photo in moment.photos']
-            img[ng-src='{{photo.image_url_square}}']
+            img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.photos, photo)']
             button.remove[ng-click='removePhoto(photo)']= icon(:cross)
 
         button[ng-if='!moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Добавить

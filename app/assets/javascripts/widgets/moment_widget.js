@@ -1,4 +1,4 @@
-angular.module('app').directive('momentWidget', function($http, Moment, api) {
+angular.module('app').directive('momentWidget', function($http, Moment, api, $rootScope) {
   return {
     restrict: 'E',
     replace: true,
@@ -12,6 +12,9 @@ angular.module('app').directive('momentWidget', function($http, Moment, api) {
       var moment = scope.moment
 
       scope.api = api
+
+      // pick gallery methods from root scope
+      _.extend(scope, _.pick($rootScope, 'openGallery', 'closeGallery'))
 
       _.extend(scope, {
         open: function() {

@@ -1,34 +1,50 @@
 .gallery-component
+  .container
+    @include outer-container
+    @include row(table)
+    max-width: 1280px
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    margin: auto
+
+  .fotorama-container
+    @include span-columns(9)
+    line-height: 0
+
+  .controls-container
+    @include span-columns(3)
+    @include reset-display
+    position: relative
+    max-width: 320px
+    vertical-align: top
+
+.gallery-component
+  &.hidden
+    display: none
   height: 100%
   width: 100%
   position: fixed
   left: 0
   top: 0
   z-index: 1001
-  background-color: #191919
+  background-color: rgba(0, 0, 0, .9)
 
   .gallery-close
     position: absolute
-    right: 340px
-    top: 20px
-    color: #999
-    font-size: 150%
+    right: 10px
+    top: 10px
     z-index: 1000
     cursor: pointer
-    &:hover
-      color: #fff
+    background-color: transparent
 
   .fotorama-container
-    position: absolute
-    left: 0
-    right: 320px
+    background-color: #000
 
   .controls-container
-    position: absolute
-    width: 320px
-    right: 0
-    background-color: #fff
-    height: 100%
+    background-color: $base3
 
 
 body.gallery-mode

@@ -1,5 +1,7 @@
 = javascript_include_tag 'moments'
 
+m-gallery
+
 .moments-container[ng-controller='MomentsCtrl as mc']
   - if can?(:create, Moment)
     input.moment[
