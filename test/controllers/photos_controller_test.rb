@@ -15,7 +15,7 @@ class PhotosControllerTest < ActionController::TestCase
     assert_equal 'some', @controller.photo.description
     assert @controller.photo.image.present?
 
-    assert_api_response({id: :integer, image_url_small: :string})
+    assert_api_response({id: :integer, image_url_512: :string})
   end
 
   test 'upload to another account' do
