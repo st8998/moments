@@ -7,9 +7,7 @@
     p {{moment.description}}
     ul.photos
       li[ng-repeat='photo in moment.photos']
-        img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.photos, photo)']
-
-
+        img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.galleryPhotos(), photo)']
 
   .moment-edit[ng-if='moment._edit && moment.can_update']
     m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']

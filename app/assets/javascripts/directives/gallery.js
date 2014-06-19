@@ -1,9 +1,9 @@
-//= depend_on ./gallery.html
 angular.module('app').directive('mGallery', function($rootScope) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/gallery.html',
     replace: true,
+    scope: true,
     link: function(scope, elem, attrs) {
       var fotorama
         , $body = $('body')
@@ -25,18 +25,24 @@ angular.module('app').directive('mGallery', function($rootScope) {
           swipe: true,
           arrows: true,
           keyboard: true,
-//          hash: true,
           startindex: photo ? _.findIndex(photos, {id: photo.id}) : 0,
-//          startindex: picId ? url(picId) : 0,
           data: _.map(photos, function(photo) {
             return {
-              img: photo.image_url_big,
-              thumb: photo.image_url_small,
-//              id: url(photo.id),
-              pic: photo
+              img: photo.image_url_1024,
+              photo: photo
             }
           })
         }).data('fotorama')
+
+        scope.photo = photo ? photo : photos[0]
+
+        fotoramaContainer.on('fotorama:show', function(e, fotorama) {
+          if (scope.photo != fotorama.activeFrame.photo) {
+            scope.$apply(function() {
+              scope.photo = fotorama.activeFrame.photo
+            })
+          }
+        })
 
         $body.on('keyup.fotorama', function(e) {
           if (e.which == 27) scope.closeGallery()
@@ -48,6 +54,7 @@ angular.module('app').directive('mGallery', function($rootScope) {
           fotorama.destroy()
           elem.addClass('hidden')
           fotoramaContainer.removeData('fotorama')
+          fotoramaContainer.off('fotorama:show')
           $body.removeClass('gallery-mode')
           $body.off('.fotorama')
           closed = true

@@ -14,7 +14,7 @@ angular.module('app').factory('Moment', function(sequence) {
       moment.newMoment = new Moment({parent_id: moment.id})
 
       moment.sub_moments = moment.sub_moments ?
-        _.map(moment.sub_moments, function(attrs) {return new Moment(attrs)}) : []
+        _.map(moment.sub_moments, function(attrs) {return new Moment(_.merge({parent: moment}, attrs))}) : []
 
       return moment
     }
@@ -24,6 +24,10 @@ angular.module('app').factory('Moment', function(sequence) {
     } else {
       return buildMoment(data)
     }
+  }
+
+  Moment.prototype.galleryPhotos = function() {
+    return this.parent ? this.parent.photo_set : this.photo_set
   }
 
   Moment.prototype.attributes = function() {

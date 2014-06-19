@@ -5,18 +5,20 @@ angular.module('app').directive('mCloseable', function() {
       onClose: '&mCloseable'
     },
     link: function(scope, elem, attrs) {
-      var cancelClose = true
+      var cancelClose
 
       function close() {
         if (!cancelClose) scope.$apply(scope.onClose)
         cancelClose = false
       }
 
-      $(document).on('click.mCloseable', close)
+      setTimeout(function() {
+        $(document).on('click.mCloseable', close)
 
-      elem.on('click', function(e) {
-        cancelClose = true
-      })
+        elem.on('click', function(e) {
+          cancelClose = true
+        })
+      }, 0)
 
       elem.on('$destroy', function() {
         $(document).off('click', close)
