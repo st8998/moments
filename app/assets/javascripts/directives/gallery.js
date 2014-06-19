@@ -21,6 +21,7 @@ angular.module('app').directive('mGallery', function($rootScope) {
           width: '100%',
           nav: false,
           fit: 'scaledown',
+          allowfullscreen: 'native',
           click: true,
           swipe: true,
           arrows: true,
@@ -29,6 +30,7 @@ angular.module('app').directive('mGallery', function($rootScope) {
           data: _.map(photos, function(photo) {
             return {
               img: photo.image_url_1024,
+              full: photo.image_url_original,
               photo: photo
             }
           })
@@ -44,8 +46,14 @@ angular.module('app').directive('mGallery', function($rootScope) {
           }
         })
 
+        var cancelExit = false
+        fotoramaContainer.on('fotorama:fullscreenexit', function() {
+          cancelExit = true
+        })
+
         $body.on('keyup.fotorama', function(e) {
-          if (e.which == 27) scope.closeGallery()
+          if (e.which == 27 && !cancelExit) scope.closeGallery()
+          cancelExit = false
         })
       }
 
@@ -55,6 +63,7 @@ angular.module('app').directive('mGallery', function($rootScope) {
           elem.addClass('hidden')
           fotoramaContainer.removeData('fotorama')
           fotoramaContainer.off('fotorama:show')
+          fotoramaContainer.off('fotorama:fullscreenexit')
           $body.removeClass('gallery-mode')
           $body.off('.fotorama')
           closed = true
@@ -68,6 +77,5 @@ angular.module('app').directive('mGallery', function($rootScope) {
       })
     }
   }
-
 })
 

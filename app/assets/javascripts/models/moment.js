@@ -27,7 +27,13 @@ angular.module('app').factory('Moment', function(sequence) {
   }
 
   Moment.prototype.galleryPhotos = function() {
-    return this.parent ? this.parent.photo_set : this.photo_set
+    if (this.parent) {
+      return this.parent.galleryPhotos()
+    } else {
+      return _.reduce(this.sub_moments, function(photos, moment) {
+        return photos.concat(moment.photos)
+      }, this.photos)
+    }
   }
 
   Moment.prototype.attributes = function() {
