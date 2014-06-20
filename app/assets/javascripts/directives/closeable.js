@@ -15,10 +15,15 @@ angular.module('app').directive('mCloseable', function() {
       setTimeout(function() {
         $(document).on('click.mCloseable', close)
 
-        elem.on('click', function(e) {
+        elem.on('click.mCloseable', function(e) {
           cancelClose = true
         })
       }, 0)
+
+      elem.on('change.mCloseable', function() {
+        $(document).off('click', close)
+        elem.off('.mCloseable')
+      })
 
       elem.on('$destroy', function() {
         $(document).off('click', close)
