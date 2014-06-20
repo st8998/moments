@@ -6,6 +6,13 @@
   m-gallery
 
   .moments-feed
+    .account-info
+      span.avatar-container
+        = image_tag current_user.avatar.thumb('110x110#').url
+      h3
+        span> #{current_user.name} |
+        | #{current_account.key}
+
     - if can?(:create, Moment)
       input.moment[
         ng-if='!newMoment._edit'

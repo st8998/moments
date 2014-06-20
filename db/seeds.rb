@@ -2,12 +2,20 @@
 account = Account.find_or_create_by(key: 'st8998')
 
 # base users
-User.find_or_create_by(name: 'Ваньк') do |model|
+User.find_or_create_by(name: 'Иван Ефремов') do |model|
   model.password = 'joppadriller'
 
-  model.email = 'st8998@gmail.com'
+  model.email = 'ivan@moments.com'
   model.account = account
   model.avatar = File.open(Rails.root.join('db/data/userpic.jpg'))
+end
+
+User.find_or_create_by(name: 'Ольга Ефремова') do |model|
+  model.password = 'joppadriller'
+
+  model.email = 'olga@moments.com'
+  model.account = account
+  model.avatar = File.open(Rails.root.join('db/data/olga_userpic.jpg'))
 end
 
 # this project developing moment
