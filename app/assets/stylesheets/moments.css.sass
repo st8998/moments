@@ -32,11 +32,6 @@
   .moments-feed
     @include outer-container
 
-input.moment, form.moment textarea, form.moment input
-  padding: 0.2em 0.3em
-  &:focus
-    outline: 0
-
 input.moment
   margin: 0
   width: 100%
@@ -60,6 +55,9 @@ form.moment
       border: none
       margin: 0
       border-bottom: 1px dashed $base1
+    .location
+      cursor: pointer
+
 
 form.moment
   position: relative
@@ -116,6 +114,9 @@ ul.moments
     margin: 0.4em 0
   .date
     color: $base1
+  .location
+    .icon
+      height: 0.8em
 
 ul.photos
   @include clearfix

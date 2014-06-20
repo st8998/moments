@@ -21,7 +21,13 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
           moment._edit = true
         },
         close: function() {
-          moment._edit = false
+          delete moment._edit
+          delete moment._location
+        },
+
+        applyPlace: function(place) {
+          moment.place = place
+          delete moment._location
         },
 
         addPhoto: function(attrs) {

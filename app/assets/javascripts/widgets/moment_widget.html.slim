@@ -5,17 +5,22 @@
       span.controls
         a<>[href='javascript:' ng-click='open()' ng-if='moment.can_update'] редактировать
         | |
-        a.remove<>[href='javascript:' ng-if='moment.id' ng-click='onRemove()'] удалить
+        a.remove<>[href='javascript:' ng-if='moment.id && moment.can_delete' ng-click='onRemove()'] удалить
 
-    span.date[m-formatted-date='{{moment.date}}']
+    span.date>[m-formatted-date='{{moment.date}}']
+    span.location[ng-if='moment.place']
+      = icon(:location)
+      | {{moment.place.name || moment.place.primaryLine().join(', ')}}
     p {{moment.description}}
     ul.photos
       li[ng-repeat='photo in moment.photos']
         img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.galleryPhotos(), photo)']
 
-  .moment-edit[ng-if='moment._edit && moment.can_update']
-    m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]']
-      form.moment[ng-submit='submit()' m-closeable='close()']
+  .moment-edit[ng-if='moment._edit && moment.can_update' m-closeable='close()']
+    m-select-location[ng-if='moment._location' place='moment.place' on-apply='applyPlace(place)' on-cancel='moment._location=false']
+
+    m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]' ng-class='{hidden: moment._location}']
+      form.moment[ng-submit='submit()']
 
         .upload-hint= icon(:camera)
 
@@ -23,6 +28,8 @@
         .info
           label[for='{{moment.uid}}-date'] Когда:
           input.date<[id='{{moment.uid}}-date' type='text' ng-model='moment.date']
+
+          span.location[ng-click='moment._location=true'] Где: {{moment.place.name || moment.place.primaryLine().join(', ')}}
 
         .progress
 

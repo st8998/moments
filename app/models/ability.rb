@@ -11,6 +11,8 @@ class Ability
         can :create, [Moment, Photo], account_id: account.id
       end
 
+      can [:update], Account, id: user.account_id
+
       can [:update, :delete], Moment, account_id: user.account_id
       can [:create_sub_moment], Moment, account_id: user.account_id
       can [:update, :delete], Photo, account_id: user.account_id

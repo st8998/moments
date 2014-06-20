@@ -1,10 +1,10 @@
-angular.module('app').factory('Moment', function(sequence) {
+angular.module('app').factory('Moment', function(sequence, Place) {
   /**
    * @property {Number} id server side picture id
    * @property {String} description
    */
   function Moment(attrs) {
-    _.extend(this, {photos: [], uid: sequence('moment-'), can_update: true}, attrs)
+    this.assignAttributes(_.merge({photos: [], uid: sequence('moment-'), can_update: true}, attrs))
   }
 
   Moment.fromJson = function(data) {
@@ -37,11 +37,18 @@ angular.module('app').factory('Moment', function(sequence) {
   }
 
   Moment.prototype.attributes = function() {
-    return _.pick(this, 'id', 'description', 'photos', 'date', 'parent_id')
+    var attrs = _.pick(this, 'id', 'description', 'photos', 'date', 'parent_id')
+    attrs.place = this.place.attributes()
+
+    return attrs
   }
 
   Moment.prototype.assignAttributes = function(attrs) {
     _.extend(this, attrs)
+
+    if (this.place && _.isPlainObject(this.place)) {
+      this.place = new Place(this.place)
+    }
   }
 
   function groupBy(collection, attr) {

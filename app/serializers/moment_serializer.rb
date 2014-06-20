@@ -4,6 +4,8 @@ class MomentSerializer < ApplicationSerializer
   attributes :id, :description, :date, :parent_id
 
   has_one :author
+  has_one :place
+
   has_many :photos
 
   has_many :sub_moments

@@ -9,7 +9,7 @@ module EnhancedNestedAttributes
       class_name = association.class_name
 
       case association.macro
-      when :has_one
+      when :has_one, :belongs_to
         class_eval <<-RUBY, __FILE__, __LINE__+1
           def #{name}= attrs
             if attrs.is_a?(Hash) && attrs[:id]

@@ -6,12 +6,14 @@
   m-gallery
 
   .moments-feed
-    .account-info
-      span.avatar-container
-        = image_tag current_user.avatar.thumb('110x110#').url
-      h3
-        span> #{current_user.name} |
-        | #{current_account.key}
+    / TODO move to abilities
+    - if can?(:update, current_account)
+      .account-info
+        span.avatar-container
+          = image_tag current_user.avatar.thumb('110x110#').url
+        h3
+          span> #{current_user.name} |
+          | #{current_account.key}
 
     - if can?(:create, Moment)
       input.moment[

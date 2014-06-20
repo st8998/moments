@@ -21,7 +21,8 @@ App.constant('settings', {
       locality: 11,
       route: 15,
       street_number: 18
-    }
+    },
+    defaultCenter: new google.maps.LatLng(53.21651837219011, 50.15031337738037)
   }
 })
 

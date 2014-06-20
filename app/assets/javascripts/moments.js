@@ -1,6 +1,6 @@
 //= require widgets/moment_widget
 
-angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Moment, $moment) {
+angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Moment, Place, $moment) {
 
   this.api = api
 

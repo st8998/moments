@@ -136,13 +136,21 @@ button
 @import 'comp/*'
 @import 'moments'
 
-.icon
-  fill: $base1
-*:hover
-  >.icon
-    fill: $base00
+//.icon
+//  fill: $base1
+//*:hover
+//  >.icon
+//    fill: $base00
 
 .progressjs-theme-blue .progressjs-inner
   height: 3px
   transition: all 0.3s ease-out
   background-color: $blue
+
+input, textarea
+  padding: 0.2em 0.3em
+  &:focus
+    outline: 0
+
+.hidden
+  display: none

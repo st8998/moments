@@ -103,7 +103,8 @@ CREATE TABLE moments (
     updated_at timestamp without time zone,
     author_id integer,
     date timestamp without time zone,
-    parent_id integer
+    parent_id integer,
+    place_id integer
 );
 
 
@@ -198,6 +199,47 @@ ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
 
 
 --
+-- Name: places; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE places (
+    id integer NOT NULL,
+    name character varying,
+    lat double precision,
+    lng double precision,
+    country character varying,
+    administrative_area_level_2 character varying,
+    administrative_area_level_1 character varying,
+    locality character varying,
+    route character varying,
+    street_number character varying,
+    postal_code character varying,
+    account_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE places_id_seq OWNED BY places.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -279,6 +321,13 @@ ALTER TABLE ONLY photos ALTER COLUMN id SET DEFAULT nextval('photos_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -323,6 +372,14 @@ ALTER TABLE ONLY photos
 
 
 --
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -362,4 +419,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140608150745');
 INSERT INTO schema_migrations (version) VALUES ('20140608154517');
 
 INSERT INTO schema_migrations (version) VALUES ('20140612163256');
+
+INSERT INTO schema_migrations (version) VALUES ('20140620213841');
 
