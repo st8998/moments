@@ -114,6 +114,7 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
           .on('click', function(d) {
             d.pic.onSelect()
           })
+          .attr('xlink:href', 'javascript:')
           .append('path')
           .attr('d', hexbin.hexagon())
 
