@@ -1,0 +1,43 @@
+.hexagon-component
+  background: #d8d8d8
+  height: 300px
+  margin-top: -20px
+  margin-bottom: 20px
+  overflow: hidden
+  padding: 0
+  position: relative
+  border-top: 1px solid #333
+  border-bottom: 1px solid #d8d8d8
+
+  &:after, &:before
+    content: ""
+    display: block
+    width: 100%
+    position: absolute
+    background: red
+    height: 16px
+    z-index: 2
+
+  &:before
+    bottom: -16px
+    box-shadow: 0px -8px 16px rgba(0,0,0,.5)
+
+  &:after
+    top: -16px
+    box-shadow: 0px 8px 16px rgba(0,0,0,.5)
+
+  .hexagon-mesh
+    fill: none
+    stroke: #fff
+    stroke-width: 2px
+
+  .hexagon-anchor
+    path
+      fill: none
+      pointer-events: all
+      &:hover
+        stroke: #333
+        stroke-width: 5px
+
+  svg, canvas
+    position: absolute

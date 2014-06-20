@@ -6,6 +6,10 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   $scope.newMoment = new Moment()
 
+  $http.get(api('photos')).success(function(data) {
+    $scope.photos = data
+  })
+
   $http.get(api('moments')).success(function(data) {
     $scope.moments = Moment.fromJson(data)
   })

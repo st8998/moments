@@ -1,19 +1,17 @@
-angular.module('app').directive('mHexagon',
-  ['d3', '$window', '$parse', 'sequence', 'Pictures', 'routes',
-  function(d3, $window, $parse, seq, Pictures, routes) {
-
+angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequence) {
   return {
     restrict: 'E',
 
     replace: 'true',
     template: '<div class="hexagon-component"><div class="hexagon-deep"></div></div>',
 
+    scope: {photos: '=', onSelect: '&'},
+
     compile: function(elem, attrs) {
-      var height = 400,
+      var height = 300,
         imageWidth = 200,
         radius = imageWidth / 2,
         depth = 4
-
 
       // MUSE MOVE EFFECT SETTINGS
       var currentFocus = [$window.innerWidth / 2, height / 2],
@@ -70,7 +68,7 @@ angular.module('app').directive('mHexagon',
 
         context.clip()
 
-        context.drawImage(d.image, -imageWidth/2, -imageWidth/2, imageWidth, imageWidth)
+        context.drawImage(d.image, -imageWidth / 2, -imageWidth / 2, imageWidth, imageWidth)
         context.restore()
       }
 
@@ -106,24 +104,30 @@ angular.module('app').directive('mHexagon',
 
         mesh.attr('d', hexbin.mesh)
 
-        anchor = anchor.data(centers, function(d) { return d.pic.id() })
+        anchor = anchor.data(centers, function(d) {
+          return d.pic.id()
+        })
 
         anchor.exit().remove()
 
         anchor.enter().append('a')
-          .attr('xlink:href', function(d) { return d.pic.image_url })
+          .on('click', function(d) {
+            d.pic.onSelect()
+          })
           .append('path')
           .attr('d', hexbin.hexagon())
 
-        anchor.attr('transform', function(d) { return 'translate('+d+')' })
+        anchor.attr('transform', function(d) {
+          return 'translate(' + d + ')'
+        })
       }
 
       function mousemoved() {
         var m = d3.mouse(this)
 
         desiredFocus = [
-          Math.round((m[0] - innerWidth / 2) / depth) * depth + innerWidth / 2,
-          Math.round((m[1] - height / 2) / depth) * depth + height / 2
+            Math.round((m[0] - innerWidth / 2) / depth) * depth + innerWidth / 2,
+            Math.round((m[1] - height / 2) / depth) * depth + height / 2
         ]
 
         moved()
@@ -146,22 +150,23 @@ angular.module('app').directive('mHexagon',
         var hexagons
           , hexagonsCount = parseInt(attrs['hexagonsCount']) || 100
           , key = attrs['pictures']
-          , galleryUrl = routes.gallery(key)
 
         d3.select($window)
           .on('resize', function() {
             if (hexagons && hexagons.length) resized(hexagons)
           })
 
-        Pictures.get(key).then(function(pics) {
-          if (pics && pics.length) {
-            var initialHexagons = _.map(pics, function(pic) {
+        scope.$watch('photos', function(photos) {
+          if (photos && photos.length) {
+            var initialHexagons = _.map(photos, function(photo) {
               return {
                 id: function() {
-                  return this._id || (this._id = seq())
+                  return this._id || (this._id = sequence())
                 },
-                image_src: pic.image_url_square,
-                image_url: '#'+galleryUrl(pic.id)
+                image_src: photo.image_url_square,
+                onSelect: function() {
+                  scope.onSelect({selected: photo})
+                }
               }
             })
 
@@ -179,5 +184,4 @@ angular.module('app').directive('mHexagon',
       }
     }
   }
-
-}])
+})

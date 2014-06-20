@@ -1,31 +1,34 @@
 = javascript_include_tag 'moments'
 
-m-gallery
-
 .moments-container[ng-controller='MomentsCtrl as mc']
-  - if can?(:create, Moment)
-    input.moment[
-      ng-if='!newMoment._edit'
-      type='text' placeholder='Добавить новую запись'
-      ng-click='newMoment._edit = true'
-    ]
+  m-hexagon[photos='photos' on-select='openGallery(photos, selected)']
 
-    moment-widget[moment='newMoment' on-submit='createMoment()']
+  m-gallery
 
-  ul.moments
-    li[ng-repeat='moment in moments']
-      img.author[ng-src='{{moment.author.avatar}}']
-      div.content
-        moment-widget[moment='moment' on-submit='updateMoment(moment)' on-remove='removeMoment(moment)']
+  .moments-feed
+    - if can?(:create, Moment)
+      input.moment[
+        ng-if='!newMoment._edit'
+        type='text' placeholder='Добавить новую запись'
+        ng-click='newMoment._edit = true'
+      ]
 
-        ul.moments
-          li[ng-repeat='sub_moment in moment.sub_moments']
-            img.author[ng-src='{{sub_moment.author.avatar}}']
-            div.content
-              moment-widget[moment='sub_moment' on-submit='updateMoment(sub_moment)' on-remove='removeSubMoment(moment, sub_moment)']
+      moment-widget[moment='newMoment' on-submit='createMoment()']
 
-        a[
-          ng-if='!moment.newMoment._edit && moment.can_create_sub_moment'
-          href='javascript:' ng-click='moment.newMoment._edit = true'
-        ] Добавить подробностей
-        moment-widget[moment='moment.newMoment' on-submit='createSubMoment(moment)']
+    ul.moments
+      li[ng-repeat='moment in moments']
+        img.author[ng-src='{{moment.author.avatar}}']
+        div.content
+          moment-widget[moment='moment' on-submit='updateMoment(moment)' on-remove='removeMoment(moment)']
+
+          ul.moments
+            li[ng-repeat='sub_moment in moment.sub_moments']
+              img.author[ng-src='{{sub_moment.author.avatar}}']
+              div.content
+                moment-widget[moment='sub_moment' on-submit='updateMoment(sub_moment)' on-remove='removeSubMoment(moment, sub_moment)']
+
+          a[
+            ng-if='!moment.newMoment._edit && moment.can_create_sub_moment'
+            href='javascript:' ng-click='moment.newMoment._edit = true'
+          ] Добавить подробностей
+          moment-widget[moment='moment.newMoment' on-submit='createSubMoment(moment)']

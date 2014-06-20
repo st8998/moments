@@ -1,7 +1,12 @@
 class PhotosController < ApplicationController
+  expose :photos
   expose :photo
 
   PERMITTED_ATTRIBUTES = [:image, :description]
+
+  def index
+    render json: photos
+  end
 
   def create
     authorize!(:create, Photo)
