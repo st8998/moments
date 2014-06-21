@@ -5,7 +5,7 @@ class PhotosController < ApplicationController
   PERMITTED_ATTRIBUTES = [:image, :description]
 
   def index
-    render json: photos.order(:date.desc)
+    render json: photos.where.not(moment_id: nil).order(:date.desc)
   end
 
   def create

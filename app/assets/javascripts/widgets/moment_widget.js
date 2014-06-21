@@ -9,8 +9,6 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
       onRemove: '&'
     },
     link: function(scope, elem, attrs) {
-      var moment = scope.moment
-
       scope.api = api
 
       // pick gallery methods from root scope
@@ -18,25 +16,25 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
 
       _.extend(scope, {
         open: function() {
-          moment._edit = true
+          scope.moment._edit = true
         },
         close: function() {
-          delete moment._edit
-          delete moment._location
+          delete scope.moment._edit
+          delete scope.moment._location
         },
 
         applyPlace: function(place) {
-          moment.place = place
-          delete moment._location
+          scope.moment.place = place
+          delete scope.moment._location
         },
 
         addPhoto: function(attrs) {
-          moment.photos.push(attrs)
-          if (!moment.date) moment.date = attrs.date
+          scope.moment.photos.push(attrs)
+          if (!scope.moment.date) scope.moment.date = attrs.date
         },
         removePhoto: function(photo) {
           $http.delete(api('/photos/', photo.id))
-          _.remove(moment.photos, {id: photo.id})
+          _.remove(scope.moment.photos, {id: photo.id})
         },
 
         submit: function() {
