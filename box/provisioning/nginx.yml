@@ -5,5 +5,5 @@
   notify: restart nginx
 
 - name: Remove nginx default
-  command: rm /etc/nginx/sites-available/default
+  command: rm /etc/nginx/sites-available/default removes=/etc/nginx/sites-available/default
   notify: restart nginx

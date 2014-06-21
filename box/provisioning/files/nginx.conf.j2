@@ -8,6 +8,8 @@ server {
   gzip on;
   listen 80;
 
+  client_max_body_size 10m;
+
   gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json;                                                                      
   root /var/www/moments/current/public;
 

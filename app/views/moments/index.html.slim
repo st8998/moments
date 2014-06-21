@@ -37,7 +37,7 @@
                 moment-widget[moment='sub_moment' on-submit='updateMoment(sub_moment)' on-remove='removeSubMoment(moment, sub_moment)']
 
           a[
-            ng-if='!moment.newMoment._edit && moment.can_create_sub_moment'
+            ng-if='!moment._edit && !moment.newMoment._edit && moment.can_create_sub_moment'
             href='javascript:' ng-click='moment.newMoment._edit = true'
           ] Добавить подробностей
           moment-widget[moment='moment.newMoment' on-submit='createSubMoment(moment)']
