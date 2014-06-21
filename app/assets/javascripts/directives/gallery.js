@@ -59,12 +59,14 @@ angular.module('app').directive('mGallery', function($rootScope) {
 
       $rootScope.closeGallery = function() {
         if (!closed) {
-          fotorama.destroy()
           elem.addClass('hidden')
+          $body.removeClass('gallery-mode')
+
+          fotorama.destroy()
           fotoramaContainer.removeData('fotorama')
           fotoramaContainer.off('fotorama:show')
           fotoramaContainer.off('fotorama:fullscreenexit')
-          $body.removeClass('gallery-mode')
+
           $body.off('.fotorama')
           closed = true
           fotorama = undefined
