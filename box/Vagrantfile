@@ -18,18 +18,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  ocean_ip = '188.226.255.234'
+
+  config.vm.define 'ocean_initial' do |config|
+    config.vm.box = 'dummy'
+
+    config.vm.provider :managed do |managed, override|
+      managed.server = ocean_ip
+      override.ssh.username = 'root'
+      override.ssh.private_key_path = '/Users/loki/.ssh/id_rsa'
+    end
+
+    config.vm.provision 'ansible' do |ansible|
+      ansible.playbook = 'provisioning/playbook.yml'
+      ansible.tags = 'deployer'
+    end
+  end
+
   config.vm.define 'ocean' do |config|
     config.vm.box = 'dummy'
 
     config.vm.provider :managed do |managed, override|
-      managed.server = '188.226.164.42'
+      managed.server = ocean_ip
       override.ssh.username = 'deploy'
       override.ssh.private_key_path = '/Users/loki/.ssh/id_rsa'
     end
 
     config.vm.provision 'ansible' do |ansible|
       ansible.playbook = 'provisioning/playbook.yml'
-      ansible.tags = 'nginx'
       ansible.skip_tags = 'deployer'
     end
   end

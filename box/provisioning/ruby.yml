@@ -2,8 +2,11 @@
 - apt_repository: repo='ppa:brightbox/ruby-ng'
 - apt: pkg=ruby2.1
 - apt: pkg=ruby2.1-dev
-- apt: pkg=ruby-switch
-- shell: ruby-switch --set ruby2.1
-  register: command_result
-  changed_when: "'update-alternatives' in command_result.stdout"
+
+- name: Set ruby altrenative to 2.1
+  alternatives: name=ruby path=/usr/bin/ruby2.1
+
+- name: Set gem altrenative to
+  alternatives: name=gem path=/usr/bin/gem2.1
+
 - gem: name=bundler state=present user_install=no
