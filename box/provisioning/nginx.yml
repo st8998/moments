@@ -3,3 +3,7 @@
 
 - template: src=files/nginx.conf.j2 dest=/etc/nginx/sites-available/unicorn
   notify: restart nginx
+
+- name: Remove nginx default
+  command: rm /etc/nginx/sites-available/default
+  notify: restart nginx
