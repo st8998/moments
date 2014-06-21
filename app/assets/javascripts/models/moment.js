@@ -38,7 +38,8 @@ angular.module('app').factory('Moment', function(sequence, Place) {
 
   Moment.prototype.attributes = function() {
     var attrs = _.pick(this, 'id', 'description', 'photos', 'date', 'parent_id')
-    attrs.place = this.place.attributes()
+    if (this.place)
+      attrs.place = this.place.attributes()
 
     return attrs
   }
