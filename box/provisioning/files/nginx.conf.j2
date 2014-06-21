@@ -1,5 +1,5 @@
 upstream {{application}} {
-  server unix:///var/www/shared/tmp/sockets/unicorn.sock;
+  server unix:///var/www/moments/shared/tmp/sockets/unicorn.sock;
 }
 
 proxy_cache_path /var/www/cache levels=2:2 keys_zone=dragonfly:200m inactive=365d max_size=10g;
@@ -9,7 +9,7 @@ server {
   listen 80;
 
   gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/json;                                                                      
-  root /var/www/current/public;
+  root /var/www/moments/current/public;
 
   location / {
     proxy_pass http://{{application}}; # match the name of upstream directive which is defined above

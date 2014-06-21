@@ -1,9 +1,9 @@
 worker_processes 1
 
-working_directory '/var/www/current'
+working_directory '/var/www/moments/current'
 
-listen '/var/www/current/tmp/sockets/unicorn.sock'
-pid '/var/www/current/tmp/pids/unicorn.pid'
+listen '/var/www/moments/shared/tmp/sockets/unicorn.sock'
+pid '/var/www/moments/shared/tmp/pids/unicorn.pid'
 
 # stderr_path 'log/unicorn.log'
 # stdout_path 'log/unicorn.log'

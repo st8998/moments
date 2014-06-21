@@ -1,4 +1,4 @@
-chdir /var/www/current
+chdir /var/www/moments/current
 setuid {{ansible_ssh_user}}
 respawn
 exec bundle exec unicorn -c unicorn.rb -E {{rails_env}}

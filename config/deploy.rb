@@ -4,6 +4,8 @@ lock '>=3.1.0'
 set :application, 'moments'
 set :repo_url, 'git@github.com:st8998/moments.git'
 
+set :user, 'deploy'
+
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
@@ -38,8 +40,36 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/assets public/sys
 set :bower_flags, '--quiet'
 set :bower_roles, :all
 
-namespace :deploy do
+namespace :assets do
+  desc 'Precompile assets locally and then rsync to web servers'
+  task :precompile do
+    on roles(:web) do
+      rsync_host = host.to_s # this needs to be done outside run_locally in order for host to exist
+      run_locally do
+        with rails_env: fetch(:stage) do
+          execute :bundle, 'exec rake assets:precompile'
+        end
+        execute "rsync -av -e ssh --delete ./public/assets/ #{fetch(:user)}@#{rsync_host}:#{shared_path}/public/assets/"
+        execute "rm -rf public/assets"
+        # execute "rm -rf tmp/cache/assets" # in case you are not seeing changes
+      end
+    end
+  end
+end
 
+namespace :db do
+  task :seed do
+    on roles(:web) do
+      within release_path do
+        with rails_env: fetch(:stage) do
+          execute :rake, "db:seed"
+        end
+      end
+    end
+  end
+end
+
+namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:all), in: :sequence, wait: 5 do
@@ -49,5 +79,6 @@ namespace :deploy do
     end
   end
 
+  after :updated, 'assets:precompile'
   after :publishing, :restart
 end
