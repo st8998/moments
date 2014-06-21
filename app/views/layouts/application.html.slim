@@ -24,10 +24,6 @@ head
 
   = csrf_meta_tags
 
-  = javascript_include_tag 'http://use.typekit.com/ymr2mun.js'
-  javascript:
-    try{Typekit.load();}catch(e){}
-
   meta[name='akey' content='#{current_account.try(:key)}']
 
 body[ng-app='app']
