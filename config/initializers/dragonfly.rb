@@ -11,6 +11,11 @@ end
 
 # Configure
 Dragonfly.app.configure do
+
+  if Rails.env.production?
+    url_host 'http://d1b9r9h4o1t0v2.cloudfront.net'
+  end
+
   plugin :imagemagick
 
   protect_from_dos_attacks true
