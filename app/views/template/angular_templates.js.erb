@@ -1,0 +1,7 @@
+angular.module('templates', []).run(function($templateCache) {
+  <% Dir.chdir(Rails.root.join('app/assets/javascripts')) do %>
+    <% Dir['**/*.html.slim'].each do |path| %>
+      $templateCache.put('/template/<%= path.sub('.slim', '') %>', '<%= render(template: "/../assets/javascripts/#{path}") %>');
+    <% end %>
+  <% end %>
+})

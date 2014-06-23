@@ -17,4 +17,10 @@ module ApplicationHelper
     end
   end
 
+  def angular_template(id)
+    content_tag('script', type: 'text/ng-template', id: id) do
+      render(template: id.sub(/^\/template/, '/../assets/javascripts'))
+    end
+  end
+
 end

@@ -6,6 +6,7 @@ Moments::Application.routes.draw do
   get :logout, to: 'sessions#destroy'
 
   get '/template/*path', to: 'templates#template'
+  get '/templates/angular_templates', to: 'templates#angular_templates'
 
   scope path: '/:account_key' do
     get '/', to: 'moments#index', as: :account_root

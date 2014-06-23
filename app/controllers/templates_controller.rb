@@ -1,9 +1,17 @@
 class TemplatesController < ApplicationController
   skip_before_filter :ensure_account
 
+  respond_to :js, :html
+
   prepend_view_path Rails.root.join('app/assets/javascripts')
 
   layout false
+
+  def angular_templates
+    expires_in 365.day, public: true
+
+    render 'template/angular_templates'
+  end
 
   def template
     if request.format == :html
