@@ -1,4 +1,5 @@
 //= require_self
+//= require map_style
 //= require_tree ./react
 //= require_tree ./directives
 //= require_tree ./services

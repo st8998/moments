@@ -59,28 +59,31 @@
       border: none
 
   .control-panel
+    @include panel-border
     border: none
     position: absolute
-    left: 405px
+    left: 24em
     top: 9px
 
     button
-      color: #888
-      &:focus
-        outline: 0
-      &:active, &.active
-        -webkit-box-shadow: none
-        box-shadow: none
-        border-color: #ccc
-      &:hover
-        color: #555
+      @include m-button($base2)
+      .icon
+        fill: $base03
+      padding: 0.3em 0.6em
+      &:last-child
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+      &:first-child
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
 
   .address
+    @include panel-border
     background-color: #fff
     position: absolute
     top: 37px
     left: 1px
-    width: 339px
+    width: 20em
     z-index: 101
 
     .address-minimized
@@ -116,11 +119,12 @@
       bottom: -35px
       right: 0
       button
+        @include m-button($blue)
+        padding: 0.3em 0.6em
         float: right
         margin-left: 5px
         background-color: none
-        -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 4px 15px -5px rgba(0,0,0,0.0)!important
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 4px 15px -5px rgba(0,0,0,0.0)!important
+        @include panel-border
 
     .form-control.name
       font-size: 2em
@@ -150,9 +154,26 @@
         color: #555
 
   .address-lookup
-    width: 380px
+    @include panel-border
+    //width: 22.2em
     z-index: 100
     position: absolute
+    pading: 0
+    line-height: 1em
+    button
+      @include m-button($blue)
+      padding: 0.3em 0.6em
+      .icon
+        height: 1em
+      border-top-left-radius: 0
+      border-bottom-left-radius: 0
+
+    input
+      width: 20.1em
+      padding: 0.3em 0.4em
+      margin: 0
+
+
 
   .suggestions
     position: relative

@@ -18,9 +18,9 @@
             label[for='place-#{component}']= label
             input[type='text' ng-model='place.#{component}']
 
-        .apply-address-buttons
-          button[ng-click='onApply({place: place})'] Удовлетвориться
-          button[ng-click='onCancel({place: place})'] Да ну нах
+      .apply-address-buttons
+        button[ng-click='onApply({place: place})'] Удовлетвориться
+        button[ng-click='onCancel({place: place})'] Закрыть
 
   .control-panel
     button[ng-class='{active: mode=="move"}' ng-click='mode="move"']= icon(:move)

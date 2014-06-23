@@ -1,4 +1,4 @@
-angular.module('app').factory('Place', function(settings) {
+angular.module('app').factory('Place', function(MAP_SETTINGS) {
   /**
    * @class Place
    * @property {Number} lat - latitude
@@ -29,7 +29,7 @@ angular.module('app').factory('Place', function(settings) {
    */
   Place.prototype.imageUrl = function(props) {
     var defaultProps = {
-      key: settings.map.key,
+      key: MAP_SETTINGS.key,
       size: '350x150',
       scale: 1,
       zoom: this.zoomLevel() - 1,
@@ -103,7 +103,7 @@ angular.module('app').factory('Place', function(settings) {
     var smallestComponent =
       _.find(['street_number','route','locality','administrative_area_level_1','country'], function(c) {return !!this[c]}, this)
 
-    return settings.map.typeToZoom[smallestComponent]
+    return MAP_SETTINGS.typeToZoom[smallestComponent]
   }
 
   /**

@@ -4,6 +4,8 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   this.api = api
 
+  $scope.place = new Place({name: 'SOME'})
+
   $scope.newMoment = new Moment()
 
   $http.get(api('photos')).success(function(data) {

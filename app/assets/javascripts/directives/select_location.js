@@ -1,4 +1,4 @@
-angular.module('app').directive('mSelectLocation', function(settings, Place) {
+angular.module('app').directive('mSelectLocation', function(MAP_SETTINGS, Place) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/select_location.html',
@@ -10,14 +10,7 @@ angular.module('app').directive('mSelectLocation', function(settings, Place) {
       scope.mode = 'move'
       scope.minimized = true
 
-      var map = new google.maps.Map(elem.find('.map').get(0), {
-        zoom: 12,
-        mapTypeControl: false,
-        panControl: false,
-        zoomControl: false,
-        streetViewControl: false,
-        center: settings.map.defaultCenter
-      })
+      var map = new google.maps.Map(elem.find('.map').get(0), MAP_SETTINGS.defaults)
 
       var marker = new google.maps.Marker({map: map, draggable: true})
 
