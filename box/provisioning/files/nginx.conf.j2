@@ -20,8 +20,8 @@ server {
   }
 
   location /media {
-    proxy_cache dragonfly;
-    proxy_cache_use_stale updating;
+#    proxy_cache dragonfly;
+#    proxy_cache_use_stale updating;
 
     proxy_pass http://{{application}};
   }
