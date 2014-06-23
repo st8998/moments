@@ -8,9 +8,11 @@ class TemplatesController < ApplicationController
   layout false
 
   def angular_templates
-    expires_in 365.day, public: true
+    if stale?(last_modified: Rails.root.mtime)
+      expires_in 365.day, public: true
 
-    render 'template/angular_templates'
+      render 'template/angular_templates'
+    end
   end
 
   def template

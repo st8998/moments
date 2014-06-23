@@ -12,9 +12,7 @@ end
 # Configure
 Dragonfly.app.configure do
 
-  if Rails.env.production?
-    url_host 'http://d1b9r9h4o1t0v2.cloudfront.net'
-  end
+  url_host Rails.application.config.action_controller.asset_host
 
   plugin :imagemagick
 
