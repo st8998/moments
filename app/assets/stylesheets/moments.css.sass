@@ -118,25 +118,21 @@ ul.moments
     .icon
       height: 0.8em
 
-ul.photos
-  @include clearfix
-  width: 100.5%
-  margin: 0
-  li
-    position: relative
-    float: left
-    margin-right: 3px
-    padding: 0
-    width: 32.7%
-    img
-      width: 100%
-  button.remove
-    line-height: 0
-    padding: 2px
-    margin: 2px
-    position: absolute
-    top: 0
-    right: 0
-    border: none
-    background: $base2
+.photo-line-component
+  ul
+    @include clearfix
+    margin: 0
+    button.remove
+      line-height: 0
+      padding: 2px
+      margin: 2px
+      position: absolute
+      top: 0
+      right: 0
+      border: none
+      background: $base2
+
+    li:last-child
+      button.remove
+        margin-right: 5px
 

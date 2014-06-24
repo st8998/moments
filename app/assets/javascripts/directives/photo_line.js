@@ -3,8 +3,8 @@ angular.module('app').directive('mTransclude', function() {
     restrict: 'A',
     link: function($scope, $element, $attrs, controller, $transclude) {
       $transclude($scope, function(clone) {
-        $element.empty();
-        $element.append(clone);
+        $element.empty()
+        $element.append(clone)
       });
     }
   }
@@ -20,18 +20,18 @@ angular.module('app').directive('mTransclude', function() {
     templateUrl: '/template/directives/photo_line.html',
 
     link: function(scope, elem, attrs, ctrl, $transclude) {
-      var maxHeight = 350, enhanceRation = 0.7
+      var maxHeight = 350, enhanceRatioHeight = 0.9, enhanceRatioWidth = 0.6
 
       attrs.$observe('maxHeight', function(height) {
-        maxHeight = parseInt(height)
+        maxHeight = parseInt(height) || 350
       })
 
-      attrs.$observe('enhanceRation', function(ration) {
-        enhanceRation = parseFloat(ration)
+      attrs.$observe('enhanceRatioHeight', function(ratio) {
+        enhanceRatioHeight = parseFloat(ratio) || 0.9
       })
 
-      $transclude(scope, function(clone) {
-        elem.append(clone)
+      attrs.$observe('enhanceRatioWidth', function(ratio) {
+        enhanceRatioWidth = parseFloat(ratio) || 0.6
       })
 
       // convert raw attrs to Photo objects
@@ -44,12 +44,19 @@ angular.module('app').directive('mTransclude', function() {
           }
         })
 
+        console.log({
+                    maxWidth: elem.width(),
+                    maxHeight: maxHeight,
+                    enhanceRatioWidth: enhanceRatioWidth,
+                    enhanceRatioHeight: enhanceRatioHeight
+                  })
+
         if (scope.photos.length) {
           scope.dimensions = Photo.layoutPhotos(scope.photos, {
             maxWidth: elem.width(),
             maxHeight: maxHeight,
-            enhanceRatioWidth: enhanceRation,
-            enhanceRatioHeight: enhanceRation
+            enhanceRatioWidth: enhanceRatioWidth,
+            enhanceRatioHeight: enhanceRatioHeight
           })
         }
       })
