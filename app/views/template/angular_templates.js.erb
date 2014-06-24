@@ -1,7 +1,9 @@
 angular.module('templates', []).run(function($templateCache) {
-  <% Dir.chdir(Rails.root.join('app/assets/javascripts')) do %>
-    <% Dir['**/*.html.slim'].each do |path| %>
-      $templateCache.put('/template/<%= path.sub('.slim', '') %>', '<%= escape_javascript(render(template: "/../assets/javascripts/#{path}")) %>');
+  <% if !Rails.env.development? %>
+    <% Dir.chdir(Rails.root.join('app/assets/javascripts')) do %>
+      <% Dir['**/*.html.slim'].each do |path| %>
+        $templateCache.put('/template/<%= path.sub('.slim', '') %>', '<%= escape_javascript(render(template: "/../assets/javascripts/#{path}")) %>');
+      <% end %>
     <% end %>
   <% end %>
 })

@@ -1,0 +1,27 @@
+.photo-line-component
+  overflow: hidden
+  position: relative
+  ul
+    margin: 0
+    padding: 0
+    position: relative
+
+  li
+    position: absolute
+    transition-property: height, width, left, top
+    transition-duration: 0.3s
+    overflow: hidden
+
+    float: left
+    display: inline-block
+
+    list-style: none
+    margin: 0
+
+    img
+      position: relative
+      transition-property: height, width
+      transition-duration: 0.3s
+
+    &:last-child
+      margin-right: 0

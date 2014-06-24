@@ -12,9 +12,12 @@
       = icon(:location)
       | {{moment.place.name || moment.place.primaryLine().join(', ')}}
     p {{moment.description}}
-    ul.photos
-      li[ng-repeat='photo in moment.photos']
-        img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.galleryPhotos(), photo)']
+    m-photo-line[photos='moment.photos' enhance-ration='0.6' max-height='{{moment.parent_id ? 200 : 350}}']
+      img[
+        ng-style='{{photo.getImageStyle()}}'
+        ng-src='{{photo.getUrl()}}'
+        ng-click='openGallery(moment.galleryPhotos(), photo)'
+      ]
 
   .moment-edit[ng-if='moment._edit && moment.can_update' m-closeable='close()']
     m-select-location[ng-if='moment._location' place='moment.place' on-apply='applyPlace(place)' on-cancel='moment._location=false']
@@ -35,10 +38,10 @@
 
         .upload-hover-hint Бросайте смелее
         .upload-drag-hint Тащите свои фоточки сюда
-        ul.photos
-          li[ng-repeat='photo in moment.photos']
-            img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.photos, photo)']
-            button.remove[ng-click='removePhoto(photo)']= icon(:cross)
+
+        m-photo-line[photos='moment.photos']
+          img[ng-src='{{photo.image_url_square}}' ng-click='openGallery(moment.photos, photo)']
+          button.remove[ng-click='removePhoto(photo)']= icon(:cross)
 
         button[ng-if='!moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Добавить
 

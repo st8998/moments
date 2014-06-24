@@ -12,8 +12,6 @@ class ApplicationSerializer < ActiveModel::Serializer
     end
   end
 
-  SERIALIZER_MTIME = 12
-
   def cache_key
     [scope.user, Ability::MTIME, object, self.class::SERIALIZER_MTIME]
   end
