@@ -44,13 +44,6 @@ angular.module('app').directive('mTransclude', function() {
           }
         })
 
-        console.log({
-                    maxWidth: elem.width(),
-                    maxHeight: maxHeight,
-                    enhanceRatioWidth: enhanceRatioWidth,
-                    enhanceRatioHeight: enhanceRatioHeight
-                  })
-
         if (scope.photos.length) {
           scope.dimensions = Photo.layoutPhotos(scope.photos, {
             maxWidth: elem.width(),
