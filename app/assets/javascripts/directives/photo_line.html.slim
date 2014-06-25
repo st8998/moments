@@ -1,3 +1,3 @@
 .photo-line-component
-  ul[ng-style='dimensions']
-    li[ng-style='photo.getContainerStyle()' ng-repeat='photo in photos track by photo.id' m-transclude]
+  ul[ng-style='dimensions' ng-if='photos.length']
+    li[ng-style='photo.getContainerStyle()' ng-repeat='photo in photos' m-transclude]
