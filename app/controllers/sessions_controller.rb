@@ -12,8 +12,7 @@ class SessionsController < ApplicationController
 
     if user && user.password_hash == BCrypt::Engine.hash_secret(user_attrs[:password], user.password_salt)
       cookies.permanent.signed[:id] = user.id
-      cookies.permanent[:akey] = user.account.key
-      redirect_back_or(root_path, notice: 'Success')
+      redirect_back_or(account_root_path(user.account.key), notice: 'Success')
     else
       redirect_to :back, alert: 'You shall not pass!'
     end

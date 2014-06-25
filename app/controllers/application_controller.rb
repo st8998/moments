@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :ensure_account
 
+  skip_before_filter :ensure_account, only: :root
+
   hide_action :current_user, :current_account
   helper_method :current_user, :current_account
 

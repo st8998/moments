@@ -1,3 +1,23 @@
+vovka_account = Account.find_or_create_by(key: 'vovka')
+
+# base users
+User.find_or_create_by(name: 'Владимир Данченков') do |model|
+  model.password = '12345678'
+
+  model.email = 'vovka'
+  model.account = vovka_account
+end
+
+yana_account = Account.find_or_create_by(key: 'yana')
+
+# base users
+User.find_or_create_by(name: 'Яна Клинк') do |model|
+  model.password = '12345678'
+
+  model.email = 'yana'
+  model.account = yana_account
+end
+
 # st8998 account
 account = Account.find_or_create_by(key: 'st8998')
 
@@ -5,7 +25,7 @@ account = Account.find_or_create_by(key: 'st8998')
 User.find_or_create_by(name: 'Иван Ефремов') do |model|
   model.password = 'joppadriller'
 
-  model.email = 'ivan@moments.com'
+  model.email = 'ivan'
   model.account = account
   model.avatar = File.open(Rails.root.join('db/data/userpic.jpg'))
 end
@@ -13,7 +33,7 @@ end
 User.find_or_create_by(name: 'Ольга Ефремова') do |model|
   model.password = 'joppadriller'
 
-  model.email = 'olga@moments.com'
+  model.email = 'olga'
   model.account = account
   model.avatar = File.open(Rails.root.join('db/data/olga_userpic.jpg'))
 end
