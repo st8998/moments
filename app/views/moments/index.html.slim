@@ -1,7 +1,7 @@
 = javascript_include_tag 'moments'
 
 .moments-container[ng-controller='MomentsCtrl as mc']
-  m-hexagon[photos='photos' on-select='openGallery(photos, selected)']
+  m-hexagon[photo_set='all' on-select='openGallery("all", selected)']
 
   m-gallery
 

@@ -1,4 +1,4 @@
-angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequence) {
+angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequence, PhotoSet) {
   return {
     restrict: 'E',
 
@@ -157,7 +157,7 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
             if (hexagons && hexagons.length) resized(hexagons)
           })
 
-        scope.$watch('photos', function(photos) {
+        function renderHexagons(photos) {
           if (photos && photos.length) {
             var initialHexagons = _.map(photos, function(photo) {
               return {
@@ -181,6 +181,13 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
 
             resized(hexagons)
           }
+        }
+
+        scope.$watch('photos', renderHexagons)
+
+        attrs.$observe('photoSet', function(key) {
+          if (key)
+            PhotoSet.get(key).then(renderHexagons)
         })
       }
     }

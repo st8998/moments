@@ -15,11 +15,13 @@ class PhotosController < ApplicationController
   end
 
   def update
+    authorize!(:update, Photo)
     photo.save
     render json: photo
   end
 
   def destroy
+    authorize!(:delete, Photo)
     photo.destroy
     render nothing: true
   end

@@ -13,7 +13,10 @@ Moments::Application.routes.draw do
 
     scope defaults: {format: :json} do
       resources :moments
-      resources :photos
+      resources :photos, only: [:create, :update, :destroy]
+
+      # photo set
+      get '/photo_set/*key', to: 'photo_sets#photos'
     end
   end
 end

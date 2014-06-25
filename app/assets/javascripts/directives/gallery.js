@@ -1,4 +1,4 @@
-angular.module('app').directive('mGallery', function($rootScope) {
+angular.module('app').directive('mGallery', function($rootScope, PhotoSet) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/gallery.html',
@@ -10,7 +10,7 @@ angular.module('app').directive('mGallery', function($rootScope) {
         , closed = true
         , fotoramaContainer = elem.find('.fotorama-container')
 
-      $rootScope.openGallery = function(photos, photo) {
+      function open(photos, photo) {
         closed = false
         elem.removeClass('hidden')
         $body.addClass('gallery-mode')
@@ -55,6 +55,16 @@ angular.module('app').directive('mGallery', function($rootScope) {
           if (e.which == 27 && !cancelExit) scope.closeGallery()
           cancelExit = false
         })
+      }
+
+      $rootScope.openGallery = function(photos, photo) {
+        if (_.isString(photos)) {
+          PhotoSet.get(photos).then(function(photos) {
+            open(photos, photo)
+          })
+        } else {
+          open(photos, photo)
+        }
       }
 
       $rootScope.closeGallery = function() {
