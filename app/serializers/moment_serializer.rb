@@ -21,16 +21,6 @@ class MomentSerializer < ApplicationSerializer
     super
   end
 
-  def photo_set
-    if object.parent_id.nil?
-      object.sub_moments.reduce(object.photos) do |photos, moment|
-        photos + moment.photos
-      end
-    else
-      []
-    end
-  end
-
   def sub_moments
     object.parent_id.nil? ? object.sub_moments : []
   end

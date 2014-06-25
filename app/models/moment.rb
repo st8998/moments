@@ -16,4 +16,14 @@ class Moment < ActiveRecord::Base
       class_name: 'Moment', foreign_key: :parent_id, dependent: :destroy
 
   scope :root, -> { where(parent_id: nil) }
+
+  def photo_set
+    if parent_id.nil?
+      sub_moments.reduce(photos) do |photos, moment|
+        photos + moment.photos
+      end
+    else
+      photos
+    end
+  end
 end

@@ -16,7 +16,7 @@
       img[
         ng-style='{{photo.getImageStyle()}}'
         ng-src='{{photo.getUrl()}}'
-        ng-click='openGallery(moment.galleryPhotos(), photo)'
+        ng-click='openGallery("moment/"+moment.id, photo)'
       ]
 
   .moment-edit[ng-if='moment._edit && moment.can_update' m-closeable='close()']
