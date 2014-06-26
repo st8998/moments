@@ -23,7 +23,7 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet, route
           maxheight: '1024px',
           height: '100%',
           width: '100%',
-          nav: false,
+          nav: photos.length < 15 ? 'thumbs' : false,
           fit: 'scaledown',
           allowfullscreen: 'native',
           click: true,
@@ -34,6 +34,7 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet, route
           startindex: startPhotoId ? _.findIndex(photos, {id: startPhotoId}) : 0,
           data: _.map(photos, function(photo) {
             return {
+              thumb: photo.image_url_64,
               img: photo.image_url_1024,
               full: photo.image_url_original,
               photo: photo,

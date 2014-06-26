@@ -10,6 +10,7 @@ class PhotoSerializer < ActiveModel::Serializer
   def attributes
     super.tap do |attrs|
       if object.image
+        attrs[:image_url_64] = object.image.thumb('64x64#').convert('-sharpen 0x.75').url
         attrs[:image_url_square] = object.image.thumb('200x200#').convert('-sharpen 0x.75').url
         attrs[:image_url_256] = object.image.thumb('256x256>').convert('-sharpen 0x.75').url
         attrs[:image_url_512] = object.image.thumb('512x512>').convert('-sharpen 0x.75').url
