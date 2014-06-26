@@ -16,7 +16,7 @@
           m-closeable='updatePhoto()' m-autofocus]
 
       p[m-formatted-date='{{photo.date}}']
-      p {{photo.exposure_time}} sec at f / {{photo.aperture_value}}, ISO {{photo.iso}}, {{photo.focal_length}}mm
+      p {{photo | shootingSettings}}
 
       div.place[ng-if='photo.place']
         div[ng-bind-html='photo.place | placeToHtml']

@@ -1,11 +1,11 @@
 angular.module('app').constant('MAP_SETTINGS', {
   key: 'AIzaSyA6t72tJ8MY1E6HkWTe0GqrpXnegDYCEf4',
   typeToZoom: {
-    country: 5,
-    administrative_area_level_1: 8,
-    locality: 11,
+    country: 7,
+    administrative_area_level_1: 10,
+    locality: 12,
     route: 15,
-    street_number: 18
+    street_number: 17
   },
   defaults: {
     zoom: 12,

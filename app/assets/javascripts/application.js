@@ -14,17 +14,6 @@ if (typeof Function.stopPropagation === 'undefined')
 App = angular.module('app', ['templates', 'pasvaz.bindonce', 'ajoslin.promise-tracker'])
 
 App.constant('settings', {
-  map: {
-    key: 'AIzaSyA6t72tJ8MY1E6HkWTe0GqrpXnegDYCEf4',
-    typeToZoom: {
-      country: 5,
-      administrative_area_level_1: 8,
-      locality: 11,
-      route: 15,
-      street_number: 18
-    },
-    defaultCenter: new google.maps.LatLng(53.21651837219011, 50.15031337738037)
-  }
 })
 
 moment.lang('ru')

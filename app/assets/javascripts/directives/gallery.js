@@ -1,4 +1,25 @@
-angular.module('app').filter('placeToHtml', function(Place, $sce) {
+angular.module('app').filter('shootingSettings', function() {
+  return function(attrs) {
+    var out = []
+
+    if (attrs.exposure_time) {
+      var sec = attrs.exposure_time + ' sec'
+      if (attrs.aperture_value) {
+        sec += ' at f / '+ attrs.aperture_value
+      }
+      out.push(sec)
+    } else if (attrs.aperture_value) {
+      out.push('f / '+ attrs.aperture_value)
+    }
+
+    if (attrs.iso)
+      out.push('ISO ' + attrs.iso)
+    if (attrs.focal_length)
+      out.push(attrs.focal_length+'mm')
+
+    return out.join(', ')
+  }
+}).filter('placeToHtml', function(Place, $sce) {
   return function(attrs) {
     var place = attrs.constructor === Place ? attrs : new Place(attrs)
     var out = ''
