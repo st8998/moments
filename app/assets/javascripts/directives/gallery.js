@@ -19,11 +19,13 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet, route
         elem.removeClass('hidden')
         $body.addClass('gallery-mode')
 
+        var navigation = photos.length < 30 ? 'thumbs' : false
+
         fotorama = fotoramaContainer.fotorama({
           maxheight: '1024px',
           height: '100%',
           width: '100%',
-          nav: photos.length < 15 ? 'thumbs' : false,
+          nav: navigation,
           fit: 'scaledown',
           allowfullscreen: 'native',
           click: true,
@@ -57,6 +59,16 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet, route
         fotoramaContainer.on('fotorama:fullscreenexit', function() {
           cancelExit = true
         })
+
+        if (navigation) {
+          fotoramaContainer.on('fotorama:fullscreenenter fotorama:fullscreenexit', function (e, fotorama) {
+            if (e.type === 'fotorama:fullscreenenter') {
+              fotorama.setOptions({nav: false});
+            } else {
+              fotorama.setOptions({nav: navigation});
+            }
+          })
+        }
 
         $body.on('keyup.fotorama', function(e) {
           if (e.which == 27 && !cancelExit) scope.closeGallery()
