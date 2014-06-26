@@ -4,6 +4,16 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   this.api = api
 
+  var hashMatch
+  if (hashMatch = window.location.hash.match(/photos\/([\w/]+)\/(\d+)$/)) {
+    var galleryWatcher = $scope.$watch('openGallery', function(openGallery) {
+      if (openGallery) {
+        openGallery(hashMatch[1], parseInt(hashMatch[2]))
+        galleryWatcher() // clear gallery watcher
+      }
+    })
+  }
+
   $scope.place = new Place({name: 'SOME'})
 
   $scope.newMoment = new Moment()

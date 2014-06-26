@@ -1,16 +1,20 @@
-angular.module('app').directive('mGallery', function($rootScope, PhotoSet) {
+angular.module('app').directive('mGallery', function($rootScope, PhotoSet, routes) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/gallery.html',
     replace: true,
     scope: true,
     link: function(scope, elem, attrs) {
+      routes.register('gallery', function(key, photo_id) {
+        return '/photos/' + key + '/' + photo_id
+      })
+
       var fotorama
         , $body = $('body')
         , closed = true
         , fotoramaContainer = elem.find('.fotorama-container')
 
-      function open(photos, photo) {
+      function open(photos, startPhotoId, key) {
         closed = false
         elem.removeClass('hidden')
         $body.addClass('gallery-mode')
@@ -26,17 +30,19 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet) {
           swipe: true,
           arrows: true,
           keyboard: true,
-          startindex: photo ? _.findIndex(photos, {id: photo.id}) : 0,
+          hash: !!key,
+          startindex: startPhotoId ? _.findIndex(photos, {id: startPhotoId}) : 0,
           data: _.map(photos, function(photo) {
             return {
               img: photo.image_url_1024,
               full: photo.image_url_original,
-              photo: photo
+              photo: photo,
+              id: routes.gallery(key, photo.id)
             }
           })
         }).data('fotorama')
 
-        scope.photo = photo ? photo : photos[0]
+        scope.photo = fotorama.activeFrame.photo
 
         fotoramaContainer.on('fotorama:show', function(e, fotorama) {
           if (scope.photo != fotorama.activeFrame.photo) {
@@ -57,13 +63,16 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet) {
         })
       }
 
-      $rootScope.openGallery = function(photos, photo) {
-        if (_.isString(photos)) {
-          PhotoSet.get(photos).then(function(photos) {
-            open(photos, photo)
+      $rootScope.openGallery = function(keyOrPhotos, photo) {
+        var startPhotoId = _.isNumber(photo) ? photo : photo.id
+
+        if (_.isString(keyOrPhotos)) {
+          PhotoSet.get(keyOrPhotos).then(function(photos) {
+            open(photos, startPhotoId, keyOrPhotos)
+            window.location.hash = routes.gallery(keyOrPhotos, startPhotoId)
           })
         } else {
-          open(photos, photo)
+          open(keyOrPhotos, startPhotoId)
         }
       }
 
@@ -77,6 +86,7 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet) {
           fotoramaContainer.off('fotorama:show')
           fotoramaContainer.off('fotorama:fullscreenexit')
 
+          window.location.hash = '/'
           $body.off('.fotorama')
           closed = true
           fotorama = undefined
