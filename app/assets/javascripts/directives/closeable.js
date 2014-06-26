@@ -20,10 +20,10 @@ angular.module('app').directive('mCloseable', function() {
         })
       }, 0)
 
-      elem.on('change.mCloseable', function() {
-        $(document).off('click', close)
-        elem.off('.mCloseable')
-      })
+//      elem.on('change.mCloseable', function() {
+//        $(document).off('click', close)
+//        elem.off('.mCloseable')
+//      })
 
       elem.on('$destroy', function() {
         $(document).off('click', close)

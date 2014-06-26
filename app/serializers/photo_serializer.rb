@@ -3,6 +3,9 @@ class PhotoSerializer < ActiveModel::Serializer
 
   attributes(:id, :description, :width, :height, :date)
 
+  # technical info
+  attributes(:exposure_time, :aperture_value, :iso, :focal_length)
+
   def date
     object.date.strftime('%d/%m/%Y %H:%M') if object.date
   end

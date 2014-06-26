@@ -1,4 +1,4 @@
-angular.module('app').directive('mGallery', function($rootScope, PhotoSet, routes) {
+angular.module('app').directive('mGallery', function($http, api, $rootScope, PhotoSet, routes) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/gallery.html',
@@ -104,6 +104,11 @@ angular.module('app').directive('mGallery', function($rootScope, PhotoSet, route
           closed = true
           fotorama = undefined
         }
+      }
+
+      scope.updatePhoto = function() {
+        delete scope.photo._edit
+        $http.put(api('photos', scope.photo.id), {photo: _.pick(scope.photo, 'description')})
       }
 
       elem.on('$destroy', function() {

@@ -1,4 +1,7 @@
 .gallery-component
+  @include rebase($base03,$base02,$base01,$base00,$base0,$base1,$base2,$base3)
+
+.gallery-component
   .container
     @include outer-container
     @include row(table)
@@ -20,6 +23,19 @@
     position: relative
     max-width: 320px
     vertical-align: top
+    padding: 1em
+    padding-top: 2em
+    p
+      margin: 1em 0
+    textarea
+      margin: 1em 0 0 0
+      resize: none
+      width: 100%
+    .placeholder
+      font-style: italic
+      color: darken($base00, 5%)
+    .description
+      cursor: pointer
 
 .gallery-component
   &.hidden
@@ -30,7 +46,7 @@
   left: 0
   top: 0
   z-index: 1001
-  background-color: rgba(0, 0, 0, .9)
+  background-color: rgba($base03, .9)
 
   .gallery-close
     position: absolute
@@ -41,10 +57,10 @@
     background-color: transparent
 
   .fotorama-container
-    background-color: #000
+    background-color: $base03
 
   .controls-container
-    background-color: $base3
+    background-color: $base03
 
 
 body.gallery-mode
