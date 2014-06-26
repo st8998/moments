@@ -4,8 +4,9 @@ module MiniTest::Assertions
 
     validated = trafaret.call(data)
 
-    msg = message(msg) { "Hash doesn't conform validation rules: \n #{validated} \n Original hash: \n #{data}" }
-    assert_kind_of(Hash, validated, msg)
+    msg = message(msg) { "Input doesn't conform validation rules: \n #{validations} \n Original hash: \n #{data}" }
+
+    refute_kind_of(Trafaret::Error, validated, msg)
   end
 
   def assert_api_response(validations, msg = nil)

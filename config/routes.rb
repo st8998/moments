@@ -16,7 +16,10 @@ Moments::Application.routes.draw do
       resources :photos, only: [:create, :update, :destroy]
 
       # photo set
-      get '/photo_set/*key', to: 'photo_sets#photos'
+      resources :photo_sets, only: [] do
+        get '*key', action: :photos, on: :collection
+      end
+
     end
   end
 end

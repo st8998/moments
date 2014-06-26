@@ -11,7 +11,7 @@ angular.module('app').factory('PhotoSet', function($http, $cacheFactory, api, $q
       if (cache.get(key)) {
         return cache.get(key)
       } else {
-        var promise = $http.get(api('photo_set', key)).then(getData)
+        var promise = $http.get(api('photo_sets', key)).then(getData)
 
         var deferred = $q.defer()
         promise.then(function(pics) {
