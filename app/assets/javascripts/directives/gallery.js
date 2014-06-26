@@ -1,4 +1,16 @@
-angular.module('app').directive('mGallery', function($http, api, $rootScope, PhotoSet, routes) {
+angular.module('app').filter('placeToHtml', function(Place, $sce) {
+  return function(attrs) {
+    var place = attrs.constructor === Place ? attrs : new Place(attrs)
+    var out = ''
+
+    if (place.name)
+      out += '<span class="name">'+place.name+'</span>'
+    out += '<span class="primary-line">'+place.primaryLine()+'</span>'
+    out += '<span class="secondary-line">'+place.secondaryLine()+'</span>'
+
+    return $sce.trustAsHtml(out)
+  }
+}).directive('mGallery', function($http, api, $rootScope, PhotoSet, routes) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/gallery.html',

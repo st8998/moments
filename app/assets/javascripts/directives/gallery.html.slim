@@ -4,14 +4,20 @@
     .controls-container
       a.gallery-close[ng-click='closeGallery()']= icon(:cross)
 
-      p.description[ng-if='!photo._edit' ng-click='photo._edit=true']
-        span[ng-if='photo.description.length'] {{photo.description}}
-        span.placeholder[ng-if='!photo.description.length'] добавить описание
+      p.description[ng-if='!photo.can_update'] {{photo.description}}
 
-      textarea[ng-if='photo._edit' rows='1'
-        ng-model='photo.description'
-        m-closeable='updatePhoto()' m-autofocus]
+      div[ng-if='photo.can_update']
+        p.description[ng-if='!photo._edit' ng-click='photo._edit=true']
+          span[ng-if='photo.description.length'] {{photo.description}}
+          span.placeholder[ng-if='!photo.description.length'] добавить описание
+
+        textarea[ng-if='photo._edit' rows='1'
+          ng-model='photo.description'
+          m-closeable='updatePhoto()' m-autofocus]
 
       p[m-formatted-date='{{photo.date}}']
       p {{photo.exposure_time}} sec at f / {{photo.aperture_value}}, ISO {{photo.iso}}, {{photo.focal_length}}mm
 
+      div.place[ng-if='photo.place']
+        div[ng-bind-html='photo.place | placeToHtml']
+        img.map[ng-src='{{photo.place | mGoogleMapImage:{size:"275x200"} }}']

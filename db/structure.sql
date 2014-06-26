@@ -175,7 +175,9 @@ CREATE TABLE photos (
     iso integer,
     focal_length integer,
     moment_id integer,
-    date timestamp without time zone
+    date timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -421,4 +423,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140608154517');
 INSERT INTO schema_migrations (version) VALUES ('20140612163256');
 
 INSERT INTO schema_migrations (version) VALUES ('20140620213841');
+
+INSERT INTO schema_migrations (version) VALUES ('20140626185918');
 

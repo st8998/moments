@@ -145,4 +145,3 @@ angular.module('app').factory('Place', function(MAP_SETTINGS) {
 
   return Place
 })
-

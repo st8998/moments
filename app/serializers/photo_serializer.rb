@@ -1,10 +1,18 @@
-class PhotoSerializer < ActiveModel::Serializer
+class PhotoSerializer < ApplicationSerializer
   cached
 
   attributes(:id, :description, :width, :height, :date)
 
   # technical info
   attributes(:exposure_time, :aperture_value, :iso, :focal_length)
+
+  security_attributes :update, :delete
+
+  has_one :place
+
+  def place
+    object.moment.try(:place)
+  end
 
   def date
     object.date.strftime('%d/%m/%Y %H:%M') if object.date
