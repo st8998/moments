@@ -1,6 +1,5 @@
 class Moment < ActiveRecord::Base
   extend EnhancedNestedAttributes
-  include Elastic::Exportable
 
   belongs_to :account
 
@@ -28,16 +27,26 @@ class Moment < ActiveRecord::Base
     end
   end
 
-  def elastic_export
-    hash = {
-      id: id,
-      description: description,
-      date: date
-    }
+  include Elasticsearch::Model
 
-    hash[:author] = { name: author.name } if author
-    hash[:place] = { name: place.name, country: place.country } if place
-
-    hash
+  settings do
+    mappings dynamic: 'false' do
+      indexes :description
+      indexes :date, type: 'date'
+      indexes :author do
+        indexes :name
+      end
+      indexes :place do
+        indexes :name
+        indexes :country
+      end
+    end
   end
+
+  def as_indexed_json(options={})
+    self.as_json(
+      include: [:place, :author]
+      )
+  end
+
 end

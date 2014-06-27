@@ -61,6 +61,18 @@ GEM
     eel (1.0.3)
       activerecord (>= 3.1)
       activesupport (>= 3.1)
+    elasticsearch (1.0.4)
+      elasticsearch-api (= 1.0.4)
+      elasticsearch-transport (= 1.0.4)
+    elasticsearch-api (1.0.4)
+      multi_json
+    elasticsearch-model (0.1.4)
+      activesupport (> 3)
+      elasticsearch (> 0.4)
+      hashie
+    elasticsearch-transport (1.0.4)
+      faraday
+      multi_json
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.2.0)
@@ -70,9 +82,12 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     fotoramajs (4.5.0)
       sprockets (>= 2)
     hash_validator (0.3.0)
+    hashie (3.1.0)
     hike (1.2.3)
     i18n (0.6.9)
     jquery-rails (3.1.0)
@@ -89,6 +104,7 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.10.1)
+    multipart-post (2.0.0)
     neat (1.5.1)
       bourbon (>= 3.1)
       sass (~> 3.2.19)
@@ -212,6 +228,7 @@ DEPENDENCIES
   decent_exposure
   dragonfly
   eel
+  elasticsearch-model
   exifr
   factory_girl_rails
   fotoramajs
