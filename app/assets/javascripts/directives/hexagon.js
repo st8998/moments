@@ -164,7 +164,7 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
                 id: function() {
                   return this._id || (this._id = sequence())
                 },
-                image_src: photo.image_url_square,
+                image_src: photo.image_url_200,
                 onSelect: function() {
                   scope.onSelect({selected: photo})
                 }
