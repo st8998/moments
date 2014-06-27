@@ -1,5 +1,6 @@
 class Moment < ActiveRecord::Base
   extend EnhancedNestedAttributes
+  include Elastic::Exportable
 
   belongs_to :account
 
@@ -25,5 +26,23 @@ class Moment < ActiveRecord::Base
     else
       photos
     end
+  end
+
+  def elastic_export
+    hash = {
+      id: id,
+      description: description,
+      date: date
+    }
+
+    if author
+      hash[:author] = { name: author.name }
+    end
+
+    if place
+      hash[:place] = { name: place.name, country: place.country }
+    end
+
+    hash
   end
 end
