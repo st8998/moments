@@ -75,10 +75,6 @@ angular.module('app').directive('mDropzone', function(progressJs, sequence, $tim
           }
         }
       })
-
-      elem.on('$destroy', function() {
-        comp.fileupload('destroy')
-      })
     }
   }
 })

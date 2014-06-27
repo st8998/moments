@@ -15,7 +15,7 @@
 
         textarea[ng-if='photo._edit' rows='1'
           ng-model='photo.description'
-          m-closeable='updatePhoto()' m-autofocus]
+          m-closeable='updatePhoto()' m-autofocus m-autosize]
 
       p[m-formatted-date='{{photo.date}}']
       p {{photo | shootingSettings}}

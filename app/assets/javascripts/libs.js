@@ -22,3 +22,5 @@
 //= require progress.js.js
 //= require moment
 //= require moment/lang/ru
+
+//= require jquery-autosize
