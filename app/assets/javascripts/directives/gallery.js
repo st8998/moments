@@ -146,6 +146,10 @@ angular.module('app').filter('shootingSettings', function() {
         $http.put(api('photos', scope.photo.id), {photo: _.pick(scope.photo, 'description')})
       }
 
+      scope.position = function() {
+        return (fotorama.activeIndex+1) + ' / ' + fotorama.size
+      }
+
       elem.on('$destroy', function() {
         if (fotorama) fotorama.destroy()
         fotoramaContainer.off('fotorama:showend')
