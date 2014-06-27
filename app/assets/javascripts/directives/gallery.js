@@ -5,19 +5,25 @@ angular.module('app').filter('shootingSettings', function() {
     var out = []
 
     if (attrs.exposure_time) {
-      var sec = attrs.exposure_time + ' sec'
+      var exposure_time = attrs.exposure_time.split('/')
+
+      var sec = exposure_time[0]
+      if (exposure_time[0] == '1')
+        sec += '/' + exposure_time[1]
+      sec += ' sec'
+
       if (attrs.aperture_value) {
-        sec += ' at f / '+ attrs.aperture_value
+        sec += ' at f / ' + attrs.aperture_value
       }
       out.push(sec)
     } else if (attrs.aperture_value) {
-      out.push('f / '+ attrs.aperture_value)
+      out.push('f / ' + attrs.aperture_value)
     }
 
     if (attrs.iso)
       out.push('ISO ' + attrs.iso)
     if (attrs.focal_length)
-      out.push(attrs.focal_length+'mm')
+      out.push(attrs.focal_length + 'mm')
 
     return out.join(', ')
   }
@@ -27,9 +33,9 @@ angular.module('app').filter('shootingSettings', function() {
     var out = ''
 
     if (place.name)
-      out += '<span class="name">'+place.name+'</span>'
-    out += '<span class="primary-line">'+place.primaryLine()+'</span>'
-    out += '<span class="secondary-line">'+place.secondaryLine()+'</span>'
+      out += '<span class="name">' + place.name + '</span>'
+    out += '<span class="primary-line">' + place.primaryLine() + '</span>'
+    out += '<span class="secondary-line">' + place.secondaryLine() + '</span>'
 
     return $sce.trustAsHtml(out)
   }
@@ -96,7 +102,7 @@ angular.module('app').filter('shootingSettings', function() {
         })
 
         if (navigation) {
-          fotoramaContainer.on('fotorama:fullscreenenter fotorama:fullscreenexit', function (e, fotorama) {
+          fotoramaContainer.on('fotorama:fullscreenenter fotorama:fullscreenexit', function(e, fotorama) {
             if (e.type === 'fotorama:fullscreenenter') {
               fotorama.setOptions({nav: false});
             } else {
@@ -154,7 +160,7 @@ angular.module('app').filter('shootingSettings', function() {
       scope.position = function() {
         if (!fotorama) return
 
-        return (fotorama.activeIndex+1) + ' / ' + fotorama.size
+        return (fotorama.activeIndex + 1) + ' / ' + fotorama.size
       }
 
       elem.on('$destroy', function() {
