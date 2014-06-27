@@ -8,7 +8,8 @@ class Moment < ActiveRecord::Base
   belongs_to :place
   accepts_nested_attributes_for :place, allow_destroy: true
 
-  has_many :photos, dependent: :destroy
+  has_many :photos, -> { order(:date.desc) },
+      dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
 
   belongs_to :parent, class_name: 'Moment', touch: true
