@@ -6,14 +6,10 @@
     "hint.css": "latest",
     "jasmine": "latest",
     "moment": "latest",
-
     "jquery": "latest",
-
     "react-source": "http://fb.me/react-with-addons-0.8.0.js",
-
     "d3": "latest",
     "d3-hexbin": "https://raw2.github.com/d3/d3-plugins/master/hexbin/hexbin.js",
-
     "lodash": "latest",
     "marked": "https://raw.github.com/chjj/marked/master/lib/marked.js",
     "cookies-js": "https://raw.github.com/ScottHamper/Cookies/master/src/cookies.js",
@@ -23,16 +19,16 @@
     "angular-resource": "latest",
     "angular-bindonce": "latest",
     "angular-promise-tracker": "latest",
-
     "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js",
     "iscroll": "latest",
-
     "jquery.ui.core": "https://raw2.github.com/jquery/jquery-ui/master/ui/core.js",
     "jquery.ui.mouse": "https://raw2.github.com/jquery/jquery-ui/master/ui/mouse.js",
     "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/widget.js",
     "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/draggable.js",
     "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/droppable.js",
-
     "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/React.addons.tagHelper.js"
+  },
+  "resolutions": {
+    "angular": "1.3.0-beta.13"
   }
 }
