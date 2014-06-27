@@ -19,7 +19,7 @@
         ng-click='openGallery("moment/"+moment.id, photo)'
       ]
 
-  .moment-edit[ng-if='moment._edit && moment.can_update' m-closeable='close()']
+  .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()']
     m-select-location[ng-if='moment._location' place='moment.place' on-apply='applyPlace(place)' on-cancel='moment._location=false']
 
     m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]' ng-class='{hidden: moment._location}']
@@ -27,7 +27,8 @@
 
         .upload-hint= icon(:camera)
 
-        textarea[ng-model='moment.description' rows='3' m-autofocus]
+        textarea[ng-model='moment.description' ng-model-options='{updateOn: "blur $destroy"}'
+          m-autosize m-autofocus rows='3']
         .info
           label[for='{{moment.uid}}-date'] Когда:
           input.date<[id='{{moment.uid}}-date' type='text' ng-model='moment.date']
