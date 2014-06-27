@@ -1,5 +1,7 @@
 angular.module('app').filter('shootingSettings', function() {
   return function(attrs) {
+    if (!attrs) return
+
     var out = []
 
     if (attrs.exposure_time) {
