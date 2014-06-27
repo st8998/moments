@@ -8,6 +8,11 @@ class PhotosController < ApplicationController
     render json: photos.where.not(moment_id: nil).order(:date.desc)
   end
 
+  def increase_views_count
+    photo.increment_with_sql!(:views_count)
+    render nothing: true
+  end
+
   def create
     authorize!(:create, Photo)
     photo.save
@@ -15,13 +20,13 @@ class PhotosController < ApplicationController
   end
 
   def update
-    authorize!(:update, Photo)
+    authorize!(:update, photo)
     photo.save
     render json: photo
   end
 
   def destroy
-    authorize!(:delete, Photo)
+    authorize!(:delete, photo)
     photo.destroy
     render nothing: true
   end

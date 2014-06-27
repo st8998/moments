@@ -13,7 +13,9 @@ Moments::Application.routes.draw do
 
     scope defaults: {format: :json} do
       resources :moments
-      resources :photos, only: [:create, :update, :destroy]
+      resources :photos, only: [:create, :update, :destroy] do
+        post :increase_views_count, on: :member
+      end
 
       # photo set
       resources :photo_sets, only: [] do

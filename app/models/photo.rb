@@ -1,4 +1,6 @@
 class Photo < ActiveRecord::Base
+  include IncrementWithSql
+
   extend Dragonfly::Model
   dragonfly_accessor :image
 

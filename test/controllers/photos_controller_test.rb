@@ -6,6 +6,15 @@ class PhotosControllerTest < ActionController::TestCase
     sign_in_as(:ivan)
   end
 
+  test 'increase views count' do
+    photo = create(:photo)
+    post :increase_views_count, id: photo.id, account_key: accounts(:st8998).key, format: :json
+    post :increase_views_count, id: photo.id, account_key: accounts(:st8998).key, format: :json
+
+    assert_response :success
+    assert_equal 2, photo.reload.views_count
+  end
+
   test 'should upload photo' do
     post :create, photo: {image: data_root.join('ass.jpg').open, description: 'some'}, account_key: accounts(:st8998).key, format: :json
 
