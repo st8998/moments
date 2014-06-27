@@ -105,6 +105,11 @@ angular.module('app').filter('shootingSettings', function() {
           })
         }
 
+        scope.$watch('photo', function(photo) {
+          if (photo)
+            $http.post(api('photos', photo.id, 'increase_views_count'))
+        })
+
         $body.on('keyup.fotorama', function(e) {
           if (e.which == 27 && !cancelExit) scope.closeGallery()
           cancelExit = false
@@ -147,6 +152,8 @@ angular.module('app').filter('shootingSettings', function() {
       }
 
       scope.position = function() {
+        if (!fotorama) return
+
         return (fotorama.activeIndex+1) + ' / ' + fotorama.size
       }
 

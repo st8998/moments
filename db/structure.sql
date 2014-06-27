@@ -177,7 +177,8 @@ CREATE TABLE photos (
     moment_id integer,
     date timestamp without time zone,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    views_count integer DEFAULT 0
 );
 
 
@@ -425,4 +426,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140612163256');
 INSERT INTO schema_migrations (version) VALUES ('20140620213841');
 
 INSERT INTO schema_migrations (version) VALUES ('20140626185918');
+
+INSERT INTO schema_migrations (version) VALUES ('20140627200114');
 
