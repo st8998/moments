@@ -4,6 +4,8 @@
     .controls-container
       a.gallery-close[ng-click='closeGallery()']= icon(:cross)
 
+      p.position {{position()}}
+
       p.description[ng-if='!photo.can_update'] {{photo.description}}
 
       div[ng-if='photo.can_update']

@@ -150,7 +150,6 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
 
         var hexagons
           , hexagonsCount = parseInt(attrs['hexagonsCount']) || 100
-          , key = attrs['pictures']
 
         d3.select($window)
           .on('resize', function() {
