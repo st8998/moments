@@ -35,13 +35,8 @@ class Moment < ActiveRecord::Base
       date: date
     }
 
-    if author
-      hash[:author] = { name: author.name }
-    end
-
-    if place
-      hash[:place] = { name: place.name, country: place.country }
-    end
+    hash[:author] = { name: author.name } if author
+    hash[:place] = { name: place.name, country: place.country } if place
 
     hash
   end

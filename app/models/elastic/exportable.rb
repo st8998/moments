@@ -14,7 +14,7 @@ module Elastic::Exportable
       repr = @target.elastic_export
       params = ActiveSupport::JSON.encode repr
 
-      uri = URI("http://localhost:9200/moments/moment/" + repr[:id].to_s)
+      uri = URI("http://localhost:9200/moments/moment/#{repr[:id]}")
       Net::HTTP.start(uri.host, uri.port) do |http|
         request = Net::HTTP::Put.new uri
         request.body = params
