@@ -11,8 +11,13 @@ module Elastic::Exportable
     end
 
     def run
-      repr = @target.elastic_export
-      params = ActiveSupport::JSON.encode repr
+      repr = nil
+      params = nil
+      
+      ActiveRecord::Base.connection_pool.with_connection do
+        repr = @target.elastic_export
+        params = ActiveSupport::JSON.encode repr
+      end
 
       uri = URI("http://localhost:9200/moments/moment/#{repr[:id]}")
       Net::HTTP.start(uri.host, uri.port) do |http|
