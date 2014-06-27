@@ -23,7 +23,6 @@ angular.module('app').directive('mScroll', function() {
 
       elem.on('$destroy', function() {
         iScroll.destroy()
-        console.log('DESTROY SCROLL')
       })
     }
   }

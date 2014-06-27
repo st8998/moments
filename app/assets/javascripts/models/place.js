@@ -103,8 +103,6 @@ angular.module('app').factory('Place', function(MAP_SETTINGS) {
     var smallestComponent =
       _.find(['street_number','route','locality','administrative_area_level_1','country'], function(c) {return !!this[c]}, this)
 
-    console.log(MAP_SETTINGS.typeToZoom[smallestComponent])
-
     return MAP_SETTINGS.typeToZoom[smallestComponent]
   }
 
