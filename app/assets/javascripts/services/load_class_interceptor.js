@@ -10,7 +10,26 @@ angular.module('app').factory('loadClassInterceptor', function($q, $injector) {
         if (attrs.class) {
           try {
             $injector.invoke([attrs.class, function(constructor) {
-              loadDefer.resolve(new constructor(attrs))
+              var object = new constructor(attrs)
+
+              var suitableAttrDefers = []
+              _.each(object, function(val, key) {
+                function resolve(objectOrObjects) {
+                  object[key] = objectOrObjects
+                }
+
+                if (_.isPlainObject(val)) {
+                  suitableAttrDefers.push(loadClass(val).then(resolve))
+                }
+
+                if (_.isArray(val)) {
+                  suitableAttrDefers.push($q.all(_.map(val, loadClass)).then(resolve))
+                }
+              })
+
+              $q.all(suitableAttrDefers).then(function() {
+                loadDefer.resolve(object)
+              })
             }])
           } catch(e) {
             loadDefer.resolve(attrs)

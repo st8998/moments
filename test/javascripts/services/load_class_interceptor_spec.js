@@ -81,6 +81,25 @@ describe('loadClassInterceptor', function() {
     $httpBackend.flush()
   })
 
+  it('should load classes from nested objects', function() {
+    $httpBackend.expect('GET', '/test').respond({
+      'class': 'Test',
+      parent: {'class': 'Test', parent: {'class': 'Test2'}},
+      children: [{'class': 'Test'}, {'class': 'Test2'}]
+    })
+    $http.get('/test').success(function(data) {
+      expect(data.parent.constructor).toEqual(Test)
+      expect(data.parent.parent.constructor).toEqual(Test2)
+
+      var constructors = _.map(data.children, function(item) {
+        return item.constructor
+      })
+      expect(constructors).toEqual([Test, Test2])
+    })
+
+    $httpBackend.flush()
+  })
+
   it('should load classes extremely fast', function() {
     var data = []
     for(var i = 0; i < 1000; i++) {
