@@ -3,6 +3,8 @@ class MomentSerializer < ApplicationSerializer
 
   attributes :id, :description, :date, :parent_id
 
+  attribute :class_name
+
   has_one :author
   has_one :place
 

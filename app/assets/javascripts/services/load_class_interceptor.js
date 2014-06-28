@@ -7,9 +7,9 @@ angular.module('app').factory('loadClassInterceptor', function($q, $injector) {
       function loadClass(attrs) {
         var loadDefer = $q.defer()
 
-        if (attrs.class) {
+        if (attrs.class_name) {
           try {
-            $injector.invoke([attrs.class, function(constructor) {
+            $injector.invoke([attrs.class_name, function(constructor) {
               var object = new constructor(attrs)
 
               var suitableAttrDefers = []
@@ -46,12 +46,12 @@ angular.module('app').factory('loadClassInterceptor', function($q, $injector) {
         deferred.resolve(response)
       }
 
-      if (_.isPlainObject(attrs)) {
-        loadClass(attrs).then(resolveResponse)
-      }
-
       if (_.isArray(attrs)) {
         $q.all(_.map(attrs, loadClass)).then(resolveResponse)
+      } else if (_.isPlainObject(attrs)) {
+        loadClass(attrs).then(resolveResponse)
+      } else {
+        deferred.resolve(response)
       }
 
       return deferred.promise

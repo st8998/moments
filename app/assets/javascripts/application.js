@@ -33,3 +33,7 @@ App.run(['$rootScope', 'promiseTracker', 'routes', 'api', function($rootScope, p
   $rootScope.routes = routes
   $rootScope.api = api
 }])
+
+App.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.interceptors.push('loadClassInterceptor')
+}])

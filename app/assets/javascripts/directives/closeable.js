@@ -37,8 +37,6 @@ angular.module('app').directive('mCloseable', function() {
       onClose: '&mSafeCloseable'
     },
     link: function(scope, elem, attrs) {
-      console.log('BOUND')
-
       var cancelClose
 
       function close() {
