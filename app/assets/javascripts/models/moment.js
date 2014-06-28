@@ -4,25 +4,14 @@ angular.module('app').factory('Moment', function(sequence, Place) {
    * @property {String} description
    */
   function Moment(attrs) {
-    this.assignAttributes(_.merge({photos: [], uid: sequence('moment-'), can_update: true}, attrs))
-  }
+    this.assignAttributes(_.merge({
+      photos: [],
+      uid: sequence('moment-'),
+      can_update: true
+    }, attrs))
 
-  Moment.fromJson = function(data) {
-    function buildMoment(attrs) {
-      var moment = new Moment(attrs)
-
-      moment.newMoment = new Moment({parent_id: moment.id})
-
-      moment.sub_moments = moment.sub_moments ?
-        _.map(moment.sub_moments, function(attrs) {return new Moment(_.merge({parent: moment}, attrs))}) : []
-
-      return moment
-    }
-
-    if (_.isArray(data)) {
-      return _.map(data, buildMoment)
-    } else {
-      return buildMoment(data)
+    if (!this.parent_id && !this.newMoment && this.id) {
+      this.newMoment = new Moment({parent_id: this.id})
     }
   }
 

@@ -1,5 +1,9 @@
 class ApplicationSerializer < ActiveModel::Serializer
 
+  def class_name
+    object.class.name
+  end
+
   def self.security_attributes *attrs
     attributes *attrs.map {|attr| :"can_#{attr}"}
 

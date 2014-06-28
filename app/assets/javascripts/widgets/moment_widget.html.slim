@@ -27,7 +27,7 @@
 
         .upload-hint= icon(:camera)
 
-        textarea[ng-model='moment.description' ng-model-options='{updateOn: "blur $destroy"}'
+        textarea[ng-model='moment.description' ng-model-options='{updateOn: "default blur", debounce: {"default": 500, "blur": 0}}'
           m-autosize m-autofocus rows='3']
         .info
           label[for='{{moment.uid}}-date'] Когда:
