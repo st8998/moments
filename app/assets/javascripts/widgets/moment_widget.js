@@ -29,7 +29,11 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
         },
 
         addPhoto: function(attrs) {
-          scope.moment.photos.push(attrs)
+          var photos = scope.moment.photos, last = photos[photos.length-1]
+
+          attrs.position = (last && last.position !== undefined) ? (last.position+1) : 0
+          photos.push(attrs)
+
           if (!scope.moment.date) scope.moment.date = attrs.date
         },
         removePhoto: function(photo) {

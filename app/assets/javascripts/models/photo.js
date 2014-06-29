@@ -21,7 +21,7 @@ angular.module('app').factory('Photo', function(sequence) {
   }
 
   Photo.prototype.attributes = function(key) {
-    return _.pick(this, 'id', 'description', 'width', 'height', 'image_url_small', 'image_url_normal', 'image_url_big')
+    return _.pick(this, 'id', 'description', 'position', 'width', 'height', 'image_url_small', 'image_url_normal', 'image_url_big')
   }
 
   Photo.prototype.assignAttributes = function(attrs) {

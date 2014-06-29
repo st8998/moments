@@ -2,7 +2,7 @@ class PhotosController < ApplicationController
   expose :photos
   expose :photo
 
-  PERMITTED_ATTRIBUTES = [:image, :description]
+  PERMITTED_ATTRIBUTES = [:image, :description, :position]
 
   def index
     render json: photos.where.not(moment_id: nil).order(:date.desc)
