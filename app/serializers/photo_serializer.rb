@@ -1,7 +1,7 @@
 class PhotoSerializer < ApplicationSerializer
   cached
 
-  attributes(:id, :description, :width, :height, :date)
+  attributes(:id, :description, :width, :height, :date, :position)
 
   # technical info
   attributes(:exposure_time, :aperture_value, :iso, :focal_length)
