@@ -41,18 +41,13 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
           _.remove(scope.moment.photos, {id: photo.id})
         },
         movePhoto: function(from, to) {
-          var photos = scope.moment.photos, max, min
+          var photos = scope.moment.photos
 
-          if (from > to) {
-            max = from
-            min = to
-          } else {
-            max = to
-            min = from
-          }
+          if (from < to)
+            to -= 1
 
-          var photo = photos.splice(max, 1)[0]
-          photos.splice(min, 0, photo)
+          var photo = photos.splice(from, 1)[0]
+          photos.splice(to, 0, photo)
 
           _.each(photos, function(photo, index) {
             photo.position = index
