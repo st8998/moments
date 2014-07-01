@@ -26,7 +26,8 @@
     "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/widget.js",
     "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/draggable.js",
     "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/droppable.js",
-    "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/React.addons.tagHelper.js"
+    "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/React.addons.tagHelper.js",
+    "jquery.lazyload": "~1.9.3"
   },
   "resolutions": {
     "angular": "1.3.0-beta.13"

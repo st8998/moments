@@ -24,3 +24,5 @@
 //= require moment/lang/ru
 
 //= require jquery-autosize
+//= require jquery.lazyload/jquery.lazyload
+//= require jquery.lazyload/jquery.scrollstop
