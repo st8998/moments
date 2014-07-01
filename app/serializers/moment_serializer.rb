@@ -1,9 +1,9 @@
 class MomentSerializer < ApplicationSerializer
   cached
 
-  attributes :id, :description, :date, :parent_id
+  auto_init_js_class
 
-  attribute :class_name
+  attributes :id, :description, :date, :parent_id
 
   has_one :author
   has_one :place

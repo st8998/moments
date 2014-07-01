@@ -52,6 +52,8 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
           _.each(photos, function(photo, index) {
             photo.position = index
           })
+
+          scope.$digest()
         },
 
         submit: function() {

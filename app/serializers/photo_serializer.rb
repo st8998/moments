@@ -1,6 +1,8 @@
 class PhotoSerializer < ApplicationSerializer
   cached
 
+  auto_init_js_class
+
   attributes(:id, :description, :width, :height, :date, :position)
 
   # technical info
