@@ -31,7 +31,7 @@
 
           ul.moments
             li[ng-repeat='sub_moment in moment.sub_moments']
-              img.author[m-src='{{sub_moment.author.avatar}}']
+              img.author[ng-src='{{sub_moment.author.avatar}}']
               div.content
                 moment-widget[moment='sub_moment' on-submit='updateMoment(sub_moment)' on-remove='removeSubMoment(moment, sub_moment)']
 
