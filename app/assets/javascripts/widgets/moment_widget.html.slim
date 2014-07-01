@@ -14,9 +14,9 @@
     p {{moment.description}}
     m-photo-line[photos='moment.photos' max-height='{{moment.parent_id ? 200 : 350}}']
       img[
-        ng-style='{{photo.getImageStyle()}}'
+        ng-style='photo.getImageStyle()'
         ng-src='{{photo.getUrl()}}'
-        ng-click='openGallery("moment/"+moment.id, photo)'
+        ng-click='openGallery(moment.galleryKey(), photo)'
       ]
 
   .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()']

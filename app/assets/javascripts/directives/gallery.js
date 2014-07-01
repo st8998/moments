@@ -123,6 +123,8 @@ angular.module('app').filter('shootingSettings', function() {
       }
 
       $rootScope.openGallery = function(keyOrPhotos, photo) {
+        console.log(keyOrPhotos, photo.id)
+
         var startPhotoId = _.isNumber(photo) ? photo : photo.id
 
         if (_.isString(keyOrPhotos)) {

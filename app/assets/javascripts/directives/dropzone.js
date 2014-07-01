@@ -1,4 +1,4 @@
-angular.module('app').directive('mDropzone', function(progressJs, sequence, $timeout) {
+angular.module('app').directive('mDropzone', function(progressJs, sequence, $timeout, $injector) {
   return {
     restrict: 'E',
     transclude: true,
@@ -12,11 +12,12 @@ angular.module('app').directive('mDropzone', function(progressJs, sequence, $tim
       var comp = elem.find('.dropzone-component')
       var fileInput = elem.find('.upload-hint').append('<input class="hidden-file-upload-button" type="file" multiple />')
 
-      ;(function() {
+        ;
+      (function() {
         var target
         $(document).on('dragenter', function(e) {
           var dt = e.originalEvent.dataTransfer;
-          if(dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
+          if (dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
             target = e.target
             comp.addClass('file-page-hover')
           }
@@ -27,11 +28,12 @@ angular.module('app').directive('mDropzone', function(progressJs, sequence, $tim
         })
       }())
 
-      ;(function() {
+      ;
+      (function() {
         var target
         comp.on('dragenter', function(e) {
           var dt = e.originalEvent.dataTransfer;
-          if(dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
+          if (dt.types != null && (dt.types.indexOf ? dt.types.indexOf('Files') != -1 : dt.types.contains('application/x-moz-file'))) {
             target = e.target
             comp.addClass('file-hover')
           }
@@ -57,9 +59,17 @@ angular.module('app').directive('mDropzone', function(progressJs, sequence, $tim
         sequentialUploads: true, // TODO review this option
 
         done: function(e, data) {
-          scope.$apply(function() {
+          if (data.result.class_name) {
+            try {
+              $injector.invoke([data.result.class_name, function(constructor) {
+                scope.onUpload({attrs: new constructor(data.result)})
+              }])
+            } catch (e) {
+              scope.onUpload({attrs: data.result})
+            }
+          } else {
             scope.onUpload({attrs: data.result})
-          })
+          }
         },
         progressall: function(e, data) {
           if (progressComp) {
