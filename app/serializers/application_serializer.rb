@@ -4,6 +4,10 @@ class ApplicationSerializer < ActiveModel::Serializer
     object.class.name
   end
 
+  def self.auto_init_js_class
+    attributes :class_name
+  end
+
   def self.security_attributes *attrs
     attributes *attrs.map {|attr| :"can_#{attr}"}
 

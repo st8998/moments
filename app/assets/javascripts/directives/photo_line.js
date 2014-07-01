@@ -35,14 +35,8 @@ angular.module('app').directive('mTransclude', function() {
       })
 
       // convert raw attrs to Photo objects
-      scope.$parent.$watchCollection(attrs['photos'], function(rawPhotos) {
-        scope.photos = _.map(rawPhotos, function(attrs) {
-          if (attrs.constructor != Photo) {
-            return new Photo(attrs)
-          } else {
-            return attrs
-          }
-        })
+      scope.$parent.$watchCollection(attrs['photos'], function(photos) {
+        scope.photos = photos
 
         if (scope.photos.length) {
           scope.dimensions = Photo.layoutPhotos(scope.photos, {

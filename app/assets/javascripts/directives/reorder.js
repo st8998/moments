@@ -45,9 +45,8 @@ angular.module('app').directive('mReorder', function($parse) {
           to = items.index(this)
 
         if (onReorder) {
-          scope.$apply(function() {
-            onReorder(scope, {from: from, to: to})
-          })
+          root.trigger('change')
+          onReorder(scope, {from: from, to: to})
         }
       })
     }
