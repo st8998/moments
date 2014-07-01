@@ -45,9 +45,7 @@
           m-reorder on-reorder='movePhoto(from, to)'
         ]
           img[ng-style='photo.getImageStyle()' ng-src='{{photo.getUrl()}}' ng-click='openGallery(moment.photos, photo)']
-          button.remove[ng-click='removePhoto(photo)']
-            = icon(:cross)
-            | {{photo.id}}
+          button.remove[ng-click='removePhoto(photo)']= icon(:cross)
 
         button[ng-if='!moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Добавить
 
