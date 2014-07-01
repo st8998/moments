@@ -1,4 +1,4 @@
-angular.module('app').directive('momentWidget', function($http, Moment, Photo, api, $rootScope) {
+angular.module('app').directive('momentWidget', function($http, Moment, Photo, api, $rootScope, $timeout) {
   return {
     restrict: 'E',
     replace: true,
@@ -10,6 +10,10 @@ angular.module('app').directive('momentWidget', function($http, Moment, Photo, a
     },
     link: function(scope, elem, attrs) {
       scope.api = api
+
+      $timeout(function() {
+        elem.find('img.lazy').lazyload({placeholder: ''})
+      }, 200, false)
 
       // pick gallery methods from root scope
       _.extend(scope, _.pick($rootScope, 'openGallery', 'closeGallery'))

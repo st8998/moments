@@ -1,7 +1,7 @@
 = javascript_include_tag 'moments'
 
 .moments-container[ng-controller='MomentsCtrl as mc']
-  m-hexagon[photo_set='top_100' on-select='openGallery("all", selected)']
+  /m-hexagon[photo_set='top_100' on-select='openGallery("all", selected)']
 
   m-gallery
 
@@ -31,7 +31,7 @@
 
           ul.moments
             li[ng-repeat='sub_moment in moment.sub_moments']
-              img.author[ng-src='{{sub_moment.author.avatar}}']
+              img.author[m-src='{{sub_moment.author.avatar}}']
               div.content
                 moment-widget[moment='sub_moment' on-submit='updateMoment(sub_moment)' on-remove='removeSubMoment(moment, sub_moment)']
 
