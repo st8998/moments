@@ -1,4 +1,4 @@
-angular.module('app').directive('momentWidget', function($http, Moment, api, $rootScope) {
+angular.module('app').directive('momentWidget', function($http, Moment, Photo, api, $rootScope) {
   return {
     restrict: 'E',
     replace: true,
@@ -28,13 +28,15 @@ angular.module('app').directive('momentWidget', function($http, Moment, api, $ro
           delete scope.moment._location
         },
 
-        addPhoto: function(attrs) {
+        addPhoto: function(photo) {
           var photos = scope.moment.photos, last = photos[photos.length-1]
 
-          attrs.position = (last && last.position !== undefined) ? (last.position+1) : 0
-          photos.push(attrs)
+          photo.position = (last && last.position !== undefined) ? (last.position+1) : 0
+          photos.push(photo)
 
-          if (!scope.moment.date) scope.moment.date = attrs.date
+          if (!scope.moment.date) scope.moment.date = photo.date
+
+          scope.$digest()
         },
         removePhoto: function(photo) {
           $http.delete(api('/photos/', photo.id))

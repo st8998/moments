@@ -41,6 +41,10 @@ angular.module('app').factory('Moment', function(sequence, Place) {
     }
   }
 
+  Moment.prototype.galleryKey = function() {
+    return 'moment/' + (this.parent_id ? this.parent_id : this.id)
+  }
+
   function groupBy(collection, attr) {
     return _.reduce(collection, function(out, attrs) {
       out[attrs[attr]] = attrs
