@@ -44,7 +44,7 @@
           photos='moment.photos' max-height='{{moment.parent_id ? 200 : 350}}'
           m-reorder on-reorder='movePhoto(from, to)'
         ]
-          img[ng-style='photo.getImageStyle()' m-src='{{photo.getUrl()}}' ng-click='openGallery(moment.photos, photo)']
+          img[ng-style='photo.getImageStyle()' ng-src='{{photo.getUrl()}}' ng-click='openGallery(moment.photos, photo)']
           button.remove[ng-click='removePhoto(photo)']= icon(:cross)
 
         button[ng-if='!moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Добавить
