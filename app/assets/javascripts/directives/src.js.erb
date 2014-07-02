@@ -9,7 +9,7 @@ angular.module('app').directive('mSrc', function() {
         attrs.$set('data-original', value)
       })
 
-      attrs.$set('src', '/assets/image_placeholder.svg')
+      attrs.$set('src', '<%= image_path('image_placeholder.svg') %>')
     }
   }
 })
