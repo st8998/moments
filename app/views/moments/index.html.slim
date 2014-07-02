@@ -40,3 +40,7 @@
             href='javascript:' ng-click='moment.newMoment._edit = true'
           ] Добавить подробностей
           moment-widget[moment='moment.newMoment' on-submit='createSubMoment(moment)']
+    button.load-more[
+      m-activate-on-scroll
+      ng-click='loadMoreMoments()'
+      ng-if='hasMoreMoments && !loadingMoments'] Загрузить еще

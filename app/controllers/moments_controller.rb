@@ -5,7 +5,11 @@ class MomentsController < ApplicationController
   def index
     if request.format.json?
       # render json: moments.root.includes(:photos, :author, sub_moments: [:photos, :author]).order(:date.desc)
-      render json: moments.root.select(:id, :updated_at).order(:date.desc)
+      @moments = moments.root.select(:id, :updated_at).order(:date.desc)
+      @moments = @moments.where(:date.lt Time.parse(params[:from])) if params[:from].present?
+      @moments = @moments.limit(10)
+
+      render json: @moments
     end
   end
 
