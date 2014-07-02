@@ -27,9 +27,11 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   $scope.hasMoreMoments = true
   $scope.loadMoreMoments = function() {
-    var from = $scope.moments[$scope.moments.length-1].date
+    var last = $scope.moments[$scope.moments.length-1]
 
-    $http.get(api('moments'), {params: {from: from}}).success(function(data) {
+    $scope.loadingMoments = true
+    $http.get(api('moments'), {params: {from_date: last.date, from_id: last.id}}).success(function(data) {
+      $scope.loadingMoments = false
       if (data.length) {
         $scope.moments.push.apply($scope.moments, data)
       } else {
