@@ -18,9 +18,25 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   $scope.newMoment = new Moment()
 
+
+  $scope.loadingMoments = true
   $http.get(api('moments')).success(function(data) {
     $scope.moments = data
+    $scope.loadingMoments = false
   })
+
+  $scope.hasMoreMoments = true
+  $scope.loadMoreMoments = function() {
+    var from = $scope.moments[$scope.moments.length-1].date
+
+    $http.get(api('moments'), {params: {from: from}}).success(function(data) {
+      if (data.length) {
+        $scope.moments.push.apply($scope.moments, data)
+      } else {
+        $scope.hasMoreMoments = false
+      }
+    })
+  }
 
   $scope.createMoment = function() {
     if (!$scope.newMoment.date) $scope.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')
