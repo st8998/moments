@@ -35,5 +35,5 @@ App.run(['$rootScope', 'promiseTracker', 'routes', 'api', function($rootScope, p
 }])
 
 App.config(['$httpProvider', function($httpProvider) {
-  $httpProvider.interceptors.push('loadClassInterceptor')
+  $httpProvider.interceptors.push('classInterceptor')
 }])

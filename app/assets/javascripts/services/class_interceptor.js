@@ -1,5 +1,38 @@
-angular.module('app').factory('loadClassInterceptor', function($q, $injector) {
+angular.module('app').factory('classInterceptor', function($q, $injector) {
   return {
+    request: function(config) {
+      function dump(model) {
+        if (model.attributes !== undefined) {
+          var attrs = model.attributes()
+
+          _.each(attrs, function(value, name) {
+            if (_.isArray(value)) {
+              attrs[name] = _.map(value, dump)
+            } else if (_.isObject(value)) {
+              attrs[name] = dump(value)
+            }
+          })
+
+          return attrs
+        } else {
+          return model
+        }
+      }
+
+      if (config.data) {
+        if (config.data.param_name) {
+          var data = {}
+          data[config.data.param_name] = dump(config.data)
+
+          config.data = data
+        } else {
+          config.data = dump(config.data)
+        }
+      }
+
+      return config
+    },
+
     response: function(response) {
       var deferred = $q.defer()
       var attrs = response.data
@@ -31,7 +64,7 @@ angular.module('app').factory('loadClassInterceptor', function($q, $injector) {
                 loadDefer.resolve(object)
               })
             }])
-          } catch(e) {
+          } catch (e) {
             loadDefer.resolve(attrs)
           }
         } else {
