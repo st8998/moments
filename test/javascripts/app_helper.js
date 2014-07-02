@@ -6,5 +6,5 @@ App.constant('cookies', Cookies)
 App.constant('lodash', _)
 
 App.config(['$httpProvider', function($httpProvider) {
-  $httpProvider.interceptors.push('loadClassInterceptor');
+  $httpProvider.interceptors.push('classInterceptor');
 }])

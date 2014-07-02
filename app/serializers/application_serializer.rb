@@ -4,8 +4,12 @@ class ApplicationSerializer < ActiveModel::Serializer
     object.class.name
   end
 
+  def param_name
+    object.class.model_name.param_key
+  end
+
   def self.auto_init_js_class
-    attributes :class_name
+    attributes :class_name, :param_name
   end
 
   def self.security_attributes *attrs

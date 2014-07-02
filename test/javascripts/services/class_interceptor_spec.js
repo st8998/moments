@@ -1,8 +1,12 @@
-describe('loadClassInterceptor', function() {
+describe('classInterceptor', function() {
   var $httpBackend, $http
 
   function Test(attrs) {_.extend(this, attrs) }
   function Test2(attrs) {_.extend(this, attrs) }
+
+  Test.prototype.attributes = function() {
+    return _.pick(this, 'id', 'children', 'parent')
+  }
 
   App.factory('Test', function() {
     return Test
@@ -102,23 +106,59 @@ describe('loadClassInterceptor', function() {
     expect(constructors).toEqual([Test, Test2])
   })
 
-  it('should load classes extremely fast', function() {
-    var data = []
-    for(var i = 0; i < 1000; i++) {
-      data.push({'class_name': 'Test'})
-    }
+//  it('should load classes extremely fast', function() {
+//    var data = []
+//    for(var i = 0; i < 1000; i++) {
+//      data.push({'class_name': 'Test'})
+//    }
+//
+//    $httpBackend.expect('GET', '/test').respond(data)
+//
+//    var start = Date.now()
+//
+//    var data
+//    $http.get('/test').success(function(d) {data = d})
+//
+//    $httpBackend.flush()
+//    var execTime = Date.now() - start
+//    console.log('1000: '+execTime+'ms')
+//    expect(execTime).toBeLessThan(100)
+//  })
 
-    $httpBackend.expect('GET', '/test').respond(data)
+  it('should bypass attributes without param_name', function() {
+    var data = {a: 12, b: 13}
 
-    var start = Date.now()
-
-    var data
-    $http.get('/test').success(function(d) {data = d})
-
+    $httpBackend.expectPOST('/test', {a: 12, b: 13}).respond({})
+    $http.post('/test', data)
     $httpBackend.flush()
-    var execTime = Date.now() - start
-    console.log('1000: '+execTime+'ms')
-    expect(execTime).toBeLessThan(100)
+  })
+
+  it('should dump single level classes without param_name', function() {
+    var data = new Test({id: 12, name: 'some'})
+
+    $httpBackend.expectPOST('/test', {id: 12}).respond({})
+    $http.post('/test', data)
+    $httpBackend.flush()
+  })
+
+  it('should dump single level classes with param_name', function() {
+    var data = new Test({id: 12, name: 'some', param_name: 'test'})
+
+    $httpBackend.expectPOST('/test', {test: {id: 12}}).respond({})
+    $http.post('/test', data)
+    $httpBackend.flush()
+  })
+
+  it('should dump nested classes with param_name', function() {
+    var data = new Test({
+      id: 12, name: 'some', param_name: 'test',
+      parent: new Test({id: 14, name: 'another'}),
+      children: [new Test({id: 13, name: 'some', param_name: 'test'})]
+    })
+
+    $httpBackend.expectPOST('/test', {test: {id: 12, parent: {id: 14}, children: [{id: 13}]}}).respond({})
+    $http.post('/test', data)
+    $httpBackend.flush()
   })
 
 })
