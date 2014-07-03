@@ -29,6 +29,7 @@ class Moment < ActiveRecord::Base
   end
 
   include Elasticsearch::Model
+  include Indexable
 
   settings do
     mappings dynamic: 'false' do
