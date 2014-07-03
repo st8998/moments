@@ -14,6 +14,10 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
     var last, params
 
     $scope.loadingMoments = true
+  $http.get(api('moments')).success(function(data) {
+    $scope.moments = data
+    $scope.loadingMoments = false
+  })
 
     if (last = $scope.moments[$scope.moments.length-1]) {
       params = {from_date: last.date, from_id: last.id}

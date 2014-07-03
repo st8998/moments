@@ -16,7 +16,7 @@
       a[ng-href='{{"#"+routes.gallery(moment.galleryKey(), photo.id)}}']
         img[
           ng-style='photo.getImageStyle()'
-          ng-src='{{photo.getUrl()}}'
+        m-src='{{photo.getUrl()}}'
         ]
 
   .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()']

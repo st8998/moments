@@ -27,4 +27,27 @@ class Moment < ActiveRecord::Base
       photos
     end
   end
+
+  include Elasticsearch::Model
+
+  settings do
+    mappings dynamic: 'false' do
+      indexes :description
+      indexes :date, type: 'date'
+      indexes :author do
+        indexes :name
+      end
+      indexes :place do
+        indexes :name
+        indexes :country
+      end
+    end
+  end
+
+  def as_indexed_json(options={})
+    self.as_json(
+      include: [:place, :author]
+      )
+  end
+
 end

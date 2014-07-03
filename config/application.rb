@@ -31,5 +31,8 @@ module Moments
     ActiveModel::Serializer.root = false
     # Disable for ArraySerializer
     ActiveModel::ArraySerializer.root = false
+
+    # Elastic search config
+    config.elastic_server = 'http://localhost:9200'
   end
 end

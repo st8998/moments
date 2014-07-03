@@ -99,6 +99,8 @@ angular.module('app').directive('mGallery', function($http, $location, api, $roo
       }
 
       $rootScope.openGallery = function(keyOrPhotos, photo) {
+        console.log(keyOrPhotos, photo.id)
+
         var startPhotoId = _.isNumber(photo) ? photo : photo.id
 
         if (_.isString(keyOrPhotos)) {
