@@ -10,10 +10,10 @@ class MomentsController < ApplicationController
       if params[:from_date].present?
         date = DateTime.parse(params[:from_date])
         id = params[:from_id]
-        @moments = @moments.where(:date.lt(date).or(:date.eq(date).and(:id.lt(id))))
+        @moments = @moments.where('(moments.date, moments.id) < (?, ?)', date, id)
       end
 
-      @moments = @moments.limit(5)
+      @moments = @moments.limit(1)
 
       if @moments.empty? || stale?(
           etag: @moments.reduce('') {|memo, m| memo+m.id.to_s+'|'},

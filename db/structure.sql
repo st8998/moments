@@ -392,6 +392,55 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: index_moments_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_moments_on_account_id ON moments USING btree (account_id);
+
+
+--
+-- Name: index_moments_on_date_and_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_moments_on_date_and_id ON moments USING btree (date DESC, id DESC);
+
+
+--
+-- Name: index_moments_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_moments_on_parent_id ON moments USING btree (parent_id);
+
+
+--
+-- Name: index_photos_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_photos_on_account_id ON photos USING btree (account_id);
+
+
+--
+-- Name: index_photos_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_photos_on_date ON photos USING btree (date DESC);
+
+
+--
+-- Name: index_photos_on_moment_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_photos_on_moment_id ON photos USING btree (moment_id);
+
+
+--
+-- Name: index_users_on_account_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_account_id ON users USING btree (account_id);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -431,4 +480,6 @@ INSERT INTO schema_migrations (version) VALUES ('20140626185918');
 INSERT INTO schema_migrations (version) VALUES ('20140627200114');
 
 INSERT INTO schema_migrations (version) VALUES ('20140629183359');
+
+INSERT INTO schema_migrations (version) VALUES ('20140703144509');
 
