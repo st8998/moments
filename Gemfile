@@ -68,8 +68,8 @@ group :development do
   gem 'capistrano-bower', require: false
   gem 'capistrano-bundler', require: false
 
-  gem 'guard', require: false
-  gem 'guard-livereload', require: false
-  gem 'rack-livereload'
-  gem 'rb-fsevent' if `uname` =~ /Darwin/
+  # gem 'guard', require: false
+  # gem 'guard-livereload', require: false
+  # gem 'rack-livereload'
+  # gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
