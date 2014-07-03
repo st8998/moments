@@ -1,22 +1,22 @@
 class Indexer
-    include Celluloid
+  include Celluloid
 
-    def self.client
-      @client ||= Elasticsearch::Client.new host: Rails.application.config.elastic_server
+  def self.client
+    @client ||= Elasticsearch::Client.new host: Rails.application.config.elastic_server
+  end
+
+  def self.process(object, operation)
+    index = object.class.index_name
+    doc_type = object.class.document_type
+
+    case operation
+      when :index
+        self.client.index index: index, type: doc_type, id: object.id, body: object.as_indexed_json
+      when :delete
+        self.client.delete index: index, type: doc_type, id: object.id
+      else raise ArgumentError, 'Uknown operation!'
     end
-
-    def self.process(object, operation)
-      index = object.class.index_name
-      doc_type = object.class.document_type
-
-        case operation.to_s
-          when /index/
-            self.client.index index: index, type: doc_type, id: object.id, body: object.as_indexed_json
-          when /delete/
-            self.client.delete index: index, type: doc_type, id: object.id
-          else raise ArgumentError, 'Uknown operation!'
-        end
-    end
+  end
 end
 
 module Indexable
