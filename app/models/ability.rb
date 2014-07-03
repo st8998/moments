@@ -4,7 +4,7 @@ class Ability
   def initialize(account, user)
     @user = user
 
-    can :read, [Moment, Photo], account_id: account.id
+    can :read, [Moment, Photo, Place], account_id: account.id
 
     if user.present?
       if user.account_id == account.id

@@ -16,6 +16,8 @@ FactoryGirl.define do
 
   factory :user, traits: [:with_account]
 
+  factory :place, traits: [:with_account]
+
   factory :photo, traits: [:with_account]
 
   factory :photo_set, traits: [:with_account]

@@ -17,6 +17,10 @@ Moments::Application.routes.draw do
         post :increase_views_count, on: :member
       end
 
+      resources :places, only: [] do
+        get :search, on: :collection
+      end
+
       # photo set
       resources :photo_sets, only: [] do
         get '*key', action: :photos, on: :collection
