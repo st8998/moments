@@ -8,14 +8,14 @@ class MomentsController < ApplicationController
       @moments = moments.root.select(:id, :updated_at).order(:date.desc, :id.desc)
 
       if params[:from_date].present?
-        date = Time.parse(params[:from_date])
+        date = DateTime.parse(params[:from_date])
         id = params[:from_id]
         @moments = @moments.where(:date.lt(date).or(:date.eq(date).and(:id.lt(id))))
       end
 
       @moments = @moments.limit(5)
 
-      if stale?(
+      if @moments.empty? || stale?(
           etag: @moments.reduce('') {|memo, m| memo+m.id.to_s+'|'},
           last_modified: @moments.max {|a,b| a.updated_at <=> b.updated_at }.updated_at
       )
