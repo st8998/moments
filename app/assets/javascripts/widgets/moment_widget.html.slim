@@ -13,11 +13,11 @@
       | {{moment.place.name || moment.place.primaryLine().join(', ')}}
     p {{moment.description}}
     m-photo-line[photos='moment.photos' max-height='{{moment.parent_id ? 200 : 350}}']
-      img[
-        ng-style='photo.getImageStyle()'
-        m-src='{{photo.getUrl()}}'
-        ng-click='openGallery(moment.galleryKey(), photo)'
-      ]
+      a[ng-href='{{"#"+routes.gallery(moment.galleryKey(), photo.id)}}']
+        img[
+          ng-style='photo.getImageStyle()'
+          ng-src='{{photo.getUrl()}}'
+        ]
 
   .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()']
     m-select-location[ng-if='moment._location' place='moment.place' on-apply='applyPlace(place)' on-cancel='moment._location=false']

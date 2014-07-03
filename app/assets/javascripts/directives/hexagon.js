@@ -1,4 +1,4 @@
-angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequence, PhotoSet) {
+angular.module('app').directive('mHexagon', function(d3, routes, $window, $parse, sequence, PhotoSet) {
   return {
     restrict: 'E',
 
@@ -111,10 +111,7 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
         anchor.exit().remove()
 
         anchor.enter().append('a')
-          .on('click', function(d) {
-            d.pic.onSelect()
-          })
-          .attr('xlink:href', 'javascript:')
+          .attr('xlink:href', function(d) { return d.pic.image_href })
           .append('path')
           .attr('d', hexbin.hexagon())
 
@@ -164,9 +161,7 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
                   return this._id || (this._id = sequence())
                 },
                 image_src: photo.image_url_200,
-                onSelect: function() {
-                  scope.onSelect({selected: photo})
-                }
+                image_href: '#'+routes.gallery(scope.key, photo.id)
               }
             })
 
@@ -182,11 +177,11 @@ angular.module('app').directive('mHexagon', function(d3, $window, $parse, sequen
           }
         }
 
-        scope.$watch('photos', renderHexagons)
-
         attrs.$observe('photoSet', function(key) {
-          if (key)
+          if (key) {
             PhotoSet.get(key).then(renderHexagons)
+            scope.key = key
+          }
         })
       }
     }

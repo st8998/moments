@@ -1,45 +1,4 @@
-angular.module('app').filter('shootingSettings', function() {
-  return function(attrs) {
-    if (!attrs) return
-
-    var out = []
-
-    if (attrs.exposure_time) {
-      var exposure_time = attrs.exposure_time.split('/')
-
-      var sec = exposure_time[0]
-      if (exposure_time[0] == '1')
-        sec += '/' + exposure_time[1]
-      sec += ' sec'
-
-      if (attrs.aperture_value) {
-        sec += ' at f / ' + attrs.aperture_value
-      }
-      out.push(sec)
-    } else if (attrs.aperture_value) {
-      out.push('f / ' + attrs.aperture_value)
-    }
-
-    if (attrs.iso)
-      out.push('ISO ' + attrs.iso)
-    if (attrs.focal_length)
-      out.push(attrs.focal_length + 'mm')
-
-    return out.join(', ')
-  }
-}).filter('placeToHtml', function(Place, $sce) {
-  return function(attrs) {
-    var place = attrs.constructor === Place ? attrs : new Place(attrs)
-    var out = ''
-
-    if (place.name)
-      out += '<span class="name">' + place.name + '</span>'
-    out += '<span class="primary-line">' + place.primaryLine() + '</span>'
-    out += '<span class="secondary-line">' + place.secondaryLine() + '</span>'
-
-    return $sce.trustAsHtml(out)
-  }
-}).directive('mGallery', function($http, api, $rootScope, PhotoSet, routes) {
+angular.module('app').directive('mGallery', function($http, $location, api, $rootScope, PhotoSet, routes) {
   return {
     restrict: 'E',
     templateUrl: '/template/directives/gallery.html',
@@ -54,6 +13,23 @@ angular.module('app').filter('shootingSettings', function() {
         , $body = $('body')
         , closed = true
         , fotoramaContainer = elem.find('.fotorama-container')
+
+      var routeMatcher = /^#\/photos\/(.+)\/(\d+)$/, history
+
+      function onLocationChange() {
+        var match
+        if (closed && (match = document.location.hash.match(routeMatcher))) {
+          $rootScope.openGallery(match[1], parseInt(match[2]))
+        }
+
+        if (!closed && !document.location.hash.match(routeMatcher))
+          close()
+      }
+
+      scope.$on('$locationChangeSuccess', function () {
+        history = true
+        onLocationChange()
+      })
 
       function open(photos, startPhotoId, key) {
         closed = false
@@ -123,8 +99,6 @@ angular.module('app').filter('shootingSettings', function() {
       }
 
       $rootScope.openGallery = function(keyOrPhotos, photo) {
-        console.log(keyOrPhotos, photo.id)
-
         var startPhotoId = _.isNumber(photo) ? photo : photo.id
 
         if (_.isString(keyOrPhotos)) {
@@ -137,22 +111,32 @@ angular.module('app').filter('shootingSettings', function() {
         }
       }
 
+      function close() {
+        elem.addClass('hidden')
+        $body.removeClass('gallery-mode')
+
+        fotorama.destroy()
+        fotoramaContainer.removeData('fotorama')
+        fotoramaContainer.off('fotorama:show')
+        fotoramaContainer.off('fotorama:fullscreenexit')
+        $body.off('.fotorama')
+        closed = true
+        fotorama = undefined
+        history = false
+      }
+
       $rootScope.closeGallery = function() {
         if (!closed) {
-          elem.addClass('hidden')
-          $body.removeClass('gallery-mode')
-
-          fotorama.destroy()
-          fotoramaContainer.removeData('fotorama')
-          fotoramaContainer.off('fotorama:show')
-          fotoramaContainer.off('fotorama:fullscreenexit')
-
-          window.location.hash = '/'
-          $body.off('.fotorama')
-          closed = true
-          fotorama = undefined
+          if (history) {
+            window.history.back()
+          } else {
+            close()
+            document.location.hash = '#/'
+          }
         }
       }
+
+      onLocationChange()
 
       scope.updatePhoto = function() {
         delete scope.photo._edit
@@ -173,3 +157,47 @@ angular.module('app').filter('shootingSettings', function() {
   }
 })
 
+
+
+angular.module('app').filter('shootingSettings', function() {
+   return function(attrs) {
+     if (!attrs) return
+
+     var out = []
+
+     if (attrs.exposure_time) {
+       var exposure_time = attrs.exposure_time.split('/')
+
+       var sec = exposure_time[0]
+       if (exposure_time[0] == '1')
+         sec += '/' + exposure_time[1]
+       sec += ' sec'
+
+       if (attrs.aperture_value) {
+         sec += ' at f / ' + attrs.aperture_value
+       }
+       out.push(sec)
+     } else if (attrs.aperture_value) {
+       out.push('f / ' + attrs.aperture_value)
+     }
+
+     if (attrs.iso)
+       out.push('ISO ' + attrs.iso)
+     if (attrs.focal_length)
+       out.push(attrs.focal_length + 'mm')
+
+     return out.join(', ')
+   }
+ }).filter('placeToHtml', function(Place, $sce) {
+   return function(attrs) {
+     var place = attrs.constructor === Place ? attrs : new Place(attrs)
+     var out = ''
+
+     if (place.name)
+       out += '<span class="name">' + place.name + '</span>'
+     out += '<span class="primary-line">' + place.primaryLine() + '</span>'
+     out += '<span class="secondary-line">' + place.secondaryLine() + '</span>'
+
+     return $sce.trustAsHtml(out)
+   }
+ })

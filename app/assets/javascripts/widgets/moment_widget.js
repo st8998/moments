@@ -9,18 +9,16 @@ angular.module('app').directive('momentWidget', function($http, Moment, Photo, a
       onRemove: '&'
     },
     link: function(scope, elem, attrs) {
-      scope.api = api
-
-      function loadImages() {
-        $timeout(function() {
-          elem.find('img.lazy').lazyload({placeholder: ''})
-        }, 200, false)
-      }
-
-      loadImages()
+//      function loadImages() {
+//        $timeout(function() {
+//          elem.find('img.lazy').lazyload({placeholder: ''})
+//        }, 200, false)
+//      }
+//
+//      loadImages()
 
       // pick gallery methods from root scope
-      _.extend(scope, _.pick($rootScope, 'openGallery', 'closeGallery'))
+      _.extend(scope, _.pick($rootScope, 'openGallery', 'closeGallery', 'routes', 'api'))
 
       _.extend(scope, {
         open: function() {
