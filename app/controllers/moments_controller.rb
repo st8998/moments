@@ -2,6 +2,8 @@ class MomentsController < ApplicationController
   expose :moments
   expose :moment, attributes: :moment_params
 
+  PER_PAGE = 5
+
   def index
     if request.format.json?
       # render json: moments.root.includes(:photos, :author, sub_moments: [:photos, :author]).order(:date.desc)
@@ -13,7 +15,7 @@ class MomentsController < ApplicationController
         @moments = @moments.where('(moments.date, moments.id) < (?, ?)', date, id)
       end
 
-      @moments = @moments.limit(1)
+      @moments = @moments.limit(PER_PAGE)
 
       if @moments.empty? || stale?(
           etag: @moments.reduce('') {|memo, m| memo+m.id.to_s+'|'},

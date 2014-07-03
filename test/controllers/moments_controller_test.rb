@@ -79,4 +79,28 @@ class MomentsControllerTest < ActionController::TestCase
     body = JSON.parse(response.body)
     assert_equal [], body
   end
+
+  test 'moments index pagination' do
+    MomentsController::PER_PAGE = 5
+    date = '11/11/2014 11:11'
+    moments = create_list(:moment, 10, date: date).reverse
+
+    get :index, account_key: accounts(:st8998), format: :json
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_equal 5, body.size
+    assert_equal moments[0..4].map(&:id), body.map {|m| m['id']}
+
+    get :index, from_date: date, from_id: moments[1]['id'], account_key: accounts(:st8998), format: :json
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_equal 5, body.size
+    assert_equal moments[2..6].map(&:id), body.map {|m| m['id']}
+
+    get :index, from_date: date, from_id: moments[3]['id'], account_key: accounts(:st8998), format: :json
+    assert_response :success
+    body = JSON.parse(response.body)
+    assert_equal 5, body.size
+    assert_equal moments[4..8].map(&:id), body.map {|m| m['id']}
+  end
 end
