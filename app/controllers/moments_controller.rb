@@ -6,10 +6,21 @@ class MomentsController < ApplicationController
     if request.format.json?
       # render json: moments.root.includes(:photos, :author, sub_moments: [:photos, :author]).order(:date.desc)
       @moments = moments.root.select(:id, :updated_at).order(:date.desc, :id.desc)
-      @moments = @moments.where(:date.lt(Time.parse(params[:from_date])), :id.lt(params[:from_id])) if params[:from_date].present?
-      @moments = @moments.limit(10)
 
-      render json: @moments
+      if params[:from_date].present?
+        date = Time.parse(params[:from_date])
+        id = params[:from_id]
+        @moments = @moments.where(:date.lt(date).or(:date.eq(date).and(:id.lt(id))))
+      end
+
+      @moments = @moments.limit(5)
+
+      if stale?(
+          etag: @moments.reduce('') {|memo, m| memo+m.id.to_s+'|'},
+          last_modified: @moments.max {|a,b| a.updated_at <=> b.updated_at }.updated_at
+      )
+        render json: @moments
+      end
     end
   end
 

@@ -5,6 +5,7 @@ angular.module('app').factory('Moment', function(sequence, Place) {
    */
   function Moment(attrs) {
     this.assignAttributes(_.merge({
+      param_name: 'moment',
       photos: [],
       uid: sequence('moment-'),
       can_update: true

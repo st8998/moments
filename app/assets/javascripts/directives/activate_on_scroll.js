@@ -11,10 +11,10 @@ angular.module('app').directive('mActivateOnScroll', function() {
         }
       }
 
-      $document.on('scrollstop', scrollListener)
+      $document.on('scroll', scrollListener)
 
       elem.on('$destroy', function() {
-        $document.off('scrollstop', scrollListener)
+        $document.off('scroll', scrollListener)
       })
     }
   }

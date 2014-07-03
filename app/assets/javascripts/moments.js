@@ -4,41 +4,35 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
 
   this.api = api
 
-//  var hashMatch
-//  if (hashMatch = window.location.hash.match(/photos\/([\w/]+)\/(\d+)$/)) {
-//    var galleryWatcher = $scope.$watch('openGallery', function(openGallery) {
-//      if (openGallery) {
-//        openGallery(hashMatch[1], parseInt(hashMatch[2]))
-//        galleryWatcher() // clear gallery watcher
-//      }
-//    })
-//  }
-
   $scope.place = new Place({name: 'SOME'})
 
   $scope.newMoment = new Moment()
 
-
-  $scope.loadingMoments = true
-  $http.get(api('moments')).success(function(data) {
-    $scope.moments = data
-    $scope.loadingMoments = false
-  })
-
+  $scope.moments = []
   $scope.hasMoreMoments = true
   $scope.loadMoreMoments = function() {
-    var last = $scope.moments[$scope.moments.length-1]
+    var last, params
 
     $scope.loadingMoments = true
-    $http.get(api('moments'), {params: {from_date: last.date, from_id: last.id}}).success(function(data) {
+
+    if (last = $scope.moments[$scope.moments.length-1]) {
+      params = {from_date: last.date, from_id: last.id}
+    }
+
+    $http.get(api('moments'), {params: params}).success(function(data) {
       $scope.loadingMoments = false
       if (data.length) {
         $scope.moments.push.apply($scope.moments, data)
+
+        setTimeout(function() {
+          $(document).trigger('scroll')
+        }, 100)
       } else {
         $scope.hasMoreMoments = false
       }
     })
   }
+  $scope.loadMoreMoments()
 
   $scope.createMoment = function() {
     if (!$scope.newMoment.date) $scope.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')

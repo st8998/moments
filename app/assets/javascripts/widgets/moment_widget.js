@@ -27,7 +27,7 @@ angular.module('app').directive('momentWidget', function($http, Moment, Photo, a
         close: function() {
           delete scope.moment._edit
           delete scope.moment._location
-          loadImages()
+//          loadImages()
         },
 
         applyPlace: function(place) {
