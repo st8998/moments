@@ -28,27 +28,27 @@ class Moment < ActiveRecord::Base
     end
   end
 
-  include Elasticsearch::Model
-  include Indexable
-
-  settings do
-    mappings dynamic: 'false' do
-      indexes :description
-      indexes :date, type: 'date'
-      indexes :author do
-        indexes :name
-      end
-      indexes :place do
-        indexes :name
-        indexes :country
-      end
-    end
-  end
-
-  def as_indexed_json(options={})
-    self.as_json(
-      include: [:place, :author]
-      )
-  end
+  # include Elasticsearch::Model
+  # include Indexable
+  #
+  # settings do
+  #   mappings dynamic: 'false' do
+  #     indexes :description
+  #     indexes :date, type: 'date'
+  #     indexes :author do
+  #       indexes :name
+  #     end
+  #     indexes :place do
+  #       indexes :name
+  #       indexes :country
+  #     end
+  #   end
+  # end
+  #
+  # def as_indexed_json(options={})
+  #   self.as_json(
+  #     include: [:place, :author]
+  #     )
+  # end
 
 end
