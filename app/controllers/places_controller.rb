@@ -4,9 +4,7 @@ class PlacesController < ApplicationController
   def search
     term = params.require(:term)
 
-    el_places = Place.search
-    {
-      query: {
+    el_places = Place.search query: {
         match: {
           _all: {
             query: "#{term}",
@@ -15,8 +13,6 @@ class PlacesController < ApplicationController
             fuzziness: 0.005
           }
         }
-      }
-    }
-    render json: [el_places.records.limit(10)]
+    render json: el_places.records.limit(10)
   end
 end

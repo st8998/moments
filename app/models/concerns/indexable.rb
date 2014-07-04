@@ -1,19 +1,19 @@
 class Indexer
   include Celluloid
 
-  def self.client
-    @client ||= Elasticsearch::Client.new host: Rails.application.config.elastic_server
+  def client
+    @@client ||= Elasticsearch::Client.new host: Rails.application.config.elastic_server
   end
 
-  def self.process(object, operation)
+  def process(object, operation)
     index = object.class.index_name
     doc_type = object.class.document_type
 
     case operation
       when :index
-        self.client.index index: index, type: doc_type, id: object.id, body: object.as_indexed_json
+        client.index index: index, type: doc_type, id: object.id, body: object.as_indexed_json
       when :delete
-        self.client.delete index: index, type: doc_type, id: object.id
+        client.delete index: index, type: doc_type, id: object.id
       else raise ArgumentError, 'Uknown operation!'
     end
   end
@@ -27,7 +27,17 @@ module Indexable
   end
 
   included do
-    after_save { Indexer.process(self, :index) }
-    after_destroy { Indexer.process(self, :delete) }
+    after_save {
+      future = Indexer.pool.future.process(self, :index)
+      if Rails.application.config.elastic_synchronous_indexing
+        future.value
+      end
+    }
+    after_destroy {
+      future = Indexer.pool.future.process(self, :delete)
+      if Rails.application.config.elastic_synchronous_indexing
+        future.value
+      end
+    }
   end
 end

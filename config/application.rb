@@ -34,5 +34,6 @@ module Moments
 
     # Elastic search config
     config.elastic_server = 'localhost:9200'
+    config.elastic_synchronous_indexing = false
   end
 end
