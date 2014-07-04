@@ -2,6 +2,10 @@ language: ruby
 rvm:
   2.1.2
 
+branches:
+  only:
+    - master
+
 env:
   - DB=postgresql
 
