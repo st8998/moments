@@ -40,7 +40,7 @@ gem 'decent_exposure'
 gem 'newrelic_rpm'
 
 # elastic
-# gem 'elasticsearch-model'
+gem 'elasticsearch-model'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -67,9 +67,4 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bower', require: false
   gem 'capistrano-bundler', require: false
-
-  # gem 'guard', require: false
-  # gem 'guard-livereload', require: false
-  # gem 'rack-livereload'
-  # gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
