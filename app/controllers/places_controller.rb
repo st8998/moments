@@ -13,6 +13,8 @@ class PlacesController < ApplicationController
             fuzziness: 0.005
           }
         }
+      }
+      
     render json: el_places.records.limit(10)
   end
 end
