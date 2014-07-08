@@ -26,6 +26,7 @@ gem 'bcrypt-ruby'
 gem 'celluloid'
 gem 'rails-observers'
 gem 'dragonfly'
+gem 'dragonfly-s3_data_store'
 gem 'redis-rails'
 
 # jpeg metadata extractors

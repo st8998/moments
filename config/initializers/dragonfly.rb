@@ -25,6 +25,11 @@ Dragonfly.app.configure do
     root_path: Rails.root.join('public/system/dragonfly', Rails.env),
     server_root: Rails.root.join('public')
 
+  datastore :s3,
+    bucket_name: 'moments.dev',
+    access_key_id: 'blahblahblah',
+    secret_access_key: 'blublublublu'
+
   fetch_file_whitelist [              # List of allowed file paths when using fetch_file (strings or regexps)
       /app\/assets\/images/,
       /public/
