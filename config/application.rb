@@ -34,5 +34,7 @@ module Moments
 
     # Elastic search config
     config.elastic_server = 'localhost:9200'
+
+    config.paths['config/secrets'] = 'config/dummy_secrets.yml'# unless Rails.root.join('config/secrets.yml').exist?
   end
 end
