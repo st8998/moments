@@ -20,5 +20,7 @@
 /public/system
 /public/assets
 
+config/secrets.yml
+
 vendor/assets/components
 tags

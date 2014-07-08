@@ -70,6 +70,13 @@ namespace :db do
 end
 
 namespace :deploy do
+  desc "Uploads secrets.yml"
+  task :upload_secrets do
+    on roles(:web) do
+      upload! './config/secrets.yml', "#{current_path}/config/secrets.yml"
+    end
+  end
+
   desc 'Restart application'
   task :restart do
     on roles(:all), in: :sequence, wait: 5 do
@@ -80,5 +87,6 @@ namespace :deploy do
   end
 
   after :updated, 'assets:precompile'
+  after :updated, 'deploy:upload_secrets'
   after :publishing, :restart
 end

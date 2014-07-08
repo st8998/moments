@@ -25,10 +25,11 @@ Dragonfly.app.configure do
     root_path: Rails.root.join('public/system/dragonfly', Rails.env),
     server_root: Rails.root.join('public')
 
-  datastore :s3,
-    bucket_name: 'moments.dev',
-    access_key_id: 'blahblahblah',
-    secret_access_key: 'blublublublu'
+  # datastore :s3,
+  #   bucket_name: Rails.application.secrets.aws_photos_bucket,
+  #   access_key_id: Rails.application.secrets.aws_access_key_id,
+  #   secret_access_key: Rails.application.secrets.aws_secret_access_key,
+  #   fog_storage_options: {scheme: 'http'}
 
   fetch_file_whitelist [              # List of allowed file paths when using fetch_file (strings or regexps)
       /app\/assets\/images/,
