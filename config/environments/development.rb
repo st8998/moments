@@ -1,8 +1,8 @@
 Moments::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.cache_store = :redis_store, 'redis://localhost:6379/0/cache'
-  # config.cache_store = :memory_store
+  # config.cache_store = :redis_store, 'redis://localhost:6379/0/cache'
+  config.cache_store = :file_store, '/tmp/moments/'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
