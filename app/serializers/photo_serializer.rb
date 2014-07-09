@@ -12,6 +12,12 @@ class PhotoSerializer < ApplicationSerializer
 
   has_one :place
 
+  def description
+    object.description.presence || begin
+      object.moment.description if object.moment && object.moment.photos.size == 1
+    end
+  end
+
   def place
     object.moment.try(:place)
   end

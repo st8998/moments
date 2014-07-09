@@ -11,6 +11,9 @@ class Moment < ActiveRecord::Base
   has_many :photos, -> { order(:position, :date.asc) },
       dependent: :destroy
   accepts_nested_attributes_for :photos, allow_destroy: true
+  after_save do
+    photos.each(&:touch)
+  end
 
   belongs_to :parent, class_name: 'Moment', touch: true
   has_many :sub_moments, -> { order(:date.asc) },
