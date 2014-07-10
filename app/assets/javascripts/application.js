@@ -5,6 +5,8 @@
 //= require_tree ./services
 //= require_tree ./models
 
+//= require linear_partition
+
 if (typeof Function.empty === 'undefined')
   Function.empty = function() {}
 

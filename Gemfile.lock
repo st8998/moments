@@ -52,6 +52,13 @@ GEM
       capistrano-bundler (~> 1.1)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    coffee-rails (4.0.1)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.7.0)
     colorize (0.7.3)
     daemons (1.1.9)
     decent_exposure (2.3.2)
@@ -235,6 +242,7 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   celluloid
+  coffee-rails
   decent_exposure
   dragonfly
   dragonfly-s3_data_store

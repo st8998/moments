@@ -10,6 +10,7 @@ gem 'eel'
 
 # view
 gem 'sass-rails'
+gem 'coffee-rails'
 gem 'uglifier'
 gem 'ngmin-rails'
 gem 'slim'

@@ -28,21 +28,84 @@ angular.module('app').factory('Photo', function(sequence) {
     _.extend(this, attrs)
   }
 
+//  Photo.layoutPhotos2 = function(pics, opts) {
+//    // cleanup previous calculations and optimisations
+//    _.each(pics, function(pic) {
+//      pic.thTop = 0
+//      pic.thLeft = 0
+//      pic.thHeight = 0
+//      pic.thWidth = 0
+//    })
+//
+//    var maxWidth = opts.maxWidth
+//      , maxHeight = opts.maxHeight
+//      , gap = 2
+//
+//    var outHeight = 0
+//
+//    // compute ratio
+//    _.each(pics, function(pic) {
+//      pic.ratio = pic.width / pic.height
+//    })
+//
+//    // resize all images to maxHeight
+//    _.each(pics, function(pic) {
+//      pic.resizeToHeight(maxHeight)
+//    })
+//
+////    var totalWidth = _.reduce(pics, function(sum, pic) { return sum + pic.thWidth }, 0)
+//    var rows = 2
+//
+//    var parts = linear_partition(_.map(pics, 'thWidth'), rows)
+//
+//    var line1 = _.first(pics, parts[0].length)
+//
+//    function fitRow(pics) {
+//      var width = _.reduce(pics, function(sum, p) { return sum + p.width }, 0)
+//
+//      var factor = maxWidth/width
+//
+//      _.each(pics, function(pic, i) {
+//        pic.thHeight = pic.height*factor
+//        pic.thWidth = pic.width*factor
+//        if (i > 0) {
+//          pic.cLeft = pics[i-1].cLeft + pics[i-1].thWidth
+//        }
+//      })
+//    }
+//
+//    fitRow(line1)
+//    var outHeight = line1[0].thHeight
+//
+//    if (parts.length == 2) {
+//      var line2 = _.first(pics, parts[1].length)
+//      fitRow(line2)
+//
+//      var line1Height = line1[0].thHeight
+//
+//      _.each(line2, function(pic) {
+//        pic.cTop = line1Height
+//      })
+//
+//      outHeight += line2[0].thHeight
+//    }
+//
+//    return {width: maxWidth, height: outHeight}
+//  }
+
   Photo.prototype.getContainerStyle = function() {
     return {
       height: (this.thHeight || this.height) - 2, // 2 is a gap between pics
       width: (this.thWidth || this.width) - 2, // 2 is a gap between pics
       left: this.cLeft || 0,
-      top: this.cTop || 0
+      top: this.cTop || 0,
+      'background': 'url('+this.getUrl()+') center/cover'
     }
   }
 
-  Photo.prototype.getImageStyle = function() {
+  Photo.prototype.getImageDragStyle = function() {
     return {
-      height: this.thTop ? (this.thHeight - this.thTop * 2) : this.thHeight || this.height,
-      width: this.thLeft ? (this.thWidth - this.thLeft * 2) : this.thWidth || this.width,
-      top: this.thTop || 0,
-      left: this.thLeft || 0
+      height: this.thHeight
     }
   }
 
@@ -68,6 +131,79 @@ angular.module('app').factory('Photo', function(sequence) {
 
     return {height: pics[0].getContainerStyle().height+2, width: dims.width}
   }
+
+  Photo.layoutPhotos2 = function(pics, options) {
+    // collect options
+    options = options || {}
+    var maxHeight = options.maxHeight,
+        maxWidth = options.maxWidth+5, // 5 is a reserve for rounding
+        enhanceRatioWidth = options.enhanceRatioWidth || 1,
+        enhanceRatioHeight = options.enhanceRatioHeight || 1,
+        rowHeight = options.rowHeight || maxHeight/2.5,
+        burstFirst = options.burstFirst || 0
+
+    // cleanup previous calculations and optimisations
+    _.each(pics, function(pic) {
+      pic.thTop = 0
+      pic.thLeft = 0
+      pic.thHeight = 0
+      pic.thWidth = 0
+    })
+
+    // try to fit all images in one row
+    var dims = Photo.fitInRow(pics, maxWidth, maxHeight),
+      oneLineHeight = dims.height,
+      oneLineWidth = dims.width
+
+    if (rowHeight - pics[0].thHeight > rowHeight*0.1) {
+      // set rowHeight for all pics
+      _.each(pics, function(pic) { pic.resizeToHeight(rowHeight) })
+
+      var totalWidth = _.reduce(pics, function(sum, p) { return sum+p.thWidth }, 0)
+
+      var weights = _.map(pics, function(pic, i) {
+        return i >= burstFirst ? pic.thWidth : pic.thWidth*2
+      })
+
+      var rows = Math.round(totalWidth / maxWidth)
+
+      var parts = linear_partition(weights, rows)
+
+      var line, dims, top = 0, skip = 0
+
+      _.each(parts, function(part, i) {
+        if (i > 0) {
+          line = pics.slice(skip, skip+part.length)
+          dims = Photo.fitAndEnhanceRow(line, {
+            maxWidth: maxWidth,
+            maxHeight: rowHeight,
+            enhanceRatioWidth: options.enhanceRatioWidth,
+            enhanceRatioHeight: options.enhanceRatioHeight
+          })
+          Photo.updateOffsets(line, {top: top})
+          top += dims.height
+          skip += line.length
+        } else {
+          line = pics.slice(0, part.length)
+          dims = Photo.fitAndEnhanceRow(line, {
+            maxWidth: maxWidth,
+            maxHeight: burstFirst > 0 ? rowHeight*1.5 : rowHeight,
+            enhanceRatioWidth: options.enhanceRatioWidth,
+            enhanceRatioHeight: options.enhanceRatioHeight
+          })
+          Photo.updateOffsets(line)
+          top = dims.height
+          skip = part.length
+        }
+      })
+
+      return {height: top, width: maxWidth}
+    } else {
+      Photo.updateOffsets(pics)
+      return dims
+    }
+  }
+
 
   Photo.layoutPhotos = function(pics, options) {
 

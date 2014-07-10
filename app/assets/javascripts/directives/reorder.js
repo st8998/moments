@@ -16,6 +16,7 @@ angular.module('app').directive('mReorder', function($parse) {
         })
 
         active.style.opacity = '0'
+
         e.originalEvent.dataTransfer.effectAllowed = 'move'
         e.originalEvent.dataTransfer.setData('text/html', this.innerHTML)
       })
