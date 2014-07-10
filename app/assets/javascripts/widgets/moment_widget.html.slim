@@ -12,7 +12,11 @@
       = icon(:location)
       | {{moment.place.name || moment.place.primaryLine().join(', ')}}
     p {{moment.description}}
-    m-photo-line[photos='moment.photos' max-height='{{moment.parent_id ? 250 : 350}}' burst-first='{{moment.parent_id ? 0 : 2}}']
+    m-photo-line[
+      photos='moment.photos'
+      max-height='{{moment.parent_id ? 250 : 350}}'
+      burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 2 : 0}}'
+    ]
       a[ng-href='{{"#"+routes.gallery(moment.galleryKey(), photo.id)}}']
 
   .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()']
@@ -37,7 +41,9 @@
         .upload-drag-hint Тащите свои фоточки сюда
 
         m-photo-line[
-          photos='moment.photos' max-height='{{moment.parent_id ? 250 : 350}}' burst-first='{{moment.parent_id ? 0 : 2}}'
+          photos='moment.photos'
+          max-height='{{moment.parent_id ? 250 : 350}}'
+          burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 2 : 0}}'
           m-reorder on-reorder='movePhoto(from, to)'
         ]
           img[ng-style='photo.getImageDragStyle()' ng-src='{{photo.getUrl()}}']

@@ -165,7 +165,7 @@ angular.module('app').factory('Photo', function(sequence) {
         return i >= burstFirst ? pic.thWidth : pic.thWidth*2
       })
 
-      var rows = Math.round(totalWidth / maxWidth)
+      var rows = Math.floor(totalWidth / maxWidth)
 
       var parts = linear_partition(weights, rows)
 
