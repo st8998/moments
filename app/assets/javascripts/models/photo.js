@@ -159,12 +159,17 @@ angular.module('app').factory('Photo', function(sequence) {
       // set rowHeight for all pics
       _.each(pics, function(pic) { pic.resizeToHeight(rowHeight) })
 
-      var weights = _.map(pics, function(pic, i) {
-        return i >= burstFirst ? pic.thWidth : pic.thWidth*2
-      })
-      var totalWidth = _.reduce(weights, function(sum, w) { return sum + w}, 0)
+      var i = -1, totalWidth = _.reduce(pics, function(sum, w) {
+        i += 1
+        return sum + (i >= burstFirst ? w.thWidth : w.thWidth*2)
+      }, 0)
 
       var rows = Math.floor(totalWidth / maxWidth + 0.3)
+
+      var weights = _.map(pics, function(pic, i) {
+        var width = pic.thWidth > pic.thHeight ? pic.thWidth*enhanceRatioWidth : pic.thWidth
+        return i >= burstFirst ? width : width*2
+      })
 
       var parts = linear_partition(weights, rows)
 
