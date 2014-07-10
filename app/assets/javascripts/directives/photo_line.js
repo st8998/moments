@@ -21,8 +21,8 @@ angular.module('app').directive('mTransclude', function() {
 
     link: function(scope, elem, attrs, ctrl, $transclude) {
       var maxHeight = parseInt(attrs['maxHeight']) || 350,
-        enhanceRatioHeight = parseFloat(attrs['enhanceRatioHeight']) || 0.9,
-        enhanceRatioWidth = parseFloat(attrs['enhanceRatioWidth']) || 0.75,
+        enhanceRatioHeight = parseFloat(attrs['enhanceRatioHeight']) || 0.8,
+        enhanceRatioWidth = parseFloat(attrs['enhanceRatioWidth']) || 0.7,
         burstFirst = parseInt(attrs['burstFirst']) || 0
 
       // convert raw attrs to Photo objects
