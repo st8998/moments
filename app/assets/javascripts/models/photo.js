@@ -155,7 +155,7 @@ angular.module('app').factory('Photo', function(sequence) {
       oneLineHeight = dims.height,
       oneLineWidth = dims.width
 
-    if (rowHeight - pics[0].thHeight > rowHeight*0.1) {
+    if (maxHeight/2 - dims.height > rowHeight*0.1) {
       // set rowHeight for all pics
       _.each(pics, function(pic) { pic.resizeToHeight(rowHeight) })
 
@@ -164,7 +164,7 @@ angular.module('app').factory('Photo', function(sequence) {
       })
       var totalWidth = _.reduce(weights, function(sum, w) { return sum + w}, 0)
 
-      var rows = Math.floor(totalWidth / maxWidth)
+      var rows = Math.floor(totalWidth / maxWidth + 0.3)
 
       var parts = linear_partition(weights, rows)
 
