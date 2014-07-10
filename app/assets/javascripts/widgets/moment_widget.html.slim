@@ -15,7 +15,7 @@
     m-photo-line[
       photos='moment.photos'
       max-height='{{moment.parent_id ? 250 : 350}}'
-      burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 2 : 0}}'
+      burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 1 : 0}}'
     ]
       a[ng-href='{{"#"+routes.gallery(moment.galleryKey(), photo.id)}}']
 
@@ -43,7 +43,7 @@
         m-photo-line[
           photos='moment.photos'
           max-height='{{moment.parent_id ? 250 : 350}}'
-          burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 2 : 0}}'
+          burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 1 : 0}}'
           m-reorder on-reorder='movePhoto(from, to)'
         ]
           img[ng-style='photo.getImageDragStyle()' ng-src='{{photo.getUrl()}}']

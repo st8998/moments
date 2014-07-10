@@ -159,11 +159,10 @@ angular.module('app').factory('Photo', function(sequence) {
       // set rowHeight for all pics
       _.each(pics, function(pic) { pic.resizeToHeight(rowHeight) })
 
-      var totalWidth = _.reduce(pics, function(sum, p) { return sum+p.thWidth }, 0)
-
       var weights = _.map(pics, function(pic, i) {
         return i >= burstFirst ? pic.thWidth : pic.thWidth*2
       })
+      var totalWidth = _.reduce(weights, function(sum, w) { return sum + w}, 0)
 
       var rows = Math.floor(totalWidth / maxWidth)
 

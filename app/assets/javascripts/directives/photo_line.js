@@ -30,8 +30,6 @@ angular.module('app').directive('mTransclude', function() {
         scope.photos = photos
 
         if (scope.photos.length) {
-          console.log(burstFirst)
-
           scope.dimensions = Photo.layoutPhotos2(scope.photos, {
             maxWidth: elem.width(),
             maxHeight: maxHeight,
