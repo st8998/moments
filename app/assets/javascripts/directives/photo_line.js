@@ -30,12 +30,17 @@ angular.module('app').directive('mTransclude', function() {
         scope.photos = photos
 
         if (scope.photos.length) {
+          var rowHeight = maxHeight/2.5
+          if (scope.photos.length > 9) rowHeight = maxHeight/3
+          if (scope.photos.length > 19) rowHeight = maxHeight/4
+
           scope.dimensions = Photo.layoutPhotos2(scope.photos, {
             maxWidth: elem.width(),
             maxHeight: maxHeight,
             enhanceRatioWidth: enhanceRatioWidth,
             enhanceRatioHeight: enhanceRatioHeight,
-            burstFirst: burstFirst
+            burstFirst: burstFirst,
+            rowHeight: rowHeight
           })
         }
       })

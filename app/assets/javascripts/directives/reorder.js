@@ -15,7 +15,7 @@ angular.module('app').directive('mReorder', function($parse) {
           el.data('mReorderDims', {left: parseInt(el.css('left')), width: parseInt(el.css('width'))})
         })
 
-        active.style.opacity = '0'
+        active.style.opacity = '.9'
 
         e.originalEvent.dataTransfer.effectAllowed = 'move'
         e.originalEvent.dataTransfer.setData('text/html', this.innerHTML)

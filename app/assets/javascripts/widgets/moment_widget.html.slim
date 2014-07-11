@@ -46,7 +46,7 @@
           burst-first='{{!moment.parent_id && moment.photos.length < 9 ? 1 : 0}}'
           m-reorder on-reorder='movePhoto(from, to)'
         ]
-          img[ng-style='photo.getImageDragStyle()' ng-src='{{photo.getUrl()}}']
+          a[href='javascript:' ng-click='openGallery(moment.photos, photo)' draggable='false']
           button.remove[ng-click='removePhoto(photo)']= icon(:cross)
 
         button[ng-if='!moment.id' type='submit' ng-disabled='!moment.photos.length && !moment.description'] Добавить
