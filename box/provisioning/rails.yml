@@ -10,8 +10,9 @@
   sudo: yes
   sudo_user: postgres
 
-- template: src=files/etc_init_unicorn.j2 dest=/etc/init/unicorn.conf
+#- template: src=files/etc_init_unicorn.j2 dest=/etc/init/unicorn.conf
+- template: src=files/etc_init_puma.j2 dest=/etc/init/moments.conf
 
 - apt: pkg=git
 
-- command: ln -sf /etc/nginx/sites-available/unicorn /etc/nginx/sites-enabled/unicorn
+- command: ln -sf /etc/nginx/sites-available/moments /etc/nginx/sites-enabled/moments

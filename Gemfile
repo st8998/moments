@@ -44,6 +44,8 @@ gem 'newrelic_rpm'
 # elastic
 # gem 'elasticsearch-model'
 
+gem 'puma'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -56,13 +58,12 @@ group :test do
   gem 'trafaret'
 end
 
-group :production do
-  gem 'unicorn'
-end
+# group :production do
+#   gem 'unicorn'
+# end
 
 group :development do
   gem 'spring'
-  gem 'thin'
   gem 'quiet_assets'
 
   gem 'capistrano', require: false
