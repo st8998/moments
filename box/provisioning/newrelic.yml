@@ -1,0 +1,7 @@
+- apt_repository: repo='deb http://apt.newrelic.com/debian/ newrelic non-free'
+- apt_key: url=https://download.newrelic.com/548C16BF.gpg state=present
+- apt: pkg='newrelic-sysmond'
+
+- command: nrsysmond-config --set license_key=5e3201930cc4ae75680bea7f093261a36696094d
+
+- service: name=newrelic-sysmond state=started

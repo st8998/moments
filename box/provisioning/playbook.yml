@@ -19,6 +19,9 @@
         - imagemagick
       tags: packages
 
+    - include: newrelic.yml
+      tags: newrelic
+
     - include: deployer.yml
       tags: deployer
 
