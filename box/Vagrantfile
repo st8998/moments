@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision 'ansible' do |ansible|
       ansible.playbook = 'provisioning/playbook.yml'
       ansible.skip_tags = 'deployer'
-      ansible.tags = ['rails']
+      ansible.tags = ['nginx']
     end
   end
 end
