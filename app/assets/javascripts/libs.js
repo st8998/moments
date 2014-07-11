@@ -1,6 +1,4 @@
 //= require jquery_ujs
-//= require react-source
-//= require react-taghelper
 //= require lodash
 //= require cookies-js
 
