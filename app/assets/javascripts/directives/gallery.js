@@ -27,7 +27,6 @@ angular.module('app').directive('mGallery', function($http, $location, api, $roo
       }
 
       scope.$on('$locationChangeSuccess', function () {
-        console.log('$locationChangeSuccess')
         history = true
         onLocationChange()
       })
@@ -113,7 +112,6 @@ angular.module('app').directive('mGallery', function($http, $location, api, $roo
       }
 
       function close() {
-        console.log('close')
         elem.addClass('hidden')
         $body.removeClass('gallery-mode')
 
@@ -128,13 +126,10 @@ angular.module('app').directive('mGallery', function($http, $location, api, $roo
       }
 
       $rootScope.closeGallery = function() {
-        console.log('closeGallery')
         if (!closed) {
           if (history) {
-            console.log('closeGallery|history')
             window.history.back()
           } else {
-            console.log('closeGallery|byhand')
             close()
             document.location.hash = '#/'
           }
