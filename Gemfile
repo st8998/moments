@@ -58,10 +58,6 @@ group :test do
   gem 'trafaret'
 end
 
-# group :production do
-#   gem 'unicorn'
-# end
-
 group :development do
   gem 'spring'
   gem 'quiet_assets'
@@ -70,9 +66,4 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bower', require: false
   gem 'capistrano-bundler', require: false
-
-  # gem 'guard', require: false
-  # gem 'guard-livereload', require: false
-  # gem 'rack-livereload'
-  # gem 'rb-fsevent' if `uname` =~ /Darwin/
 end
