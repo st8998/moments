@@ -203,6 +203,16 @@ ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
 
 
 --
+-- Name: photos_tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE photos_tags (
+    tagged_object_id integer,
+    tag_id integer
+);
+
+
+--
 -- Name: places; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -250,6 +260,38 @@ ALTER SEQUENCE places_id_seq OWNED BY places.id;
 CREATE TABLE schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tags (
+    id integer NOT NULL,
+    name character varying,
+    account_id integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 
 
 --
@@ -332,6 +374,13 @@ ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -381,6 +430,14 @@ ALTER TABLE ONLY photos
 
 ALTER TABLE ONLY places
     ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -482,4 +539,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140627200114');
 INSERT INTO schema_migrations (version) VALUES ('20140629183359');
 
 INSERT INTO schema_migrations (version) VALUES ('20140703144509');
+
+INSERT INTO schema_migrations (version) VALUES ('20140713090317');
+
+INSERT INTO schema_migrations (version) VALUES ('20140713092537');
 

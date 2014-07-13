@@ -20,6 +20,9 @@
       p[m-formatted-date='{{photo.date}}']
       p {{photo | shootingSettings}}
 
+      ul.tags
+        li[ng-repeat='tag in photo.tags'] \#{{tag.name}}
+
       div.place[ng-if='photo.place']
         div[ng-bind-html='photo.place | placeToHtml']
         img.map[ng-src='{{photo.place | mGoogleMapImage:{size:"275x200"} }}']

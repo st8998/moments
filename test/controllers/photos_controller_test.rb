@@ -15,6 +15,13 @@ class PhotosControllerTest < ActionController::TestCase
     assert_equal 2, photo.reload.views_count
   end
 
+  test 'correct serializer' do
+    post :create, photo: {image: data_root.join('lenin.jpg').open, description: 'some'}, account_key: accounts(:st8998).key, format: :json
+
+    assert_response :success
+    assert_api_response({id: :integer, image_url_512: :string, tags: [{id: :integer, name: :string}]})
+  end
+
   test 'should upload photo' do
     post :create, photo: {image: data_root.join('ass.jpg').open, description: 'some'}, account_key: accounts(:st8998).key, format: :json
 

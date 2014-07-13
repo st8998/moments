@@ -11,6 +11,7 @@ class PhotoSerializer < ApplicationSerializer
   security_attributes :update, :delete
 
   has_one :place
+  has_many :tags
 
   def description
     object.description.presence || begin
