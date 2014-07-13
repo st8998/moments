@@ -37,6 +37,8 @@ set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets public/assets public/sys
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+SSHKit.config.output = $stdout
+
 set :bower_flags, '--quiet'
 set :bower_roles, :all
 
