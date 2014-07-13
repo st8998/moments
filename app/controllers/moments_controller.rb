@@ -58,7 +58,7 @@ class MomentsController < ApplicationController
       :date,
       :description,
       :parent_id,
-      {photos: [:id, :position]},
+      {photos: [:id, :position, :description]},
       {place: [:id, :name, :lat, :lng, :country, :administrative_area_level_2,
           :administrative_area_level_1, :locality, :route, :street_number, :postal_code]}
   ]
