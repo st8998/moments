@@ -57,7 +57,6 @@ angular.module('app').directive('momentWidget', function($http, Moment, Photo, a
         },
 
         submit: function() {
-          scope.close()
           scope.onSubmit()
         }
       })

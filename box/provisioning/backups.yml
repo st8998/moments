@@ -1,0 +1,32 @@
+- apt: pkg={{item}}
+  with_items: [python-pip, python-dev, lzop, pv, daemontools]
+- pip: name=wal-e
+
+- file: path=/etc/wal-e.d/env recurse=yes state=directory owner=postgres group=postgres
+- copy: dest=/etc/wal-e.d/env/{{ item.key }} content={{ item.value }} owner=postgres group=postgres
+  with_dict:
+    AWS_ACCESS_KEY_ID: "{{ access_key_id }}"
+    AWS_SECRET_ACCESS_KEY: "{{ secret_access_key }}"
+    WALE_S3_PREFIX: s3://moments.backups
+
+- lineinfile: dest=/etc/postgresql/9.3/main/postgresql.conf line="{{item}}"
+  with_items:
+    - wal_level = archive
+    - archive_mode = on
+    - "archive_command = 'envdir /etc/wal-e.d/env /usr/local/bin/wal-e wal-push %p'"
+    - archive_timeout = 60
+  notify: restart postgresql
+
+- cron: >
+    name=backup
+    minute=0
+    hour=0
+    job="/usr/bin/envdir /etc/wal-e.d/env /usr/local/bin/wal-e backup-push /var/lib/postgresql/9.3/main"
+    user=postgres
+
+- cron: >
+    name=backups-clean
+    minute=0
+    hour=1
+    job="envdir /etc/wal-e.d/env /usr/local/bin/wal-e delete --confirm retain 3"
+    user=postgres
