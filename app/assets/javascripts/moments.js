@@ -36,7 +36,7 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   $scope.createMoment = function() {
     if (!$scope.newMoment.date) $scope.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')
 
-    $http.post(api('moments'), $scope.newMoment).success(function(moment) {
+    $http.post(api('moments'), $scope.newMoment, {tracker: $scope[$scope.newMoment.uid]}).success(function(moment) {
       $scope.moments.unshift(moment)
       $scope.newMoment = new Moment()
     })
@@ -45,15 +45,16 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   $scope.createSubMoment = function(moment) {
     if (!moment.newMoment.date) moment.newMoment.date = $moment().format('DD/MM/YYYY HH:mm')
 
-    $http.post(api('moments'), moment.newMoment).success(function(attrs) {
+    $http.post(api('moments'), moment.newMoment, {tracker: $scope[moment.newMoment.uid]}).success(function(attrs) {
       moment.sub_moments.push(new Moment(_.merge(attrs, {parent: moment})))
       moment.newMoment = new Moment({parent_id: moment.id})
     })
   }
 
   $scope.updateMoment = function(moment) {
-    $http.put(api('moments', moment.id), moment).success(function(attrs) {
+    $http.put(api('moments', moment.id), moment, {tracker: $scope[moment.uid]}).success(function(attrs) {
       moment.assignAttributes(attrs)
+      moment._edit = false
     })
   }
 

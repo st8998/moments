@@ -19,7 +19,7 @@
     ]
       a[ng-href='{{"#"+routes.gallery(moment.galleryKey(), photo.id)}}']
 
-  .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()']
+  .moment-edit[ng-if='moment._edit && moment.can_update' m-safe-closeable='close()' m-loading='{{moment.uid}}']
     m-select-location[ng-if='moment._location' place='moment.place' on-apply='applyPlace(place)' on-cancel='moment._location=false']
 
     m-dropzone[url='api("/photos")' on-upload='addPhoto(attrs)' param-name='photo[image]' ng-class='{hidden: moment._location}']

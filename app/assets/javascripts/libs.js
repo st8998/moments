@@ -10,6 +10,7 @@
 //= require angular
 //= require angular-bindonce
 //= require angular-promise-tracker/promise-tracker
+//= require angular-promise-tracker/promise-tracker-http-interceptor
 
 //= require jquery.ui.widget
 
