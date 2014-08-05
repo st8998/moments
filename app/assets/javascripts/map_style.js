@@ -10,7 +10,12 @@ angular.module('app').constant('MAP_SETTINGS', {
   defaults: {
     zoom: 12,
 
-    mapTypeControl: false,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.TOP_RIGHT
+    },
+
     panControl: false,
     zoomControl: false,
     streetViewControl: false,
