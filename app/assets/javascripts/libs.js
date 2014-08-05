@@ -20,7 +20,7 @@
 
 //= require progress.js.js
 //= require moment
-//= require moment/lang/ru
+//= require moment/locale/ru
 
 //= require jquery-autosize
 //= require jquery.lazyload/jquery.lazyload
