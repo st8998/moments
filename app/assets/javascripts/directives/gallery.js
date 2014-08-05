@@ -63,11 +63,13 @@ angular.module('app').directive('mGallery', function($http, $location, api, $roo
         }).data('fotorama')
 
         scope.photo = fotorama.activeFrame.photo
+        $http.post(api('photos', scope.photo.id, 'increase_views_count'))
 
         fotoramaContainer.on('fotorama:show', function(e, fotorama) {
           if (scope.photo != fotorama.activeFrame.photo) {
             scope.$apply(function() {
               scope.photo = fotorama.activeFrame.photo
+              $http.post(api('photos', scope.photo.id, 'increase_views_count'))
             })
           }
         })
@@ -86,11 +88,6 @@ angular.module('app').directive('mGallery', function($http, $location, api, $roo
             }
           })
         }
-
-        scope.$watch('photo', function(photo) {
-          if (photo)
-            $http.post(api('photos', photo.id, 'increase_views_count'))
-        })
 
         $body.on('keyup.fotorama', function(e) {
           if (e.which == 27 && !cancelExit) scope.closeGallery()

@@ -25,7 +25,6 @@ Moments::Application.routes.draw do
       resources :photo_sets, only: [] do
         get '*key', action: :photos, on: :collection
       end
-
     end
   end
 end
