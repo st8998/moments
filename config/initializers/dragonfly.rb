@@ -58,9 +58,7 @@ Dragonfly.app.configure do
   end
 
   analyser :keywords do |content|
-    if content.xmp && content.xmp.dc.respond_to?(:subject)
-      content.xmp.dc.subject
-    end
+    content.try(:xmp).try(:dc).try(:subject)
   end
 end
 
