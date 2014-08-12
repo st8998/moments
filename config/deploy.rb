@@ -88,7 +88,7 @@ namespace :deploy do
     end
   end
 
-  after :updated, 'deploy:upload_secrets'
+  before :updated, 'deploy:upload_secrets'
 
   after :updated, 'assets:precompile'
 
