@@ -5,8 +5,9 @@ class User < ActiveRecord::Base
 
   dragonfly_accessor :avatar, app: :local do
     after_assign {|a| a.thumb('256x256#') }
-    copy_to :avatar_backup
     default 'app/assets/images/default_avatar.jpg'
+
+    copy_to(:image_backup) if Rails.env.production?
   end
   dragonfly_accessor :avatar_backup, app: :s3
 

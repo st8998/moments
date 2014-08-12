@@ -3,7 +3,7 @@ class Photo < ActiveRecord::Base
 
   extend Dragonfly::Model
   dragonfly_accessor :image, app: :local do
-    copy_to :image_backup
+    copy_to(:image_backup) if Rails.env.production?
   end
   dragonfly_accessor :image_backup, app: :s3
 
