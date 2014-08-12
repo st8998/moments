@@ -2,7 +2,10 @@ class Photo < ActiveRecord::Base
   include IncrementWithSql
 
   extend Dragonfly::Model
-  dragonfly_accessor :image
+  dragonfly_accessor :image, app: :local do
+    copy_to :image_backup
+  end
+  dragonfly_accessor :image_backup, app: :s3
 
   # versions
   # big - thumb('2048x2048')

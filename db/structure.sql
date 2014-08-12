@@ -179,7 +179,8 @@ CREATE TABLE photos (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     views_count integer DEFAULT 0,
-    "position" integer
+    "position" integer,
+    image_backup_uid character varying
 );
 
 
@@ -305,7 +306,8 @@ CREATE TABLE users (
     name character varying,
     avatar_uid character varying,
     account_id integer,
-    email character varying
+    email character varying,
+    avatar_backup_uid character varying
 );
 
 
@@ -543,4 +545,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140703144509');
 INSERT INTO schema_migrations (version) VALUES ('20140713090317');
 
 INSERT INTO schema_migrations (version) VALUES ('20140713092537');
+
+INSERT INTO schema_migrations (version) VALUES ('20140812073557');
+
+INSERT INTO schema_migrations (version) VALUES ('20140812080413');
 

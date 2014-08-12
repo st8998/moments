@@ -9,9 +9,32 @@ class Dragonfly::Content
   end
 end
 
-# Configure
-Dragonfly.app.configure do
+local = Dragonfly.app(:local)
+s3 = Dragonfly.app(:s3)
 
+# s3 configuration
+s3.configure do
+  plugin :imagemagick
+
+  protect_from_dos_attacks true
+  secret Rails.application.secrets.dragonfly
+
+  url_format "/media/:job/:name"
+
+  fetch_file_whitelist [              # List of allowed file paths when using fetch_file (strings or regexps)
+      /app\/assets\/images/,
+      /public/
+  ]
+
+  datastore :s3,
+    bucket_name: Rails.application.secrets.aws_photos_bucket,
+    access_key_id: Rails.application.secrets.aws_access_key_id,
+    secret_access_key: Rails.application.secrets.aws_secret_access_key,
+    fog_storage_options: {scheme: 'http'}
+end
+
+# local configuration
+local.configure do
   url_host Rails.application.config.action_controller.asset_host
 
   plugin :imagemagick
@@ -24,12 +47,6 @@ Dragonfly.app.configure do
   datastore :file,
     root_path: Rails.root.join('public/system/dragonfly', Rails.env),
     server_root: Rails.root.join('public')
-
-  # datastore :s3,
-  #   bucket_name: Rails.application.secrets.aws_photos_bucket,
-  #   access_key_id: Rails.application.secrets.aws_access_key_id,
-  #   secret_access_key: Rails.application.secrets.aws_secret_access_key,
-  #   fog_storage_options: {scheme: 'http'}
 
   fetch_file_whitelist [              # List of allowed file paths when using fetch_file (strings or regexps)
       /app\/assets\/images/,
@@ -66,4 +83,4 @@ end
 Dragonfly.logger = Rails.logger
 
 # Mount as middleware
-Rails.application.middleware.use Dragonfly::Middleware
+Rails.application.middleware.use Dragonfly::Middleware, :local

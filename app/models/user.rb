@@ -3,10 +3,12 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   extend Dragonfly::Model
 
-  dragonfly_accessor :avatar do
+  dragonfly_accessor :avatar, app: :local do
     after_assign {|a| a.thumb('256x256#') }
+    copy_to :avatar_backup
     default 'app/assets/images/default_avatar.jpg'
   end
+  dragonfly_accessor :avatar_backup, app: :s3
 
   belongs_to :account
 
