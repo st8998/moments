@@ -14,22 +14,18 @@
     "marked": "https://raw.github.com/chjj/marked/master/lib/marked.js",
     "cookies-js": "https://raw.github.com/ScottHamper/Cookies/master/src/cookies.js",
     "base64": "http://stringencoders.googlecode.com/svn-history/r210/trunk/javascript/base64.js",
-    "angular": "1.3.0-beta.13",
+    "angular": "1.3.0-beta.17",
     "angular-mocks": "latest",
-    "angular-resource": "latest",
-    "angular-bindonce": "latest",
     "angular-promise-tracker": "latest",
     "blueimp-file-upload": "https://raw.github.com/blueimp/jQuery-File-Upload/master/js/jquery.fileupload.js",
-    "iscroll": "latest",
     "jquery.ui.core": "https://raw2.github.com/jquery/jquery-ui/master/ui/core.js",
     "jquery.ui.mouse": "https://raw2.github.com/jquery/jquery-ui/master/ui/mouse.js",
     "jquery.ui.widget": "https://raw2.github.com/jquery/jquery-ui/master/ui/widget.js",
     "jquery.ui.draggable": "https://raw2.github.com/jquery/jquery-ui/master/ui/draggable.js",
     "jquery.ui.droppable": "https://raw2.github.com/jquery/jquery-ui/master/ui/droppable.js",
-    "react-taghelper": "https://gist.github.com/Flamefork/8539366/raw/React.addons.tagHelper.js",
     "jquery.lazyload": "~1.9.3"
   },
   "resolutions": {
-    "angular": "1.3.0-beta.13"
+    "angular": "1.3.0-beta.17"
   }
 }

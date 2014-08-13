@@ -12,7 +12,7 @@ if (typeof Function.empty === 'undefined')
 if (typeof Function.stopPropagation === 'undefined')
   Function.stopPropagation = function(e) {e.stopPropagation()}
 
-App = angular.module('app', ['templates', 'pasvaz.bindonce', 'ajoslin.promise-tracker'])
+App = angular.module('app', ['templates', 'ajoslin.promise-tracker'])
 
 App.constant('settings', {
 })

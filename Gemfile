@@ -14,7 +14,6 @@ gem 'coffee-rails'
 gem 'uglifier'
 gem 'ngmin-rails'
 gem 'slim'
-gem 'jquery-rails'
 gem 'fotoramajs'
 
 gem 'active_model_serializers'
