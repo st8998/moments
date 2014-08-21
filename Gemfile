@@ -2,7 +2,7 @@ ruby '2.1.2'
 
 source 'https://rubygems.org'
 
-gem 'rails', '>= 4.1.4'
+gem 'rails', '>= 4.2.0.beta1'
 
 # database
 gem 'pg'
@@ -23,7 +23,6 @@ gem 'neat'
 
 # infrastructure
 gem 'bcrypt-ruby'
-gem 'celluloid'
 gem 'rails-observers'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
@@ -31,9 +30,10 @@ gem 'redis-rails'
 
 # jpeg metadata extractors
 gem 'exifr'
-gem 'xmp'
+gem 'xmp', git: 'git@github.com:st8998/xmp.git'
 
 # controller
+gem 'responders'
 gem 'cancan'
 gem 'decent_exposure'
 
@@ -53,7 +53,6 @@ end
 group :test do
   gem 'mocha'
   gem 'factory_girl_rails'
-  gem 'hash_validator'
   gem 'trafaret'
 end
 
