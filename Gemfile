@@ -23,6 +23,7 @@ gem 'neat'
 
 # infrastructure
 gem 'bcrypt-ruby'
+gem 'celluloid'
 gem 'rails-observers'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
