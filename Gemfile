@@ -31,7 +31,7 @@ gem 'redis-rails'
 
 # jpeg metadata extractors
 gem 'exifr'
-gem 'xmp', git: 'git@github.com:st8998/xmp.git'
+gem 'xmp', git: 'https://github.com/st8998/xmp.git'
 
 # controller
 gem 'responders'

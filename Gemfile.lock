@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:st8998/xmp.git
+  remote: https://github.com/st8998/xmp.git
   revision: 2063417d78c6437888f4de02cd8a5c9039b1285b
   specs:
     xmp (0.2.0)
