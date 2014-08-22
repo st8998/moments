@@ -41,9 +41,6 @@ gem 'decent_exposure'
 # monitoring
 gem 'newrelic_rpm'
 
-# elastic
-# gem 'elasticsearch-model'
-
 gem 'puma'
 
 group :doc do
