@@ -26,8 +26,8 @@ GEM
       erubis (~> 2.7.0)
       rails-deprecated_sanitizer (~> 1.0, >= 1.0.2)
       rails-dom-testing (~> 1.0, >= 1.0.2)
-    active_model_serializers (0.8.1)
-      activemodel (>= 3.0)
+    active_model_serializers (0.9.0)
+      activemodel (>= 3.2)
     activejob (4.2.0.beta1)
       globalid (>= 0.2.3)
     activemodel (4.2.0.beta1)
@@ -43,6 +43,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     arel (6.0.0.beta1)
     bcrypt (3.1.7)
     bcrypt-ruby (3.1.5)
@@ -72,10 +73,11 @@ GEM
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.1)
+    coffee-script-source (1.8.0)
     colorize (0.7.3)
     decent_exposure (2.3.2)
-    dragonfly (1.0.5)
+    dragonfly (1.0.7)
+      addressable (~> 2.3)
       multi_json (~> 1.0)
       rack
     dragonfly-s3_data_store (1.0.4)
@@ -100,11 +102,11 @@ GEM
       fog-softlayer
       ipaddress (~> 0.5)
       nokogiri (~> 1.5, >= 1.5.11)
-    fog-brightbox (0.3.0)
+    fog-brightbox (0.4.1)
       fog-core (~> 1.22)
       fog-json
       inflecto
-    fog-core (1.23.0)
+    fog-core (1.24.0)
       builder
       excon (~> 0.38)
       formatador (~> 0.2)
@@ -113,11 +115,11 @@ GEM
       net-ssh (>= 2.1.3)
     fog-json (1.0.0)
       multi_json (~> 1.0)
-    fog-softlayer (0.3.14)
+    fog-softlayer (0.3.16)
       fog-core
       fog-json
     formatador (0.2.5)
-    fotoramajs (4.6.0)
+    fotoramajs (4.6.2)
       sprockets (>= 2)
     globalid (0.2.3)
       activesupport (>= 4.1.0)
@@ -131,7 +133,7 @@ GEM
     metaclass (0.0.4)
     mime-types (2.3)
     mini_portile (0.6.0)
-    minitest (5.4.0)
+    minitest (5.4.1)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.10.1)
@@ -141,7 +143,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
-    newrelic_rpm (3.9.1.236)
+    newrelic_rpm (3.9.3.241)
     ngmin-rails (0.4.0)
       rails (>= 3.1)
     nokogiri (1.6.3.1)
@@ -201,7 +203,7 @@ GEM
       redis (>= 2.2)
     responders (2.0.0)
       railties (>= 4.2.0.alpha, < 5)
-    sass (3.4.0)
+    sass (3.4.2)
     sass-rails (5.0.0.beta1)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2)
@@ -272,7 +274,7 @@ DEPENDENCIES
   rails-observers
   redis-rails
   responders
-  sass-rails
+  sass-rails (>= 5.0.0.beta1)
   sdoc
   slim
   spring

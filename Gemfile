@@ -9,7 +9,7 @@ gem 'pg'
 gem 'eel'
 
 # view
-gem 'sass-rails'
+gem 'sass-rails', '>= 5.0.0.beta1'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'ngmin-rails'
