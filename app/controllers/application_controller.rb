@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   #protect_from_forgery with: :exception
 
-  before_filter :ensure_account
+  before_action :ensure_account
 
-  skip_before_filter :ensure_account, only: :root
+  skip_before_action :ensure_account, only: :root
 
   hide_action :current_user, :current_account
   helper_method :current_user, :current_account

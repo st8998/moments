@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-  skip_before_filter :ensure_account
+  skip_before_action :ensure_account
 
   respond_to :js, :html
 

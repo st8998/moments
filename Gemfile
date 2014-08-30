@@ -16,7 +16,7 @@ gem 'ngmin-rails'
 gem 'slim'
 gem 'fotoramajs'
 
-gem 'active_model_serializers'
+gem 'active_model_serializers', '~> 0.8.0'
 gem 'oj'
 
 gem 'neat'

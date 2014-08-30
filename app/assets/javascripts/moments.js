@@ -9,7 +9,7 @@ angular.module('app').controller('MomentsCtrl', function($scope, $http, api, Mom
   $scope.newMoment = new Moment()
 
   $scope.moments = []
-  $scope.hasMoreMoments = true
+  $scope.hasMoreMoments = false
   $scope.loadMoreMoments = function() {
     var last, params
 

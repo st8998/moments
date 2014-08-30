@@ -17,7 +17,7 @@ App = angular.module('app', ['templates', 'ajoslin.promise-tracker'])
 App.constant('settings', {
 })
 
-moment.lang('ru')
+moment.locale('ru')
 
 App.constant('d3', d3)
 App.constant('jquery', jQuery)

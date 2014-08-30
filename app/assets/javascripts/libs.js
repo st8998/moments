@@ -1,4 +1,3 @@
-//= require jquery
 //= require lodash
 //= require cookies-js
 
